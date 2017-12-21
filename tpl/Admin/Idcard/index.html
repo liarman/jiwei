@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>管理后台</title>
+	<script src="__EASYUI__/jquery.min.js"></script>
+	<script src="__EASYUI__/jquery.easyui.min.js"></script>
+	<script src="__EASYUI__/locale/easyui-lang-zh_CN.js"></script>
+	<link rel="stylesheet" href="__EASYUI__/super/css/font-awesome.min.css">
+	<link rel="stylesheet" href="__EASYUI__/super/superRed.css" id="themeCss">
+	<script src="__EASYUI__/super/super.js"></script>
+	<link href="__PUBLIC__/statics/css/admin.css" rel="stylesheet" />
+	<script src="__EASYUI__/common.js"></script>
+	<script src="__EASYUI__/formatter.js"></script>
+	<script src="__EASYUI__/extend/validate.js"></script>
+	<script src="__KINDEDITOR__/kindeditor-all.js"></script>
+	<script src="__KINDEDITOR__/lang/zh-CN.js"></script>
+	<script src="__EASYUI__/ajaxfileupload.js"></script>
+</head>
+<body style="padding: 0">
+<div id='Loading'><image src='__PUBLIC_IMAGES__/loading.gif'/>加载中....</div>
+<script src="__ADMIN_JS__/idcard.js" type="text/javascript" charset="utf-8"></script>
+<table id="IdcardGrid" class="easyui-datagrid" url="{:U('Admin/Idcard/ajaxIdcardList')}" pagination="true" pagesize="20" toolbar="#toolbar_idcard" singleSelect="true">
+	<thead>
+	<tr>
+		<th field="cardid" width="200" >身份证</th>
+		<th field="name" width="200" >姓名</th>
+	</tr>
+	</thead>
+</table>
+<div id="toolbar_idcard">
+	身份证号: <input class="easyui-textbox" style="width:110px" name="idcardsearch"id="idcardsearch">
+	姓名:
+	<input class="easyui-textbox" style="width:110px" name="namesearch"id="namesearch">
+	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="doSearch()" iconCls="fa fa-search">搜索</a>
+	<input type="file" id="uploadIdcard" name="idcard" />
+		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-check" onclick="uploadSubmit()" style="width:90px">导入</a>
+</div>
+<div class="imgdlg"><img class="simg"></div>
+<script type="text/javascript">
+	var impIdcardUrl= "{:U('Admin/Idcard/impIdcard')}";
+</script>
+</body>
+</html>
