@@ -12,7 +12,8 @@ class IdcardController extends AdminBaseController
         $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
         $offset = ($page - 1) * $rows;
         $countsql = "select count(r.id) AS total from qfant_idcard r";
-        $sql = "SELECT r.* FROM qfant_idcard r";
+       // $sql = "SELECT r.* FROM qfant_idcard r";
+        $sql = "SELECT r.responsevalue,i.name,i.cardid FROM qfant_idcard i left  join qfant_idcard_response r  ON i.id=r.idcardid";
         $param = array();
         array_push($param, $offset);
         array_push($param, $rows);
@@ -111,8 +112,9 @@ class IdcardController extends AdminBaseController
 
     function  look()
     {
-        $url = 'http://59.203.96.98:8000';
-        $data='{
+        $d=I('get.');
+        $url = 'http://59.203.96.98:8000/';
+        $da='{
                                 "header": {
                                     "authCode": "b94b0c31dcbb6b4e92b35f02cdf564c2",
                                     "senderID": "3416-0049"
@@ -155,21 +157,39 @@ class IdcardController extends AdminBaseController
                                     "version": "1"
                                 }
                             }';
-        $res = $this->curl_post($url,$data);
-        $string = $res;
-        var_dump($string);
-        die;
+        $res = $this->curl_post($url,$da);
+        $data['responsevalue']=$res;
+        $data['idcardid']=$d['id'];
+        $Resdata=D('IdcardResponse')->where(array('idcardid'=>$data['idcardid']))->find();
+        if($Resdata['id']){//如果存在该员工的数据删除，重新插入新的数据
+            $id=$Resdata['id'];
+            $map=array('id'=>$id);
+           $R=D('IdcardResponse')->deleteData($map);
+            var_dump($R);
+        }
+        unset($data['id']);
+        $result=D('IdcardResponse')->addData($data);
+        if($result){
+            $message['status']=1;
+            $message['message']='检验成功';
+        }else {
+            $message['status']=0;
+            $message['message']='检验失败';
+        }
+        $this->ajaxReturn($message,'JSON');
+
     }
 
 
     public static function curl_post($url,$array){
-
+        $header = array(
+            'Content-Type:application/json',
+        );
         $curl = curl_init();
-        print_r($curl);die;
         //设置提交的url
         curl_setopt($curl, CURLOPT_URL, $url);
         //设置头文件的信息作为数据流输出
-        curl_setopt($curl, CURLOPT_HEADER, 0);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
         //设置获取的信息以文件流的形式返回，而不是直接输出。
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         //设置post方式提交
@@ -179,10 +199,11 @@ class IdcardController extends AdminBaseController
         curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
         //执行命令
         $data = curl_exec($curl);
+        $error = curl_error($curl);
         //关闭URL请求
         curl_close($curl);
+        if($error) throw new Exception('请求发生错误：' . $error);
         //获得数据并返回
         return $data;
-//print_r($data);
     }
 }
