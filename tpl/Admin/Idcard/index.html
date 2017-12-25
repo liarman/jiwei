@@ -16,16 +16,36 @@
 	<script src="__KINDEDITOR__/kindeditor-all.js"></script>
 	<script src="__KINDEDITOR__/lang/zh-CN.js"></script>
 	<script src="__EASYUI__/ajaxfileupload.js"></script>
+	<style>
+		#overlay {
+			background: #000;
+			filter: alpha(opacity=50); /* IE的透明度 */
+			opacity: 0.2;  /* 透明度 */
+			display: none;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			z-index: 100; /* 此处的图层要大于页面 */
+			display:none;
+		}
+		#codeOver{
+			font-size:20px;
+			align:center;
+		}
+	</style>
 </head>
 <body style="padding: 0">
 <div id='Loading'><image src='__PUBLIC_IMAGES__/loading.gif'/>加载中....</div>
+<div id='overlay'><div  id="codeOver"  >正在获取中....</div></div>
 <script src="__ADMIN_JS__/idcard.js" type="text/javascript" charset="utf-8"></script>
 <table id="IdcardGrid" class="easyui-datagrid" url="{:U('Admin/Idcard/ajaxIdcardList')}" pagination="true" pagesize="20" toolbar="#toolbar_idcard" singleSelect="true">
 	<thead>
 	<tr>
 		<th field="cardid" width="200" >身份证</th>
 		<th field="name" width="200" >姓名</th>
-		<th field="responsevalue" width="200" hidden="true" >检验结果</th>
+		<th field="responsevalue" width="200" hidden="true" >获取结果</th>
 	</tr>
 	</thead>
 </table>
@@ -36,9 +56,9 @@
 	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="doSearch()" iconCls="fa fa-search">搜索</a>
 	<input type="file" id="uploadIdcard" name="idcard" />
 		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-check" onclick="uploadSubmit()" style="width:90px">导入</a>
-	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-search-minus" plain="true"  onclick="ajaxRequest()">检验</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-search-minus" plain="true"  onclick="ajaxRequest()">获取</a>
 	<!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-vcard" plain="true"  onclick="ResponseValue()">检验结果</a>-->
-	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-vcard" plain="true"  onclick="lookResponseValue()">检验结果</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-vcard" plain="true"  onclick="lookResponseValue()">获取结果</a>
 </div>
 
 <div id="lookResponse" class="easyui-dialog" title="查看编辑结果" style="width:450px;height:500px;padding:10px 20px;" closed="true" modal="true">
