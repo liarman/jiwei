@@ -20,26 +20,40 @@ function uploadSubmit() {
 function ajaxRequest(){
     var row = $('#IdcardGrid').datagrid('getSelected');
     if(row==null){
-        $.messager.alert('Warning',"请选择要检验的行", 'info');return false;
+        $.messager.alert('Warning',"请选择要获取的行", 'info');return false;
     }
     if (row){
         var id=row.id;
-        $.messager.confirm('提示','真的要检验?',function(r){
+        $.messager.confirm('提示','确定要获取吗?',function(r){
             if (r){
                 var durl=lookUrl;
+                showOverlay();
                 $.getJSON(durl,{id:id},function(result){
                     if (result.status){
+                        hideOverlay();
                         $('#IdcardGrid').datagrid('reload');    // reload the user data
                     } else {
+                        hideOverlay();
                         $.messager.alert('错误提示',result.message,'error');
                     }
                 },'json').error(function(data){
+                    hideOverlay();
                     var info=eval('('+data.responseText+')');
                     $.messager.confirm('错误提示',info.message,function(r){});
                 });
             }
         });
     }
+}
+function showOverlay() {
+    $("#overlay").css("height",$(document).height());
+    $("#overlay").css("width",$(document).width());
+    // fadeTo第一个参数为速度，第二个为透明度
+    // 多重方式控制透明度，保证兼容性，但也带来修改麻烦的问题
+    $("#overlay").fadeTo(200, 0.5);
+}
+function hideOverlay() {
+    $("#overlay").fadeOut(200);
 }
 function  ResponseValue(){
     var row = $('#IdcardGrid').datagrid('getSelected');
