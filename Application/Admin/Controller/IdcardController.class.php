@@ -13,7 +13,7 @@ class IdcardController extends AdminBaseController
         $offset = ($page - 1) * $rows;
         $countsql = "select count(r.id) AS total from qfant_idcard r";
        // $sql = "SELECT r.* FROM qfant_idcard r";
-        $sql = "SELECT r.responsevalue,i.name,i.cardid FROM qfant_idcard i left  join qfant_idcard_response r  ON i.id=r.idcardid";
+        $sql = "SELECT r.responsevalue,i.name,i.cardid ,i.id as id FROM qfant_idcard i left  join qfant_idcard_response r  ON i.id=r.idcardid";
         $param = array();
         array_push($param, $offset);
         array_push($param, $rows);
@@ -159,6 +159,7 @@ class IdcardController extends AdminBaseController
                             }';
         $res = $this->curl_post($url,$da);
         $data['responsevalue']=$res;
+
         $data['idcardid']=$d['id'];
         $Resdata=D('IdcardResponse')->where(array('idcardid'=>$data['idcardid']))->find();
         if($Resdata['id']){//如果存在该员工的数据删除，重新插入新的数据
@@ -206,4 +207,5 @@ class IdcardController extends AdminBaseController
         //获得数据并返回
         return $data;
     }
+
 }
