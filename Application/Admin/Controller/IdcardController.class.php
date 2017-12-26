@@ -265,12 +265,12 @@ class IdcardController extends AdminBaseController
         $response="";
         if($coarr[0]){
             foreach( $coarr as $c){
-                $QYMC="企业名称".$c["QYMC"];
-                $SHTYXYDM="社会统一信用代码".$c["SHTYXYDM"];
-                $GMSFHM="公民身份号码".$c["GMSFHM"];
-                $JYDZ="经营地址".$c["JYDZ"];
-                $YQYGX="与企业关系".$c["YQYGX"];
-                $XM="姓名".$c["XM"];
+                $QYMC="企业名称：".$c["QYMC"];
+                $SHTYXYDM="社会统一信用代码：".$c["SHTYXYDM"];
+                $GMSFHM="公民身份号码：".$c["GMSFHM"];
+                $JYDZ="经营地址：".$c["JYDZ"];
+                $YQYGX="与企业关系：".$c["YQYGX"];
+                $XM="姓名：".$c["XM"];
                 $resp=$QYMC.$SHTYXYDM.$GMSFHM.$JYDZ.$YQYGX.$XM;
                 $response.= rtrim($resp.',');
             }
