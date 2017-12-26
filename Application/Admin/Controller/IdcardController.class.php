@@ -112,7 +112,7 @@ class IdcardController extends AdminBaseController
 
     function  look()
     {
-        $d=I('get.');
+       // $d=I('get.');
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $pagesize = 50;
         $total=D('Idcard')->count();
@@ -263,15 +263,17 @@ class IdcardController extends AdminBaseController
         $codearr= $jsonArray['body']['resultList'];//保存数组
         $coarr= $codearr['result'];
         $response="";
-        foreach( $coarr as $c){
-            $QYMC=$c["QYMC"];
-            $SHTYXYDM=$c["SHTYXYDM"];
-            $GMSFHM=$c["GMSFHM"];
-            $JYDZ=$c["JYDZ"];
-            $YQYGX=$c["YQYGX"];
-            $XM=$c["XM"];
-            $resp=$QYMC.$SHTYXYDM.$GMSFHM.$JYDZ.$YQYGX.$XM;
-            $response.= rtrim($resp.',');
+        if($coarr[0]){
+            foreach( $coarr as $c){
+                $QYMC="企业名称".$c["QYMC"];
+                $SHTYXYDM="社会统一信用代码".$c["SHTYXYDM"];
+                $GMSFHM="公民身份号码".$c["GMSFHM"];
+                $JYDZ="经营地址".$c["JYDZ"];
+                $YQYGX="与企业关系".$c["YQYGX"];
+                $XM="姓名".$c["XM"];
+                $resp=$QYMC.$SHTYXYDM.$GMSFHM.$JYDZ.$YQYGX.$XM;
+                $response.= rtrim($resp.',');
+            }
         }
         return  $response;
 
