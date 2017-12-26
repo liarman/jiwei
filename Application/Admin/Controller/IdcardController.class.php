@@ -12,8 +12,8 @@ class IdcardController extends AdminBaseController
         $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
         $offset = ($page - 1) * $rows;
         $countsql = "select count(r.id) AS total from qfant_idcard r";
-       // $sql = "SELECT r.* FROM qfant_idcard r";
-        $sql = "SELECT r.responsevalue,i.name,i.cardid ,i.id as id FROM qfant_idcard i left  join qfant_idcard_response r  ON i.id=r.idcardid";
+        // $sql = "SELECT r.* FROM qfant_idcard r";
+        $sql = "SELECT i.responsevalue,i.name,i.cardid ,i.id as id FROM qfant_idcard i ";
         $param = array();
         array_push($param, $offset);
         array_push($param, $rows);
@@ -123,7 +123,7 @@ class IdcardController extends AdminBaseController
             $sql.= " limit ".(($page-1)*$pagesize).",".$pagesize;
             $dataCode = D('Idcard')->query($sql,"");
             foreach($dataCode as $i=>$v) {
-               $dataidcard=$this->pinString($dataCode['cardid']);
+                $dataidcard=$this->pinString($dataCode['cardid']);
                 $res = $this->curl_post($url, $dataidcard, $dataCode);
             }
             sleep(2);
@@ -138,53 +138,52 @@ class IdcardController extends AdminBaseController
         $this->ajaxReturn($message,'JSON');
 
     }
-public function pinString($idcard){
-    $da='{
-                                "header": {
-                                    "authCode": "b94b0c31dcbb6b4e92b35f02cdf564c2",
-                                    "senderID": "3416-0049"
-                                },
-                                "request": {
-                                    "data": [
-                                        {
-                                            "name": "username",
-                                            "type": "GsbString",
-                                            "value": "bzsg"
-                                        },
-                                        {
-                                            "name": "password",
-                                            "type": "GsbString",
-                                            "value": "bab155382877539583b96a6501929fd3"
-                                        },
-                                        {
-                                            "name": "serviceCode",
-                                            "type": "GsbString",
-                                            "value": "340100000000_01_0000004054"
-                                        },
-                                        {
-                                            "name": "condition",
-                                            "type": "GsbString",
-                                            "value": "<condition><item><GMSFHM>'.'341281198811175854'.'</GMSFHM></item></condition>"
-                                        },
-                                        {
-                                            "name":"requiredItems",
-                                            "type":"GsbString",
-                                            "value":"<requiredItems><item><GMSFHM>公民身份号码</GMSFHM><XM>姓名</XM><QYMC>企业名称</QYMC><YQYGX>与企业关系</YQYGX><JYDZ>经营地址</JYDZ><SHTYXYDM>社会统一信用代码</SHTYXYDM></item></requiredItems>"
-                                        },
-                                        {
-                                            "name": "clientInfo",
-                                            "type": "GsbString",
-                                            "value": "<clientInfo><loginName>jwgly</loginName></clientInfo>"
-                                        }
-                                    ],
-                                    "method": "requestQuery",
-                                    "serviceCode": "3416-0049-1-00000001",
-                                    "version": "1"
-                                }
-                            }';
-    return $da;
-
-}
+    public function pinString($idcard){
+        $da='{
+                "header": {
+                    "authCode": "b94b0c31dcbb6b4e92b35f02cdf564c2",
+                    "senderID": "3416-0049"
+                },
+                "request": {
+                    "data": [
+                        {
+                            "name": "username",
+                            "type": "GsbString",
+                            "value": "bzsg"
+                        },
+                        {
+                            "name": "password",
+                            "type": "GsbString",
+                            "value": "bab155382877539583b96a6501929fd3"
+                        },
+                        {
+                            "name": "serviceCode",
+                            "type": "GsbString",
+                            "value": "340100000000_01_0000004054"
+                        },
+                        {
+                            "name": "condition",
+                            "type": "GsbString",
+                            "value": "<condition><item><GMSFHM>'.$idcard.'</GMSFHM></item></condition>"
+                        },
+                        {
+                            "name":"requiredItems",
+                            "type":"GsbString",
+                            "value":"<requiredItems><item><GMSFHM>公民身份号码</GMSFHM><XM>姓名</XM><QYMC>企业名称</QYMC><YQYGX>与企业关系</YQYGX><JYDZ>经营地址</JYDZ><SHTYXYDM>社会统一信用代码</SHTYXYDM></item></requiredItems>"
+                        },
+                        {
+                            "name": "clientInfo",
+                            "type": "GsbString",
+                            "value": "<clientInfo><loginName>jwgly</loginName></clientInfo>"
+                        }
+                    ],
+                    "method": "requestQuery",
+                    "serviceCode": "3416-0049-1-00000001",
+                    "version": "1"
+                }
+            }';
+        return $da;
+    }
 
     public function curl_post($url,$array,$dataCode){
         $header = array(
@@ -207,27 +206,25 @@ public function pinString($idcard){
             curl_setopt($ch_list[$i], CURLOPT_POSTFIELDS, $post_data);
             curl_multi_add_handle($multi_ch, $ch_list[$i]);
 
-        $active = null;
-        do {
-            $mrc = curl_multi_exec($multi_ch, $active); //处理在栈中的每一个句柄。无论该句柄需要读取或写入数据都可调用此方法。
-        } while ($mrc == CURLM_CALL_MULTI_PERFORM);
-        //该函数仅返回关于整个批处理栈相关的错误。即使返回 CURLM_OK 时单个传输仍可能有问题。
-        while ($active && $mrc == CURLM_OK) {
-            if (curl_multi_select($multi_ch) != -1) { //阻塞直到cURL批处理连接中有活动连接。
-                do {
-                    $mrc = curl_multi_exec($multi_ch, $active);
-                } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+            $active = null;
+            do {
+                $mrc = curl_multi_exec($multi_ch, $active); //处理在栈中的每一个句柄。无论该句柄需要读取或写入数据都可调用此方法。
+            } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+            //该函数仅返回关于整个批处理栈相关的错误。即使返回 CURLM_OK 时单个传输仍可能有问题。
+            while ($active && $mrc == CURLM_OK) {
+                if (curl_multi_select($multi_ch) != -1) { //阻塞直到cURL批处理连接中有活动连接。
+                    do {
+                        $mrc = curl_multi_exec($multi_ch, $active);
+                    } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+                }
             }
-        }
-        //获取http返回的结果
-      //  foreach ($ch_list as $k => $ch) {
+            //获取http返回的结果
+            //  foreach ($ch_list as $k => $ch) {
             $result=curl_multi_getcontent($ch_list[$i]);//获取返回的结果
-
             $rescode =$this->addResponse($v,$result);
-
             curl_multi_remove_handle($multi_ch,$ch_list[$i]);
             curl_close($ch_list[$i]);
-     //   }
+            //   }
         }
         //关闭URL请求
         curl_multi_close($multi_ch);
@@ -243,16 +240,9 @@ public function pinString($idcard){
     public function  addResponse($v,$result){
         $responseStr=$this->transfunction($result);
         $data['responsevalue']=$responseStr;
-        $data['idcardid']=$v['id'];
-        $Resdata=D('IdcardResponse')->where(array('idcardid'=>$data['idcardid']))->find();
-        if($Resdata['id']){//如果存在该员工的数据删除，重新插入新的数据
-            $id=$Resdata['id'];
-            $map=array('id'=>$id);
-            D('IdcardResponse')->deleteData($map);
-        }
-        unset($data['id']);
-        $result=D('IdcardResponse')->addData($data);
-         return $result;
+        $where['id']=$v['id'];;
+        $result=D('Idcard')->editData($where,$data);
+        return $result;
     }
 
     /**
