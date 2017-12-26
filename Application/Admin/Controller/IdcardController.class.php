@@ -112,13 +112,34 @@ class IdcardController extends AdminBaseController
 
     function  look()
     {
-       // $d=I('get.');
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $pagesize = 50;
         $total=D('Idcard')->count();
         $pagecount = $total % $pagesize == 0 ? $total/$pagesize : ceil($total/$pagesize); //页码总数
         $url = 'http://59.203.96.98:8000/';
-        $da='{
+
+        for($page;$page<=$pagecount;$page++){
+            $sql ="select * from qfant_idcard ";
+            $sql.= " limit ".(($page-1)*$pagesize).",".$pagesize;
+            $dataCode = D('Idcard')->query($sql,"");
+            foreach($dataCode as $i=>$v) {
+               $dataidcard=$this->pinString($dataCode['cardid']);
+                $res = $this->curl_post($url, $dataidcard, $dataCode);
+            }
+            sleep(2);
+        }
+        if($res){
+            $message['status']=1;
+            $message['message']='检验成功';
+        }else {
+            $message['status']=0;
+            $message['message']='检验失败';
+        }
+        $this->ajaxReturn($message,'JSON');
+
+    }
+public function pinString($idcard){
+    $da='{
                                 "header": {
                                     "authCode": "b94b0c31dcbb6b4e92b35f02cdf564c2",
                                     "senderID": "3416-0049"
@@ -143,7 +164,7 @@ class IdcardController extends AdminBaseController
                                         {
                                             "name": "condition",
                                             "type": "GsbString",
-                                            "value": "<condition><item><GMSFHM>341281198811175854</GMSFHM></item></condition>"
+                                            "value": "<condition><item><GMSFHM>'.'341281198811175854'.'</GMSFHM></item></condition>"
                                         },
                                         {
                                             "name":"requiredItems",
@@ -161,24 +182,9 @@ class IdcardController extends AdminBaseController
                                     "version": "1"
                                 }
                             }';
-        for($page;$page<=$pagecount;$page++){
-            $sql ="select * from qfant_idcard ";
-            $sql.= " limit ".(($page-1)*$pagesize).",".$pagesize;
-            $dataCode = D('Idcard')->query($sql,"");
-            $res = $this->curl_post($url,$da,$dataCode);
-            sleep(2);
-        }
-        if($res){
-            $message['status']=1;
-            $message['message']='检验成功';
-        }else {
-            $message['status']=0;
-            $message['message']='检验失败';
-        }
-        $this->ajaxReturn($message,'JSON');
+    return $da;
 
-    }
-
+}
 
     public function curl_post($url,$array,$dataCode){
         $header = array(
