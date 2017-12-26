@@ -122,10 +122,8 @@ class IdcardController extends AdminBaseController
             $sql ="select * from qfant_idcard ";
             $sql.= " limit ".(($page-1)*$pagesize).",".$pagesize;
             $dataCode = D('Idcard')->query($sql,"");
-            foreach($dataCode as $i=>$v) {
-                $dataidcard=$this->pinString($dataCode['cardid']);
-                $res = $this->curl_post($url, $dataidcard, $dataCode);
-            }
+            $res = $this->curl_post($url, $dataCode);
+
             sleep(2);
         }
         if($res){
@@ -185,14 +183,15 @@ class IdcardController extends AdminBaseController
         return $da;
     }
 
-    public function curl_post($url,$array,$dataCode){
+    public function curl_post($url,$dataCode){
         $header = array(
             'Content-Type:application/json',
         );
-        $post_data = $array;
+
         $ch_list = array();
         $multi_ch = curl_multi_init();
         foreach($dataCode as $i=>$v){
+            $post_data = $this->pinString($v["cardid"]);;
             $ch_list[$i] = curl_init();
             //设置提交的url
             curl_setopt($ch_list[$i], CURLOPT_URL, $url);
