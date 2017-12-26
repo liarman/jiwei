@@ -113,6 +113,10 @@ class IdcardController extends AdminBaseController
     function  look()
     {
         $d=I('get.');
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $pagesize = 50;
+        $total=D('Idcard')->count();
+        $pagecount = $total % $pagesize == 0 ? $total/$pagesize : ceil($total/$pagesize); //页码总数
         $url = 'http://59.203.96.98:8000/';
         $da='{
                                 "header": {
@@ -157,20 +161,14 @@ class IdcardController extends AdminBaseController
                                     "version": "1"
                                 }
                             }';
-        $res = $this->curl_post($url,$da);
-        $data['responsevalue']=$res;
-
-        $data['idcardid']=$d['id'];
-        $Resdata=D('IdcardResponse')->where(array('idcardid'=>$data['idcardid']))->find();
-        if($Resdata['id']){//如果存在该员工的数据删除，重新插入新的数据
-            $id=$Resdata['id'];
-            $map=array('id'=>$id);
-           $R=D('IdcardResponse')->deleteData($map);
-            var_dump($R);
+        for($page;$page<=$pagecount;$page++){
+            $sql ="select * from qfant_idcard ";
+            $sql.= " limit ".(($page-1)*$pagesize).",".$pagesize;
+            $dataCode = D('Idcard')->query($sql,"");
+            $res = $this->curl_post($url,$da,$dataCode);
+            sleep(2);
         }
-        unset($data['id']);
-        $result=D('IdcardResponse')->addData($data);
-        if($result){
+        if($res){
             $message['status']=1;
             $message['message']='检验成功';
         }else {
@@ -182,30 +180,101 @@ class IdcardController extends AdminBaseController
     }
 
 
-    public static function curl_post($url,$array){
+    public function curl_post($url,$array,$dataCode){
         $header = array(
             'Content-Type:application/json',
         );
-        $curl = curl_init();
-        //设置提交的url
-        curl_setopt($curl, CURLOPT_URL, $url);
-        //设置头文件的信息作为数据流输出
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
-        //设置获取的信息以文件流的形式返回，而不是直接输出。
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        //设置post方式提交
-        curl_setopt($curl, CURLOPT_POST, 1);
-        //设置post数据
         $post_data = $array;
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
-        //执行命令
-        $data = curl_exec($curl);
-        $error = curl_error($curl);
+        $ch_list = array();
+        $multi_ch = curl_multi_init();
+        foreach($dataCode as $i=>$v){
+            $ch_list[$i] = curl_init();
+            //设置提交的url
+            curl_setopt($ch_list[$i], CURLOPT_URL, $url);
+            //设置头文件的信息作为数据流输出
+            curl_setopt($ch_list[$i], CURLOPT_HTTPHEADER, $header);
+            //设置获取的信息以文件流的形式返回，而不是直接输出。
+            curl_setopt($ch_list[$i], CURLOPT_RETURNTRANSFER, 1);
+            //设置post方式提交
+            curl_setopt($ch_list[$i], CURLOPT_POST, 1);
+            //设置post数据
+            curl_setopt($ch_list[$i], CURLOPT_POSTFIELDS, $post_data);
+            curl_multi_add_handle($multi_ch, $ch_list[$i]);
+
+        $active = null;
+        do {
+            $mrc = curl_multi_exec($multi_ch, $active); //处理在栈中的每一个句柄。无论该句柄需要读取或写入数据都可调用此方法。
+        } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+        //该函数仅返回关于整个批处理栈相关的错误。即使返回 CURLM_OK 时单个传输仍可能有问题。
+        while ($active && $mrc == CURLM_OK) {
+            if (curl_multi_select($multi_ch) != -1) { //阻塞直到cURL批处理连接中有活动连接。
+                do {
+                    $mrc = curl_multi_exec($multi_ch, $active);
+                } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+            }
+        }
+        //获取http返回的结果
+      //  foreach ($ch_list as $k => $ch) {
+            $result=curl_multi_getcontent($ch_list[$i]);//获取返回的结果
+
+            $rescode =$this->addResponse($v,$result);
+
+            curl_multi_remove_handle($multi_ch,$ch_list[$i]);
+            curl_close($ch_list[$i]);
+     //   }
+        }
         //关闭URL请求
-        curl_close($curl);
-        if($error) throw new Exception('请求发生错误：' . $error);
+        curl_multi_close($multi_ch);
+        //curl_close($curl);
+        // if($error) throw new Exception('请求发生错误：' . $error);
         //获得数据并返回
-        return $data;
+        return $rescode ;
+    }
+
+    /**
+     * 获取结果添加到数据库
+     */
+    public function  addResponse($v,$result){
+        $responseStr=$this->transfunction($result);
+        $data['responsevalue']=$responseStr;
+        $data['idcardid']=$v['id'];
+        $Resdata=D('IdcardResponse')->where(array('idcardid'=>$data['idcardid']))->find();
+        if($Resdata['id']){//如果存在该员工的数据删除，重新插入新的数据
+            $id=$Resdata['id'];
+            $map=array('id'=>$id);
+            D('IdcardResponse')->deleteData($map);
+        }
+        unset($data['id']);
+        $result=D('IdcardResponse')->addData($data);
+         return $result;
+    }
+
+    /**
+     * json转换字符串
+     */
+    function  transfunction($result){
+        $post_object = json_decode($result);
+        $data1=$post_object->response;
+        $data2=$data1->value;
+        $resp=$data2->value;//保存的是xml
+        $xml = simplexml_load_string( $resp);
+        $jsonStr = json_encode($xml);
+        $jsonArray = json_decode($jsonStr,true);
+        $codearr= $jsonArray['body']['resultList'];//保存数组
+        $coarr= $codearr['result'];
+        $response="";
+        foreach( $coarr as $c){
+            $QYMC=$c["QYMC"];
+            $SHTYXYDM=$c["SHTYXYDM"];
+            $GMSFHM=$c["GMSFHM"];
+            $JYDZ=$c["JYDZ"];
+            $YQYGX=$c["YQYGX"];
+            $XM=$c["XM"];
+            $resp=$QYMC.$SHTYXYDM.$GMSFHM.$JYDZ.$YQYGX.$XM;
+            $response.= rtrim($resp.',');
+        }
+        return  $response;
+
     }
 
 }
