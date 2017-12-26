@@ -74,11 +74,7 @@ function  lookResponseValue(){
         $.messager.alert('Warning',"请选择要查看的行", 'info');return false;
     }
     if (row){
-        if(row.responsevalue){
             $('#lookResponse').dialog('open').dialog('setTitle','查看');
             $('#lookResponseForm').form('load',row);
-        }else{
-            $.messager.alert('Warning',"选择的行没校验，请先进行校验！", 'info');return false;
-        }
     }
 }
