@@ -18,17 +18,12 @@ function uploadSubmit() {
 }
 
 function ajaxRequest(){
-    var row = $('#IdcardGrid').datagrid('getSelected');
-    if(row==null){
-        $.messager.alert('Warning',"请选择要获取的行", 'info');return false;
-    }
-    if (row){
-        var id=row.id;
         $.messager.confirm('提示','确定要获取吗?',function(r){
             if (r){
                 var durl=lookUrl;
                 showOverlay();
-                $.getJSON(durl,{id:id},function(result){
+                $.getJSON(durl,function(result){
+                    console.log(result.message);
                     if (result.status){
                         hideOverlay();
                         $('#IdcardGrid').datagrid('reload');    // reload the user data
@@ -43,7 +38,6 @@ function ajaxRequest(){
                 });
             }
         });
-    }
 }
 function showOverlay() {
     $("#overlay").css("height",$(document).height());
