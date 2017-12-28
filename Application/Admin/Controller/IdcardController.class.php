@@ -13,7 +13,7 @@ class IdcardController extends AdminBaseController
         $offset = ($page - 1) * $rows;
         $countsql = "select count(r.id) AS total from qfant_idcard r";
         // $sql = "SELECT r.* FROM qfant_idcard r";
-        $sql = "SELECT i.responsevalue,i.name,i.cardid ,i.id as id FROM qfant_idcard i ";
+        $sql = "SELECT i.*  FROM qfant_idcard i ";
         $param = array();
         array_push($param, $offset);
         array_push($param, $rows);
@@ -237,17 +237,17 @@ class IdcardController extends AdminBaseController
      * 获取结果添加到数据库
      */
     public function  addResponse($v,$result){
-        $responseStr=$this->transfunction($result);
-        $data['responsevalue']=$responseStr;
+        $responseStr=$this->transfunction($v,$result);
+       /* $data['responsevalue']=$responseStr;
         $where['id']=$v['id'];;
-        $result=D('Idcard')->editData($where,$data);
-        return $result;
+        $result=D('Idcard')->editData($where,$data);*/
+        return $responseStr;
     }
 
     /**
      * json转换字符串
      */
-    function  transfunction($result){
+    function  transfunction($v,$result){
         $post_object = json_decode($result);
         $data1=$post_object->response;
         $data2=$data1->value;
@@ -257,20 +257,23 @@ class IdcardController extends AdminBaseController
         $jsonArray = json_decode($jsonStr,true);
         $codearr= $jsonArray['body']['resultList'];//保存数组
         $coarr= $codearr['result'];
-        $response="";
         if($coarr[0]){
             foreach( $coarr as $c){
-                $QYMC="企业名称：".$c["QYMC"];
-                $SHTYXYDM="社会统一信用代码：".$c["SHTYXYDM"];
-                $GMSFHM="公民身份号码：".$c["GMSFHM"];
-                $JYDZ="经营地址：".$c["JYDZ"];
-                $YQYGX="与企业关系：".$c["YQYGX"];
-                $XM="姓名：".$c["XM"];
-                $resp=$QYMC.$SHTYXYDM.$GMSFHM.$JYDZ.$YQYGX.$XM;
-                $response.= rtrim($resp.',');
+                $data['qymc']=$c["QYMC"];
+                $data['shtyxydm']=$c["SHTYXYDM"];
+                $data['gmsfhm']=$c["GMSFHM"];
+                $data['jydz']=$c["JYDZ"];
+                $data['yqygx']=$c["YQYGX"];
+                $data['xm']=$c["XM"];
+                $data['idcardid']=$v['id'];
+                unset($data['id']);
+                D('IdcardResponse')->addData($data);
+                $da1['status']=1;//存在公司,改变个人数据状态
+                $where['id']=$v['id'];;
+                $res= D('Idcard')->editData($where,$da1);
             }
         }
-        return  $response;
+        return  $res;
 
     }
 
