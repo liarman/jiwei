@@ -78,3 +78,13 @@ function  lookResponseValue(){
             $('#lookResponseForm').form('load',row);
     }
 }
+
+
+function Statustrans(val,rowData,row){
+    if(val==1){
+        val="<span style='color:red'>是</span>";
+    }else {
+        val="<span style='color: green'>否</span>";
+    }
+    return val;
+}
