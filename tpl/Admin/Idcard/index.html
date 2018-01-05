@@ -45,8 +45,10 @@
 	<tr>
 		<th field="cardid" width="200" >身份证</th>
 		<th field="name" width="200" >姓名</th>
+		<th field="querytime" width="200" >时间</th>
+		<th field="depart" width="200" >部门</th>
 		<th field="status" width="200" formatter="Statustrans">是否存在企业</th>
-		<th field="responsevalue" width="200" hidden="true" >获取结果</th>
+
 	</tr>
 	</thead>
 </table>
@@ -55,41 +57,24 @@
 	姓名:
 	<input class="easyui-textbox" style="width:110px" name="namesearch"id="namesearch">
 	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="doSearch()" iconCls="fa fa-search">搜索</a>
-	<input type="file" id="uploadIdcard" name="idcard" />
-		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-check" onclick="uploadSubmit()" style="width:90px">导入</a>
-	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-search-minus" plain="true"  onclick="ajaxRequest()">获取</a>
+	<!--<input type="file" id="uploadIdcard" name="idcard" />-->
+		<!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-check" onclick="uploadSubmit()" style="width:90px">导入</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-search-minus" plain="true"  onclick="ajaxRequest()">获取</a>-->
 	<!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-vcard" plain="true"  onclick="ResponseValue()">检验结果</a>-->
-	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-vcard" plain="true"  onclick="lookResponseValue()">获取结果</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-vcard" plain="true"  onclick="ResponseValue()">获取结果</a>
 </div>
 
-<div id="lookResponse" class="easyui-dialog" title="查看编辑结果" style="width:450px;height:500px;padding:10px 20px;" closed="true" modal="true">
-	<form id="lookResponseForm" method="post">
-		<table>
-			<tr>
-				<td>姓名:</td>
-				<td><input name="name" class="easyui-textbox" style="width: 300px" data-options="delay:1000,required:true,height:30" /></td>
-			</tr>
-			<tr>
-				<td>身份证号码:</td>
-				<td><input name="cardid" class="easyui-textbox" style="width: 300px" data-options="delay:1000,required:true,height:30" /></td>
-			</tr>
-			<tr>
-				<td>检验结果:</td>
-				<td><input class="easyui-textbox" name="responsevalue" data-options="multiline:true" style="width:300px;height:350px;align:center"/></td>
-			</tr>
-		</table>
-
-	</form>
+<div id="resopnseValueDlg" class="easyui-dialog" title="收货人人列表" style="width:850px;padding:10px 20px;height: 400px" closed="true" modal="true">
+	<div id="resopnseValueGrid" style="" pagination="true"   singleSelect="true" rownumbers="true" >
+	</div>
 </div>
 
 <div class="imgdlg"><img class="simg"></div>
-<div id="resopnseValueDlg" class="easyui-dialog" title="检验结果" style="width:625px;padding:10px 20px;height: 400px" closed="true" modal="true">
-	<div id="resopnseValueGrid" >
-	</div>
-</div>
+
 <script type="text/javascript">
 	var impIdcardUrl= "{:U('Admin/Idcard/impIdcard')}";
 	var lookUrl= "{:U('Admin/Idcard/look')}";
+	var responseUrl= "{:U('Admin/Idcard/lookres')}";
 </script>
 </body>
 </html>
