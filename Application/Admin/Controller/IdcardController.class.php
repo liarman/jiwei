@@ -12,6 +12,7 @@ class IdcardController extends AdminBaseController
         $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
         $name=I("post.name");
         $cardid=I("post.idcard");
+        $status=I("post.status");
         $offset = ($page - 1) * $rows;
         $countsql = "select count(r.id) AS total from qfant_person r where 1=1 ";
         $sql = "SELECT i.*  FROM qfant_person i where 1=1 ";
@@ -20,6 +21,11 @@ class IdcardController extends AdminBaseController
             $countsql.=" and r.name like '%s' ";
             $sql.=" and i.name like '%s' ";
             array_push($param,'%'.$name.'%');
+        }
+        if(!empty($status)){
+            $countsql.=" and r.status like '%s' ";
+            $sql.=" and i.status like '%s' ";
+            array_push($param,'%'.$status.'%');
         }
         if(!empty($cardid)){
             $countsql.=" and r.cardid like '%s' ";
