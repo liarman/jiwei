@@ -60,25 +60,16 @@ function  ResponseValue(){
         $('#resopnseValueGrid').datagrid({
             url:responseUrl+'/idcardid/'+id,
             columns:[[
-                {field:'cardid',title:'身份证号码',width:150},
-                {field:'name',title:'姓名',width:80},
-                {field:'responsevalue',title:'结果',width:110}
+                {field:'gmsfhm',title:'公民身份号码',width:150},
+                {field:'xm',title:'姓名',width:60},
+                {field:'qymc',title:'企业名称',width:240},
+                {field:'shtyxydm',title:'社会统一信用代码',width:180},
+                {field:'jydz',title:'经营地址',width:220},
+                {field:'yqygx',title:'与企业关系',width:50}
             ]]
         });
     }
 }
-
-function  lookResponseValue(){
-    var row = $('#IdcardGrid').datagrid('getSelected');
-    if(row==null){
-        $.messager.alert('Warning',"请选择要查看的行", 'info');return false;
-    }
-    if (row){
-            $('#lookResponse').dialog('open').dialog('setTitle','查看');
-            $('#lookResponseForm').form('load',row);
-    }
-}
-
 
 function Statustrans(val,rowData,row){
     if(val==1){
@@ -87,4 +78,11 @@ function Statustrans(val,rowData,row){
         val="<span style='color: green'>否</span>";
     }
     return val;
+}
+
+function doSearch(){
+    $('#IdcardGrid').datagrid('load',{
+        idcard: $('#idcardsearch').val(),
+        name: $('#namesearch').val()
+    });
 }
