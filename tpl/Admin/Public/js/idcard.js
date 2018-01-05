@@ -83,6 +83,7 @@ function Statustrans(val,rowData,row){
 function doSearch(){
     $('#IdcardGrid').datagrid('load',{
         idcard: $('#idcardsearch').val(),
-        name: $('#namesearch').val()
+        name: $('#namesearch').val(),
+        status: $('#statussearch').val()
     });
 }
