@@ -47,15 +47,21 @@
 		<th field="name" width="200" >姓名</th>
 		<th field="querytime" width="200" >时间</th>
 		<th field="depart" width="200" >部门</th>
-		<th field="status" width="200" formatter="Statustrans">是否存在企业</th>
+		<th field="status" width="200" formatter="Statustrans">是否拥有公司</th>
 
 	</tr>
 	</thead>
 </table>
 <div id="toolbar_idcard">
 	身份证号: <input class="easyui-textbox" style="width:110px" name="idcardsearch"id="idcardsearch">
-	姓名:
-	<input class="easyui-textbox" style="width:110px" name="namesearch"id="namesearch">
+	姓名:<input class="easyui-textbox" style="width:110px" name="namesearch"id="namesearch">
+	是否拥有公司：
+	<select  panelMaxHeight="120px" name="statussearch"  id="statussearch" class="easyui-combobox" style="width:100px" data-options="delay:1000,multiple:false">
+		<option value="">请选择</option>
+		<option value="0">否</option>
+		<option value="1">是</option>
+	</select>
+
 	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="doSearch()" iconCls="fa fa-search">搜索</a>
 	<!--<input type="file" id="uploadIdcard" name="idcard" />-->
 		<!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-check" onclick="uploadSubmit()" style="width:90px">导入</a>
