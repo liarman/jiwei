@@ -10,17 +10,28 @@ class IdcardController extends AdminBaseController
     {
         $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
         $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+        $name=I("post.name");
+        $cardid=I("post.idcard");
         $offset = ($page - 1) * $rows;
-        $countsql = "select count(r.id) AS total from qfant_idcard r";
-        // $sql = "SELECT r.* FROM qfant_idcard r";
-        $sql = "SELECT i.*  FROM qfant_idcard i ";
+        $countsql = "select count(r.id) AS total from qfant_person r where 1=1 ";
+        $sql = "SELECT i.*  FROM qfant_person i where 1=1 ";
         $param = array();
+        if(!empty($name)){
+            $countsql.=" and r.name like '%s' ";
+            $sql.=" and i.name like '%s' ";
+            array_push($param,'%'.$name.'%');
+        }
+        if(!empty($cardid)){
+            $countsql.=" and r.cardid like '%s' ";
+            $sql.=" and i.cardid like '%s' ";
+            array_push($param,'%'.$cardid.'%');
+        }
         array_push($param, $offset);
         array_push($param, $rows);
         $sql .= " limit %d,%d";
-        $data = D('Idcard')->query($countsql, $param);
+        $data = D('Person')->query($countsql, $param);
         $result['total'] = $data[0]['total'];
-        $data = D('Idcard')->query($sql, $param);
+        $data = D('Person')->query($sql, $param);
         $result["rows"] = $data;
         $this->ajaxReturn($result, 'JSON');
 
@@ -88,18 +99,18 @@ class IdcardController extends AdminBaseController
             for ($i = 2; $i <= $highestRow; $i++) {
                 $cardid = $objPHPExcel->getActiveSheet()->getCell("A" . $i)->getValue();
                 $id = M('Idcard')->where(array('cardid' => $cardid))->field('id')->find();
-                if (empty($id)) {
+              /*  if (empty($id)) {*/
                     $data['name'] = $objPHPExcel->getActiveSheet()->getCell("B" . $i)->getValue();
                     $data['cardid'] = $cardid;
                     M('Idcard')->add($data);
 
                     $message['status'] = 1;
                     $message['message'] = '导入完成，保存成功!';
-                } else {
+             /*   } else {
                     $message['status'] = 0;
                     $message['message'] = '第' . $i . '行身份证号重复，保存失败!';
                     break;
-                }
+                }*/
             }
         } else {
             $message['status'] = 0;
@@ -275,6 +286,13 @@ class IdcardController extends AdminBaseController
         }
         return  $res;
 
+    }
+
+    function  lookres(){
+        $id=I('get.idcardid');
+        $sql="select * from qfant_company where idcardid='$id'";
+        $data=D('Company')->query($sql,"");
+        $this->ajaxReturn($data,'JSON');
     }
 
 }
