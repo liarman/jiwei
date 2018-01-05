@@ -5,7 +5,7 @@ use Think\Db;
 /**
  * 基础model
  */
-class IdcardModel extends Model{
+class PersonModel extends Model{
 
     /**
      * 添加数据
