@@ -72,10 +72,10 @@ function  ResponseValue(){
 }
 
 function Statustrans(val,rowData,row){
-    if(val==1){
-        val="<span style='color:red'>是</span>";
+    if(val==0){
+        val="<span style='color:red'>否</span>";
     }else {
-        val="<span style='color: green'>否</span>";
+        val="<span style='color: green'>是</span>";
     }
     return val;
 }

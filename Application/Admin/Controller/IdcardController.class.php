@@ -23,10 +23,18 @@ class IdcardController extends AdminBaseController
             array_push($param,'%'.$name.'%');
         }
         if(!empty($status)){
-            $countsql.=" and r.status like '%s' ";
-            $sql.=" and i.status like '%s' ";
-            array_push($param,'%'.$status.'%');
-        }
+            $countsql.=" and r.status  =%d ";
+            $sql.=" and i.status  =%d ";
+            array_push($param,$status);
+        }if($status=="1"){
+            $countsql.=" and r.status  =%d ";
+            $sql.=" and i.status  =%d ";
+            array_push($param,$status);
+        }if($status=="0"){
+            $countsql.=" and r.status  =%d ";
+            $sql.=" and i.status  =%d ";
+            array_push($param,$status);
+    }
         if(!empty($cardid)){
             $countsql.=" and r.cardid like '%s' ";
             $sql.=" and i.cardid like '%s' ";
@@ -39,6 +47,7 @@ class IdcardController extends AdminBaseController
         $result['total'] = $data[0]['total'];
         $data = D('Person')->query($sql, $param);
         $result["rows"] = $data;
+      //  var_dump($data);die;
         $this->ajaxReturn($result, 'JSON');
 
     }
