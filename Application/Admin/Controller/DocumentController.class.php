@@ -2,9 +2,9 @@
 namespace Admin\Controller;
 use Common\Controller\AdminBaseController;
 /**
- * 后台权限管理
+ * 干部档案管理
  */
-class OrderController extends AdminBaseController{
+class DocumentController extends AdminBaseController{
     public function ajaxOrderList(){
         $goodsname=I("post.goodsname");
         $receivername=I("post.receivername");
@@ -12,7 +12,7 @@ class OrderController extends AdminBaseController{
         $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
         $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
         $offset = ($page-1)*$rows;
-        $countsql = "SELECT	 count(o.id) AS total FROM	qfant_order o WHERE	1 = 1 ";
+        $countsql = "SELECT	 count(o.id) AS total FROM	qfant_document o WHERE	1 = 1 ";
       //  $sql = "SELECT	o.* ,c.driver as driver ,r.name as endcityname FROM	qfant_order o left join qfant_cardrive c on o.cardriveid=c.id	LEFT JOIN qfant_route r on r.id=o.endcity WHERE 1=1";
         $sql = "SELECT	o.* ,c.driver as driver ,r.name as endcityname ,cd.number as number,cd.startdate as startdate FROM	qfant_order o left join qfant_cardrive cd on o.cardriveid=cd.id	LEFT JOIN qfant_route r on r.id=o.endcity LEFT JOIN qfant_car  c on c.id=cd.carid where 1=1";
         $param=array();
