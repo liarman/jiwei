@@ -27,342 +27,257 @@
 <body style="padding: 0">
 <div id='Loading'><image src='__PUBLIC_IMAGES__/loading.gif'/>加载中....</div>
 <script src="__ADMIN_JS__/document.js" type="text/javascript" charset="utf-8"></script>
-<table id="OrderGrid" class="easyui-datagrid" url="{:U('Admin/Order/ajaxOrderList')}" data-options="idField: 'id'"  pagination="true"  toolbar="#toolbar_order" singleSelect="false" selectOnCheck="true" checkOnSelect="true" rownumbers="true">
+<table id="documentGrid" class="easyui-datagrid" url="{:U('Admin/Document/ajaxDocumentList')}" data-options="idField: 'id'"  pagination="true"  toolbar="#toolbar_order" singleSelect="true" selectOnCheck="true" checkOnSelect="true" rownumbers="true">
    <thead>
     <tr>
         <th data-options="field:'ck',checkbox:true"></th>
-        <th field="orderno" width="160" >运单编号</th>
-        <th field="shipper" width="80" >发货人</th>
-        <th field="shippertel" width="110" >发货人电话</th>
-        <th field="goodsname" width="100" >货物名称</th>
-        <th field="goodscount" width="80" >件数</th>
-        <th field="goodsweight" width="80" >重量</th>
-        <th field="receivername" width="80" >收件人</th>
-        <th field="receivertel" width="120" >收件人电话</th>
-        <th field="receiveraddress" width="250" >收货地址</th>
-        <th field="number" width="80" >车次</th>
-        <th field="driver" width="80" >司机</th>
-        <th field="startdate" width="100" formatter="timeStatus">发车时间</th>
-       <!-- <th field="assembledate" width="100" formatter="timeStatus">装车时间</th>-->
-        <th field="createdate" width="100" formatter="timeStatus" >托运时间</th>
-        <th field="status" width="80" formatter="Status" >状态</th>
+        <th field="name" width="160" >姓名</th>
+        <th field="birthday" width="80" >出生年月</th>
+        <th field="cardnumber" width="100" >身份证</th>
+        <th field="nation" width="80" >民族</th>
+        <th field="join_date" width="80" >入党时间</th>
+        <th field="native_place" width="80" >籍贯</th>
+        <th field="work_date" width="120" >工作时间</th>
+        <th field="work_depart" width="250" >工作单位</th>
+        <th field="position" width="80" >现任职务</th>
+        <th field="wedding" width="80" formatter="weddingStatus">婚姻状况</th>
+        <th field="address" width="100" >家庭住址</th>
     </tr>
     </thead>
 </table>
 <div id="toolbar_order">
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="addOrder()">添加</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true" onclick="editOrder()">编辑</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-file-pdf-o" plain="true" onclick="lookOrder()">查看</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-remove" plain="true" onclick="destroyOrder()">删除</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-truck" plain="true" id="carButton" onclick="ajaxCarList()">装车</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="addDocument()">添加</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true" onclick="editDocument()">编辑</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-remove" plain="true" onclick="destroyDocument()">删除</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-users" plain="true" onclick="familyList()">家庭成员及重要社会关系</a>
 
-    货物名称:
-    <input class="easyui-textbox" style="width:110px" name="goodsname"id="goodsnamesearch">
-    发货人:
-    <input class="easyui-textbox" style="width:110px" name="shipper"id="shippersearch">
-    收货人:
-    <input class="easyui-textbox" style="width:110px" name="receivername"id="receivernamesearch">
-
+    姓名:
+    <input class="easyui-textbox" style="width:110px" name="name">
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="doSearch()" iconCls="icon-search">搜索</a>
 </div>
 <!--添加-->
-<div id="addOrder" class="easyui-dialog" title="添加" style="width:900px;height:500px;padding:10px 20px;" closed="true" modal="true">
-    <form id="addOrderForm" method="post">
-        <input name="shipperid" id="addSid"  type="hidden"  />
+<div id="addDocument" class="easyui-dialog" title="添加" style="width:700px;height:700px;padding: 20px" closed="true" modal="true">
+    <form id="addDocumentForm" method="post">
         <table>
             <tr>
                 <td align="right">
-                    发货人姓名:<input name="shipper" style="width: 230px" class="easyui-textbox" data-options="delay:1000,required:true " />
-                   <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="shiperList()">选择</a>
+                    姓名:<input name="name" style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " />
                 </td>
-
+            </tr>
+            <tr>
                 <td align="right">
-                    收货人姓名:<input name="receivername"  style="width: 230px" class="easyui-textbox" data-options="delay:1000,required:true " />
-                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="receiveList()">选择</a>
+                    出生年月:<input name="birthday"  style="width: 300px" class="easyui-datebox" data-options="delay:1000,required:true " />
                 </td>
-
-            </tr>
-
-            <tr>
-                <td   align="right">发货人电话:<input name="shippertel"  style="width: 300px"  class="easyui-textbox" data-options="delay:1000,validType:'mobile',required:true " /></td>
-
-                <td  align="right">收货人电话:<input name="receivertel"  style="width: 300px"  class="easyui-textbox" data-options="delay:1000,validType:'mobile',required:true " /></td>
-
             </tr>
             <tr>
-                <td  align="right">收货人地址:<input name="receiveraddress" style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " /></td>
+                <td   align="right">身份证:<input name="cardnumber"  style="width: 300px"  class="easyui-textbox" data-options="delay:1000,required:true " /></td>
             </tr>
             <tr>
-                <td   align="right">货物名称: <input name="goodsname" class="easyui-textbox" style="width:300px"  data-options="delay:1000" /></td>
-
-                <td  align="right">件数:<input name="goodscount" class="easyui-numberbox" style="width: 300px"  data-options="delay:1000" /></td>
-
+                <td  align="right">民族:<input name="nation"  style="width: 300px"  class="easyui-textbox" data-options="delay:1000,required:true " /></td>
             </tr>
             <tr>
-                <td align="right">重量:<input name="goodsweight" class="easyui-numberbox"style="width: 300px"   data-options="delay:1000" /></td>
-
-                <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;单位:
-                    <select  panelMaxHeight="100px" name="goodsunit" class="easyui-combobox" style="width:300px" data-options="delay:1000,multiple:false">
-                        <option value="1">千克</option>
-                        <option value="2">箱</option>
+                <td  align="right">入党时间:<input name="join_date" style="width: 300px" class="easyui-datebox" data-options="delay:1000,required:true "/></td>
+            </tr>
+            <tr>
+                <td  align="right">籍贯:<input name="native_place" style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " /></td>
+            </tr>
+            <tr>
+                <td   align="right">工作时间: <input name="work_date" class="easyui-datebox" style="width:300px"  data-options="delay:1000,required:true "/></td>
+            </tr>
+            <tr>
+                <td  align="right">工作单位:<input name="work_depart" class="easyui-numberbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
+            </tr>
+            <tr>
+                <td align="right">现任职务:<input name="position" class="easyui-numberbox"style="width: 300px"   data-options="delay:1000,required:true " /></td>
+            </tr>
+            <tr>
+                <td align="right">婚姻状况:
+                    <select  panelMaxHeight="100px" name="wedding" class="easyui-combobox" style="width:300px" data-options="delay:1000,multiple:false">
+                        <option value="1">未婚</option>
+                        <option value="2">已婚</option>
+                        <option value="3">离异</option>
+                        <option value="4">丧偶</option>
                     </select>
                 </td>
-
             </tr>
             <tr>
-                <td align="right">运费: <input name="goodsfee" class="easyui-numberbox" style="width: 300px"  data-options="delay:1000" /></td>
-
-                <td align="right">货物保险金额:<input name="goodsinsurance" class="easyui-numberbox" style="width: 300px"  data-options="delay:1000" /></td>
-
+                <td align="right">家庭住址: <input name="address" class="easyui-numberbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
             </tr>
             <tr>
-                <td align="right">保险费:<input name="insurance" class="easyui-numberbox"  style="width: 300px"  data-options="delay:1000" /></td>
-
-                <td align="right" style="color: red ;font-weight:bold;">合计金额: <input name="countfee" class="easyui-numberbox"  style="width: 300px;"  data-options="delay:1000" /></td>
-
+                <td align="right">全日制教育: <input name="fulltime_edu" class="easyui-textbox" style="width: 300px"  data-options="delay:1000" /></td>
             </tr>
             <tr>
-                <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;付款方式:
-                    <select  panelMaxHeight="100px" name="paytype" class="easyui-combobox" style="width:300px" data-options="delay:1000,required:true,multiple:false">
-                        <option value="1">欠付</option>
-                        <option value="2">货到付款</option>
-                        <option value="3">现付</option>
-                    </select>
-
-                </td>
-                <td align="right">托运时间: <input name="createdate" class="easyui-datetimebox" style="width: 300px" data-options="delay:1000" /></td>
+                <td align="right">全日制毕业院校以及专业: <input class="easyui-textbox" name="fulltime_school"style="width:300px;"/></td></td>
             </tr>
             <tr>
-                <td align="right">备注:
-                    <input class="easyui-textbox" name="col" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+                <td align="right">全日制学位: <input class="easyui-textbox" name="fulltime_degree" style="width:300px;"/></td></td>
             </tr>
             <tr>
-                <td></td>
-                <td ><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addOrderSubmit()" style="width:90px">保存</a>
-                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addOrder').dialog('close')" style="width:90px">取消</a></td>
+                <td align="right">在职教育: <input class="easyui-textbox" name="halftime_edu" style="width:300px;"/></td></td>
+            </tr>
+            <tr>
+                <td align="right">在职教育毕业院校及专业: <input class="easyui-textbox" name="halftime_school"style="width:300px;"/></td></td>
+            </tr>
+            <tr>
+                <td align="right">在职教育学位: <input class="easyui-textbox" name="halftime_degree" style="width:300px;"/></td></td>
+            </tr>
+            <tr>
+                <td align="right">简历:
+                    <input class="easyui-textbox" name="resume" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+            </tr>
+            <tr>
+                <td align="right">奖励情况:
+                    <input class="easyui-textbox" name="praise" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+            </tr>
+            <tr>
+                <td align="right">惩处情况:
+                    <input class="easyui-textbox" name="punish" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+            </tr>
+            <tr>
+                <td align="center"><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addDocumentSubmit()" style="width:90px">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addDocument').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
     </form>
 </div>
 
 <!--编辑-->
-<div id="editOrder" class="easyui-dialog" title="编辑" style="width:900px;height:500px;padding:10px 20px;"  closed="true" modal="true">
-    <form id="editOrderForm" method="post" >
+<div id="editDocument" class="easyui-dialog" title="编辑" style="width:700px;height:700px;padding:20px;"  closed="true" modal="true">
+    <form id="editDocumentForm" method="post" >
         <input type="hidden" name="id" value="">
         <table>
             <tr>
-                <td align="right">发货人姓名:<input name="shipper" id="addShipper" style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " /></td>
-
-                <td align="right">收货人姓名:<input name="receivername" id="addReceivename"  style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " /></td>
-
-            </tr>
-
-            <tr>
-                <td   align="right">发货人电话:<input name="shippertel"  id="addShippertel" style="width: 300px"  class="easyui-textbox" data-options="delay:1000,validType:'mobile',required:true " /></td>
-
-                <td  align="right">收货人电话:<input name="receivertel" id="addReceivetel" style="width: 300px"  class="easyui-textbox" data-options="delay:1000,validType:'mobile',required:true " /></td>
-
-            </tr>
-            <tr>
-                <td  align="right">收货人地址:<input name="receiveraddress" id="addReceiveAddress" style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " /></td>
-            </tr>
-            <tr>
-                <td   align="right">货物名称: <input name="goodsname" class="easyui-textbox" style="width:300px"  data-options="delay:1000,required:true " /></td>
-
-                <td  align="right">件数:<input name="goodscount" class="easyui-textbox" style="width: 300px"  data-options="delay:1000" /></td>
-
-            </tr>
-            <tr>
-                <td align="right">重量:<input name="goodsweight" class="easyui-textbox"style="width: 300px"   data-options="delay:1000 " /></td>
-
-                <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;单位:
-                    <select  panelMaxHeight="100px" name="goodsunit" class="easyui-combobox" style="width:300px" data-options="delay:1000,required:true,multiple:false">
-                        <option value="1">千克</option>
-                        <option value="2">箱</option>
-                    </select>
-
+                <td align="right">
+                    姓名:<input name="name" style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " />
                 </td>
-
             </tr>
             <tr>
-                <td align="right">运费: <input name="goodsfee" class="easyui-textbox" style="width: 300px"  data-options="delay:1000" /></td>
-
-                <td align="right">货物保险金额:<input name="goodsinsurance" class="easyui-textbox" style="width: 300px"  data-options="delay:1000" /></td>
-
+                <td align="right">
+                    出生年月:<input name="birthday"  style="width: 300px" class="easyui-datebox" data-options="delay:1000,required:true " />
+                </td>
             </tr>
             <tr>
-                <td align="right">保险费:<input name="insurance" class="easyui-textbox"  style="width: 300px"  data-options="delay:1000" /></td>
-
-                <td align="right" style="color: red ;font-weight:bold;">合计金额: <input name="countfee" class="easyui-textbox"  style="width: 300px"  data-options="delay:1000" /></td>
-
+                <td   align="right">身份证:<input name="cardnumber"  style="width: 300px"  class="easyui-textbox" data-options="delay:1000,required:true " /></td>
             </tr>
             <tr>
-                <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;付款方式:
-                    <select  panelMaxHeight="100px" name="paytype" class="easyui-combobox" style="width:300px" data-options="delay:1000,multiple:false">
-                        <option value="1">欠付</option>
-                        <option value="2">货到付款</option>
-                        <option value="3">现付</option>
+                <td  align="right">民族:<input name="nation"  style="width: 300px"  class="easyui-textbox" data-options="delay:1000,required:true " /></td>
+            </tr>
+            <tr>
+                <td  align="right">入党时间:<input name="join_date" style="width: 300px" class="easyui-datebox" data-options="delay:1000,required:true "/></td>
+            </tr>
+            <tr>
+                <td  align="right">籍贯:<input name="native_place" style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " /></td>
+            </tr>
+            <tr>
+                <td   align="right">工作时间: <input name="work_date" class="easyui-datebox" style="width:300px"  data-options="delay:1000,required:true "/></td>
+            </tr>
+            <tr>
+                <td  align="right">工作单位:<input name="work_depart" class="easyui-numberbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
+            </tr>
+            <tr>
+                <td align="right">现任职务:<input name="position" class="easyui-numberbox"style="width: 300px"   data-options="delay:1000,required:true " /></td>
+            </tr>
+            <tr>
+                <td align="right">婚姻状况:
+                    <select  panelMaxHeight="100px" name="wedding" class="easyui-combobox" style="width:300px" data-options="delay:1000,multiple:false">
+                        <option value="1">未婚</option>
+                        <option value="2">已婚</option>
+                        <option value="3">离异</option>
+                        <option value="4">丧偶</option>
                     </select>
                 </td>
-
-                <td align="right">托运时间: <input id="editStartdate1" name="createdate" class="easyui-datetimebox" style="width: 300px" data-options="delay:1000" /></td>
-
-            </tr>
-
-            <tr>
-
-                <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收货城市:<input  class="easyui-combobox" name="endcity" panelHeight="150px" style="width:300px" data-options=" valueField:'id', textField:'name', url:'{:U('Admin/Route/ajaxRoute')}'"></td>
-
             </tr>
             <tr>
-                <td align="right">备注:
-                    <input class="easyui-textbox" name="col" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+                <td align="right">家庭住址: <input name="address" class="easyui-numberbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
             </tr>
             <tr>
-                <td></td>
-                <td ><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="editOrderSubmit()" style="width:90px">保存</a>
-                  <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#editOrder').dialog('close')" style="width:90px">取消</a></td>
+                <td align="right">全日制教育: <input name="fulltime_edu" class="easyui-textbox" style="width: 300px"  data-options="delay:1000" /></td>
+            </tr>
+            <tr>
+                <td align="right">全日制毕业院校以及专业: <input class="easyui-textbox" name="fulltime_school"style="width:300px;"/></td></td>
+            </tr>
+            <tr>
+                <td align="right">全日制学位: <input class="easyui-textbox" name="fulltime_degree" style="width:300px;"/></td></td>
+            </tr>
+            <tr>
+                <td align="right">在职教育: <input class="easyui-textbox" name="halftime_edu" style="width:300px;"/></td></td>
+            </tr>
+            <tr>
+                <td align="right">在职教育毕业院校及专业: <input class="easyui-textbox" name="halftime_school"style="width:300px;"/></td></td>
+            </tr>
+            <tr>
+                <td align="right">在职教育学位: <input class="easyui-textbox" name="halftime_degree" style="width:300px;"/></td></td>
+            </tr>
+            <tr>
+                <td align="right">简历:
+                    <input class="easyui-textbox" name="resume" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+            </tr>
+            <tr>
+                <td align="right">奖励情况:
+                    <input class="easyui-textbox" name="praise" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+            </tr>
+            <tr>
+                <td align="right">惩处情况:
+                    <input class="easyui-textbox" name="punish" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+            </tr>
+            <tr>
+                <td align="center"><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="editDocumentSubmit()" style="width:90px">保存</a>
+                  <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#editDocument').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
 
     </form>
 </div>
 
-<!--查看-->
+<div id="familyDlg" class="easyui-dialog" title="家庭成员及重要社会关系列表" style="width:600px;padding:10px 20px;height: 400px" closed="true" modal="true">
+    <div id="familyGrid" style=""></div>
+</div>
 
-<div id="lookOrder" class="easyui-dialog" title="查看" style="width:900px;height:500px;padding:10px 20px;"  closed="true" modal="true">
-    <form id="lookOrderForm" method="post">
-        <input type="hidden" name="id" value="" id="lookId">
+<div id="addFamily" class="easyui-dialog" title="添加" style="width:400px;padding:10px 20px;" closed="true" modal="true">
+    <form id="addFamilyForm" method="post">
+        <input name="id" type="hidden" id="family_id"/>
+        <input name="document_id" type="hidden" id="document_id"/>
         <table>
             <tr>
-                <td align="right">发货人姓名:<input name="shipper" style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " /></td>
-
-                <td align="right">收货人姓名:<input name="receivername"  style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " /></td>
-
-            </tr>
-
-            <tr>
-                <td   align="right">发货人电话:<input name="shippertel"  style="width: 300px"  class="easyui-textbox" data-options="delay:1000,validType:'mobile',required:true " /></td>
-
-                <td  align="right">收货人电话:<input name="receivertel"  style="width: 300px"  class="easyui-textbox" data-options="delay:1000,validType:'mobile',required:true " /></td>
-
+                <td>称呼:</td>
+                <td><input id="appellation" name="appellation" class="easyui-textbox"  data-options="delay:1000,required:true" ></td>
             </tr>
             <tr>
-                <td  align="right">收货人地址:<input name="receiveraddress" style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " /></td>
+                <td>姓名:</td>
+                <td><input name="name" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
             </tr>
             <tr>
-                <td   align="right">货物名称: <input name="goodsname" class="easyui-textbox" style="width:300px"  data-options="delay:1000,required:true " /></td>
-
-                <td  align="right">件数:<input name="goodscount" class="easyui-textbox" style="width: 300px"  data-options="delay:1000" /></td>
-
+                <td>政治面貌:</td>
+                <td><input name="face" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
             </tr>
             <tr>
-                <td align="right">重量:<input name="goodsweight" class="easyui-textbox"style="width: 300px"   data-options="delay:1000 " /></td>
-
-                <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;单位:
-                    <select  panelMaxHeight="100px" name="goodsunit" class="easyui-combobox" style="width:300px" data-options="delay:1000,required:true,multiple:false">
-                        <option value="1">千克</option>
-                        <option value="2">箱</option>
-                    </select>
-
-                </td>
-
+                <td>工作单位及职务:</td>
+                <td><input name="workplace" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
             </tr>
             <tr>
-                <td align="right">运费: <input name="goodsfee" class="easyui-textbox" style="width: 300px"  data-options="delay:1000" /></td>
-
-                <td align="right">货物保险金额:<input name="goodsinsurance" class="easyui-textbox" style="width: 300px"  data-options="delay:1000" /></td>
-
-            </tr>
-            <tr>
-                <td align="right">保险费:<input name="insurance" class="easyui-textbox"  style="width: 300px"  data-options="delay:1000" /></td>
-
-                <td align="right" style="color: red ;font-weight:bold;">合计金额: <input name="countfee" class="easyui-textbox"  style="width: 300px"  data-options="delay:1000" /></td>
-
-            </tr>
-            <tr>
-                <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;付款方式:
-                    <select  panelMaxHeight="100px" name="paytype" class="easyui-combobox" style="width:300px" data-options="delay:1000,multiple:false">
-                        <option value="1">欠付</option>
-                        <option value="2">货到付款</option>
-                        <option value="3">现付</option>
-                    </select>
-                </td>
-
-                <td align="right">托运时间: <input id="lookcreatedate" name="createdate" class="easyui-datetimebox" style="width: 300px" data-options="delay:1000" /></td>
-
-            </tr>
-
-            <tr>
-
-                <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收货城市:<input  class="easyui-combobox" name="endcity" panelHeight="150px" style="width:300px" data-options=" valueField:'id', textField:'name', url:'{:U('Admin/Route/ajaxRoute')}'"></td>
-
-            </tr>
-            <tr>
-                <td align="right">备注:
-                    <input class="easyui-textbox" name="col" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+                <td>身份证号:</td>
+                <td><input name="idcard" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
             </tr>
             <tr>
                 <td></td>
-                <td > <a href="#" class="easyui-linkbutton" icon="icon-print" onclick="print('view');">打印运单</a>
-                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#lookOrder').dialog('close')" style="width:90px">取消</a>
-                </td>
+                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addFamilySubmit()" style="width:90px">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addFamily').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
 
     </form>
 </div>
-
-<div id="carorderDlg" class="easyui-dialog" title="发车列表" style="width:625px;padding:10px 20px;height: 400px" closed="true" modal="true">
-<div id="carorderGrid" style="" pagination="true"   singleSelect="true" rownumbers="true"  toolbar="#toolbar_carorderGrid">
-    <input name="orderId" type="hidden" id="order_id"/>
-   <div id="toolbar_carorderGrid">
-        司机:
-        <input class="easyui-textbox" style="width:110px" name="driver" id="driversearch">
-        车次:
-        <input class="easyui-textbox" style="width:110px" name="number" id="numbersearch">
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="doCarSearch()" iconCls="icon-search">搜索</a>
-    </div>
-</div>
-
-<div id="shiperDlg" class="easyui-dialog" title="发货人列表" style="width:625px;padding:10px 20px;height: 400px" closed="true" modal="true">
-        <div id="shiperGrid" style="" pagination="true"   singleSelect="true" rownumbers="true"  toolbar="#toolbar_shipperGrid">
-        </div>
-   <div id="toolbar_shipperGrid">
-        姓名:
-        <input class="easyui-textbox" style="width:110px" name="shipper"id="namesearch">
-        电话:
-        <input class="easyui-textbox" style="width:110px" name="shippertel"id="telsearch">
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="doShipperSearch()" iconCls="icon-search">搜索</a>
-    </div>
-</div>
-
-
-
-    <div id="receiveDlg" class="easyui-dialog" title="收货人人列表" style="width:625px;padding:10px 20px;height: 400px" closed="true" modal="true">
-        <div id="receiveGrid" style="" pagination="true"   singleSelect="true" rownumbers="true" toolbar="#toolbar_receiveGrid" >
-        </div>
-        <div id="toolbar_receiveGrid">
-            姓名:
-            <input class="easyui-textbox" style="width:110px" name="receivername"id="renamesearch">
-            电话:
-            <input class="easyui-textbox" style="width:110px" name="receivertel"id="retelsearch">
-            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="doReceiveSearch()" iconCls="icon-search">搜索</a>
-        </div>
-    </div>
-
 <script type="text/javascript">
-    var addOrderUrl="{:U('Admin/Order/add')}";
-    var editOrderUrl="{:U('Admin/Order/edit')}";
-    var deleteOrderUrl="{:U('Admin/Order/delete')}";
-    var ajaxOrderUrl="{:U('Admin/Order/ajaxOrderList')}";
-    var ajaxCarUrl="{:U('Admin/Cardrive/ajaxCarDriv')}";//发车记录列表
-    var chooseCarUrl="{:U('Admin/Order/addCarOrder')}";//确定装车，保存路径
-    var ajaxRouteUrl="{:U('Admin/Route/ajaxRoute')}";// 终点站设置
+    var addDocumentUrl="{:U('Admin/Document/add')}";
+    var editDocumentUrl="{:U('Admin/Document/edit')}";
+    var deleteDocumentUrl="{:U('Admin/Document/delete')}";
+    var ajaxFamilyListUrl="{:U('Admin/Family/ajaxFamilyList')}";
+    var addFamilyUrl="{:U('Admin/Family/add')}";//
+    var deleteFamilyUrl="{:U('Admin/Family/delete')}";//
     var lookUrl="{:U('Admin/Order/look')}";
     var ajaxShiperUrl="{:U('Admin/Shipper/ajaxShipperList')}";//发货人列表
     var ajaxReceiveUrl="{:U('Admin/Receive/ajaxReceiveList')}";//收货人列表
-    var ajaxorderurl="{:U('Admin/Order/ajaxOrderList')}";//列表
+    var ajaxDocumentListUrl="{:U('Admin/Document/ajaxDocumentList')}";//列表
 </script>
 </body>
 </html>
