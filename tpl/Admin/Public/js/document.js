@@ -110,7 +110,7 @@ function familyList(){
     if (row){
         $('#familyDlg').dialog('open').dialog('setTitle','家庭成员及重要社会关系列表');
         $('#familyGrid').datagrid({
-            url: ajaxPunishListUrl +'/document_id/'+row.id,
+            url: ajaxFamilyListUrl +'/document_id/'+row.id,
             columns:[[
                 {field:'appellation',title:'称谓',width:100,align:'center'},
                 {field:'name',title:'姓名',width:50,align:'center'},
