@@ -49,11 +49,20 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="addDocument()">添加</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true" onclick="editDocument()">编辑</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-remove" plain="true" onclick="destroyDocument()">删除</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-users" plain="true" onclick="familyList()">家庭成员及重要社会关系</a>
-
     姓名:
     <input class="easyui-textbox" style="width:110px" name="name">
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="doSearch()" iconCls="icon-search">搜索</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-users" plain="true" onclick="familyList()">家庭成员及重要社会关系</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-users" plain="true" onclick="familyPunishList()">近亲属被追究刑事责任</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-users" plain="true" onclick="incomeList()">家庭成员每人年度总收入</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-users" plain="true" onclick="houseList()">配偶共同生活子女共有房产</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-users" plain="true" onclick="stockList()">配偶共同生活子女持股基金</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-users" plain="true" onclick="passportList()">持有护照</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-users" plain="true" onclick="abroadList()">出国境情况</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-users" plain="true" onclick="companyList()">配偶子女其他近亲属经商办企业</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-users" plain="true" onclick="childWeddingList()">子女婚姻情况</a>
+
+
 </div>
 <!--添加-->
 <div id="addDocument" class="easyui-dialog" title="添加" style="width:700px;height:700px;padding: 20px" closed="true" modal="true">
@@ -267,16 +276,365 @@
 
     </form>
 </div>
+
+<div id="familyPunishDlg" class="easyui-dialog" title="近亲属被追究刑事责任情况" style="width:600px;padding:10px 20px;height: 400px" closed="true" modal="true">
+    <div id="familyPunishGrid" style=""></div>
+</div>
+<div id="addPunish" class="easyui-dialog" title="添加" style="width:400px;padding:10px 20px;" closed="true" modal="true">
+    <form id="addPunishForm" method="post">
+        <input name="id" type="hidden" id="punish_id"/>
+        <input name="document_id" type="hidden" />
+        <table>
+            <tr>
+                <td>姓名:</td>
+                <td><input name="name" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>被追究时间:</td>
+                <td><input name="punish_date" class="easyui-datebox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>被追究原因:</td>
+                <td><input name="punish_reason" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>处理阶段:</td>
+                <td><input name="process_stage" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>处理结果:</td>
+                <td><input name="process_result" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addPunishSubmit()" style="width:90px">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addPunish').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+
+<div id="incomeDlg" class="easyui-dialog" title="家庭成员每人年度总收入" style="width:600px;padding:10px 20px;height: 400px" closed="true" modal="true">
+    <div id="incomeGrid" style=""></div>
+</div>
+<div id="addIncome" class="easyui-dialog" title="添加" style="width:400px;padding:10px 20px;" closed="true" modal="true">
+    <form id="addIncomeForm" method="post">
+        <input name="id" type="hidden" id="income_id"/>
+        <input name="document_id" type="hidden" />
+        <table>
+            <tr>
+                <td>成员:</td>
+                <td><input name="name" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>关系:</td>
+                <td><input name="relation" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>年收入（万元）:</td>
+                <td><input name="year_income" class="easyui-numberbox"precision="2" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addIncomeSubmit()" style="width:90px">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addIncome').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+<div id="houseDlg" class="easyui-dialog" title="配偶共同生活子女共有房产" style="width:700px;padding:10px 20px;height: 400px" closed="true" modal="true">
+    <div id="houseGrid" style=""></div>
+</div>
+<div id="addHouse" class="easyui-dialog" title="添加" style="width:600px;padding:10px 20px;" closed="true" modal="true">
+    <form id="addHouseForm" method="post">
+        <input name="id" type="hidden" id="house_id"/>
+        <input name="document_id" type="hidden" />
+        <table>
+            <tr>
+                <td>产权人姓名:</td>
+                <td><input name="name" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>房产来源:</td>
+                <td><input name="house_source" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>建筑面积（㎡）:</td>
+                <td><input name="area" class="easyui-numberbox"precision="2" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>交易时间（年月）:</td>
+                <td><input name="buydate" class="easyui-datebox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>具体位置:</td>
+                <td><input name="address" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>房产性质功能类型:</td>
+                <td><input name="house_property" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>交易价格（万元）:</td>
+                <td><input name="trade_price" class="easyui-numberbox"precision="2"  data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addHouseSubmit()" style="width:90px">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addHouse').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+
+<div id="stockDlg" class="easyui-dialog" title="配偶共同生活子女持股基金" style="width:700px;padding:10px 20px;height: 400px" closed="true" modal="true">
+    <div id="stockGrid" style=""></div>
+</div>
+<div id="addStock" class="easyui-dialog" title="添加" style="width:500px;padding:10px 20px;" closed="true" modal="true">
+    <form id="addStockForm" method="post">
+        <input name="id" type="hidden" id="stock_id"/>
+        <input name="document_id" type="hidden" />
+        <table>
+            <tr>
+                <td>持有人姓名:</td>
+                <td><input name="name" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>股票名称或代码:</td>
+                <td><input name="stock_code" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>持股数量:</td>
+                <td><input name="stock_count" class="easyui-numberbox"data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>填报前一交易日市值（万元）:</td>
+                <td><input name="market_value" class="easyui-numberbox"precision="2"  data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addStockSubmit()" style="width:90px">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addStock').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+<div id="passportDlg" class="easyui-dialog" title="持有护照" style="width:600px;padding:10px 20px;height: 400px" closed="true" modal="true">
+    <div id="passportGrid" style=""></div>
+</div>
+<div id="addPassport" class="easyui-dialog" title="添加" style="width:400px;padding:10px 20px;" closed="true" modal="true">
+    <form id="addPassportForm" method="post">
+        <input name="id" type="hidden" id="passport_id"/>
+        <input name="document_id" type="hidden" />
+        <table>
+            <tr>
+                <td>护照号:</td>
+                <td><input name="passportno" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>签发日期:</td>
+                <td><input name="signdate" class="easyui-datebox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>有效期至:</td>
+                <td><input name="enddate" class="easyui-datebox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>保管机构:</td>
+                <td><input name="custodian" class="easyui-textbox"data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>备 注:</td>
+                <td><input name="remark" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addPassportSubmit()" style="width:90px">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addPassport').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+<div id="abroadDlg" class="easyui-dialog" title="出国境情况" style="width:700px;padding:10px 20px;height: 400px" closed="true" modal="true">
+    <div id="abroadGrid" style=""></div>
+</div>
+<div id="addAbroad" class="easyui-dialog" title="添加" style="width:400px;padding:10px 20px;" closed="true" modal="true">
+    <form id="addAbroadForm" method="post">
+        <input name="id" type="hidden" id="country_id"/>
+        <input name="document_id" type="hidden" />
+        <table>
+            <tr>
+                <td>所到国家、地区:</td>
+                <td><input name="dest_country" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>去时间:</td>
+                <td><input name="startdate" class="easyui-datebox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>回来时间:</td>
+                <td><input name="enddate" class="easyui-datebox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>事由:</td>
+                <td><input name="reason" class="easyui-textbox"data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>审批机构:</td>
+                <td><input name="approval" class="easyui-textbox"data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>所用护照:</td>
+                <td><input name="passport" class="easyui-textbox"data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addAbroadSubmit()" style="width:90px">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addAbroad').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+
+<div id="companyDlg" class="easyui-dialog" title="配偶子女其他近亲属经商办企业" style="width:700px;padding:10px 20px;height: 400px" closed="true" modal="true">
+    <div id="companyGrid" style=""></div>
+</div>
+<div id="addCompany" class="easyui-dialog" title="添加" style="width:400px;padding:10px 20px;" closed="true" modal="true">
+    <form id="addCompanyForm" method="post">
+        <input name="id" type="hidden" id="company_id"/>
+        <input name="document_id" type="hidden" />
+        <table>
+            <tr>
+                <td>公司、企业名称:</td>
+                <td><input name="name" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>注册时间:</td>
+                <td><input name="regdate" class="easyui-datebox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>经营业务范围:</td>
+                <td><input name="business" class="easyui-textbox"data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>注册地:</td>
+                <td><input name="regaddress" class="easyui-textbox"data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>法人代表:</td>
+                <td><input name="legal_person" class="easyui-textbox"data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addCompanySubmit()" style="width:90px">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addCompany').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+<div id="childWeddingDlg" class="easyui-dialog" title="配偶子女其他近亲属经商办企业" style="width:700px;padding:10px 20px;height: 400px" closed="true" modal="true">
+    <div id="childWeddingGrid" style=""></div>
+</div>
+<div id="addChildWedding" class="easyui-dialog" title="添加" style="width:400px;padding:10px 20px;" closed="true" modal="true">
+    <form id="addChildWeddingForm" method="post">
+        <input name="id" type="hidden" id="childWedding_id"/>
+        <input name="document_id" type="hidden" />
+        <table>
+            <tr>
+                <td>子女姓名:</td>
+                <td><input name="name" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>配偶姓名:</td>
+                <td><input name="mate_name" class="easyui-textbox" data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>国家、地区:</td>
+                <td><input name="country" class="easyui-textbox"data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>工作（学习）单位:</td>
+                <td><input name="work_dept" class="easyui-textbox"data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>职务:</td>
+                <td><input name="position" class="easyui-textbox"data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td>登记时间:</td>
+                <td><input name="submit_date" class="easyui-datebox"data-options="delay:1000,required:true" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addChildWeddingSubmit()" style="width:90px">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addChildWedding').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
 <script type="text/javascript">
     var addDocumentUrl="{:U('Admin/Document/add')}";
     var editDocumentUrl="{:U('Admin/Document/edit')}";
     var deleteDocumentUrl="{:U('Admin/Document/delete')}";
+    /**家庭成员及重要社会关系列表**/
     var ajaxFamilyListUrl="{:U('Admin/Family/ajaxFamilyList')}";
     var addFamilyUrl="{:U('Admin/Family/add')}";//
     var deleteFamilyUrl="{:U('Admin/Family/delete')}";//
-    var lookUrl="{:U('Admin/Order/look')}";
-    var ajaxShiperUrl="{:U('Admin/Shipper/ajaxShipperList')}";//发货人列表
-    var ajaxReceiveUrl="{:U('Admin/Receive/ajaxReceiveList')}";//收货人列表
+    /**近亲属被追究刑事责任情况**/
+    var ajaxPunishListUrl="{:U('Admin/Punish/ajaxPunishList')}";
+    var addPunishUrl="{:U('Admin/Punish/add')}";
+    var deletePunishUrl="{:U('Admin/Punish/delete')}";
+
+    /**家庭成员每人年度总收入**/
+    var ajaxIncomeListUrl="{:U('Admin/Income/ajaxIncomeList')}";
+    var addIncomeUrl="{:U('Admin/Income/add')}";
+    var deleteIncomeUrl="{:U('Admin/Income/delete')}";
+
+    /**本人配偶共同生活子女共有房产**/
+    var ajaxHouseListUrl="{:U('Admin/House/ajaxHouseList')}";
+    var addHouseUrl="{:U('Admin/House/add')}";
+    var deleteHouseUrl="{:U('Admin/House/delete')}";
+
+    /**本人配偶共同生活子女持股基金**/
+    var ajaxStockListUrl="{:U('Admin/Stock/ajaxStockList')}";
+    var addStockUrl="{:U('Admin/Stock/add')}";
+    var deleteStockUrl="{:U('Admin/Stock/delete')}";
+
+    /**本人持有护照**/
+    var ajaxPassportListUrl="{:U('Admin/Passport/ajaxPassportList')}";
+    var addPassportUrl="{:U('Admin/Passport/add')}";
+    var deletePassportUrl="{:U('Admin/Passport/delete')}";
+
+    /**出国境情况**/
+    var ajaxAbroadListUrl="{:U('Admin/Abroad/ajaxAbroadList')}";
+    var addAbroadUrl="{:U('Admin/Abroad/add')}";
+    var deleteAbroadUrl="{:U('Admin/Abroad/delete')}";
+
+    /**企业**/
+    var ajaxCompanyListUrl="{:U('Admin/Company/ajaxCompanyList')}";
+    var addCompanyUrl="{:U('Admin/Company/add')}";
+    var deleteCompanyUrl="{:U('Admin/Company/delete')}";
+
+    /**子女婚姻**/
+    var ajaxChildWeddingListUrl="{:U('Admin/ChildWedding/ajaxChildWeddingList')}";
+    var addChildWeddingUrl="{:U('Admin/ChildWedding/add')}";
+    var deleteChildWeddingUrl="{:U('Admin/ChildWedding/delete')}";
+
     var ajaxDocumentListUrl="{:U('Admin/Document/ajaxDocumentList')}";//列表
 </script>
 </body>
