@@ -207,6 +207,7 @@ function familyPunishList(){
     if (row){
         $('#familyPunishDlg').dialog('open').dialog('setTitle','近亲属被追究刑事责任情况');
         $('#familyPunishGrid').datagrid({
+
             url: ajaxPunishListUrl +'/document_id/'+row.id,
             columns:[[
                 {field:'name',title:'姓名',width:50,align:'center'},
