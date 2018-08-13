@@ -135,4 +135,42 @@ class DocumentController extends AdminBaseController{
         $this->ajaxReturn($datap,'JSON');
 
     }
+
+    public  function detail(){
+        $id=I('get.id');
+        $doc=D("Document")->where(array('id'=>$id))->find();
+        $this->assign("doc",$doc);
+
+        $familys=D("Family")->where(array('document_id'=>$id))->select();
+        $this->assign("familys",$familys);
+
+        $punishes=D("FamilyPunish")->where(array('document_id'=>$id))->select();
+        $this->assign("punishes",$punishes);
+
+        $houses=D("FamilyHouse")->where(array('document_id'=>$id))->select();
+        $this->assign("houses",$houses);
+
+        $stocks=D("FamilyStock")->where(array('document_id'=>$id))->select();
+        $this->assign("stocks",$stocks);
+
+        $passports=D("Passport")->where(array('document_id'=>$id))->select();
+        $this->assign("passports",$passports);
+
+        $abroads=D("Abroad")->where(array('document_id'=>$id))->select();
+        $this->assign("abroads",$abroads);
+
+        $companys=D("FamilyCompany")->where(array('document_id'=>$id))->select();
+        $this->assign("companys",$companys);
+
+        $weddings=D("ChildWedding")->where(array('document_id'=>$id))->select();
+        $this->assign("weddings",$weddings);
+
+        $incomes=D("FamilyIncome")->where(array('document_id'=>$id))->select();
+        $this->assign("incomes",$incomes);
+
+        $totalIncome=D("FamilyIncome")->where(array('document_id'=>$id))->sum('year_income');
+        $this->assign("totalIncome",$totalIncome);
+        $this->display();
+
+    }
 }
