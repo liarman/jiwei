@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>档案详情</title>
+    <script src="/Public/statics/highcharts/test/jquery-1.8.3.min.js"></script>
+    <style type="text/css">
+        TD{
+            border: 1px solid black;
+            /*height: 30px;*/
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div style="font-size:24px;margin:0 auto;text-align: center;font-weight: bolder">政 治 生 态 活 页 夹</div>
+<table style="width:1000px;margin:0 auto;border-collapse:collapse;">
+    <tr>
+        <td>姓 名</td>
+        <td>{$doc.name}</td>
+        <td>出生年月</td>
+        <td>{$doc.birthday}</td>
+        <td>身份证号</td>
+        <td>{$doc.cardnumber}</td>
+        <td>民 族</td>
+        <td>{$doc.nation}</td>
+        <td>入党时间</td>
+        <td>{$doc.join_date}</td>
+    </tr>
+    <tr>
+        <td>籍贯</td>
+        <td>{$doc.native_place}</td>
+        <td>工作时间</td>
+        <td>{$doc.work_date}</td>
+        <td>工作单位</td>
+        <td>{$doc.work_depart}</td>
+        <td colspan="2">现任职务</td>
+        <td colspan="2">{$doc.position}</td>
+    </tr>
+    <tr>
+        <td colspan="2">婚姻状况</td>
+        <td colspan="2">
+            <switch name="doc.wedding">
+                <case value="1">未婚</case>
+                <case value="2">已婚</case>
+                <case value="3">离异</case>
+                <case value="4">丧偶</case>
+            </switch>
+        </td>
+        <td>家庭住址</td>
+        <td colspan="3">{$doc.address}</td>
+        <td colspan="2" rowspan="3">照片</td>
+    </tr>
+    <tr>
+        <td rowspan="2">学历学位</td>
+        <td>全日制教育</td>
+        <td colspan="2">{$doc.fulltime_edu}</td>
+        <td>毕业院校系及专业</td>
+        <td>{$doc.fulltime_school}</td>
+        <td>学位</td>
+        <td>{$doc.fulltime_degree}</td>
+    </tr>
+    <tr>
+        <td>在职教育</td>
+        <td colspan="2">{$doc.halftime_edu}</td>
+        <td>毕业院校系及专业</td>
+        <td>{$doc.halftime_school}</td>
+        <td>学位</td>
+        <td>{$doc.halftime_degree}</td>
+    </tr>
+    <tr>
+        <td>简历</td>
+        <td colspan="9">{$doc.resume}</td>
+    </tr>
+    <tr>
+        <td>奖励情况</td>
+        <td colspan="9">{$doc.praise}</td>
+    </tr>
+    <tr>
+        <td>惩处情况</td>
+        <td colspan="9">{$doc.punish}</td>
+    </tr>
+    <tr>
+        <td style="width:100px;"<notempty  name="familys">rowspan={:count($familys)+1}<else/>rowspan=2</notempty>>家庭成员及重要社会关系 (包括兄弟姐妹、姑舅姨岳父母、妻子的兄弟姐妹及姑舅姨)</td>
+        <td>称谓</td>
+        <td>姓名</td>
+        <td>政治面貌</td>
+        <td colspan="3">工作单位及职务</td>
+        <td colspan="3">身份证号</td>
+    </tr>
+
+        <notempty  name="familys">
+            <volist name="familys" id="family">
+                <tr>
+                <td>{$family.appellation}</td>
+                <td>{$family.name}</td>
+                <td>{$family.face}</td>
+                <td colspan="3">{$family.workplace}</td>
+                <td colspan="3">{$family.idcard}</td>
+                </tr>
+            </volist>
+            <else/>
+            <tr>
+            <td colspan="9"></td></tr>
+        </notempty>
+    <tr>
+        <td style="width:100px;"<notempty  name="familys">rowspan={:count($punishes)+1}<else/>rowspan=2</notempty>>近亲属被追究刑事责任情况</td>
+        <td>姓名</td>
+        <td colspan="2">被追究时间</td>
+        <td colspan="3">被追究原因</td>
+        <td colspan="2">处理阶段</td>
+        <td colspan="2">处理结果</td>
+    </tr>
+
+    <notempty  name="punishes">
+        <volist name="punishes" id="punish">
+            <tr>
+                <td>{$punish.name}</td>
+                <td colspan="2">{$punish.punish_date}</td>
+                <td>{$punish.punish_reason}</td>
+                <td colspan="3">{$punish.process_stage}</td>
+                <td colspan="2">{$punish.process_result}</td>
+            </tr>
+        </volist>
+        <else/>
+        <tr>
+            <td colspan="9"></td></tr>
+    </notempty>
+
+    <tr>
+        <td style="width:100px;"<notempty  name="incomes">rowspan={:count($incomes)+1}<else/>rowspan=2</notempty>>共同生活家庭成员每人年度总收入</td>
+        <td colspan="2">成员</td>
+        <td colspan="2">关系</td>
+        <td colspan="2">年收入</td>
+        <td colspan="3" <notempty  name="incomes">rowspan={:count($incomes)+1}<else/>rowspan=2</notempty>>以上人员合计(万元):{$totalIncome}</td>
+    </tr>
+
+    <notempty  name="incomes">
+        <volist name="incomes" id="income">
+            <tr>
+                <td colspan="2">{$income.name}</td>
+                <td colspan="2">{$income.relation}</td>
+                <td colspan="2">{$income.year_income}</td>
+            </tr>
+        </volist>
+        <else/>
+        <tr>
+            <td colspan="9" height="50"></td></tr>
+    </notempty>
+
+
+    <tr>
+        <td style="width:100px;"<notempty  name="houses">rowspan={:count($houses)+1}<else/>rowspan=2</notempty>>本人配偶共同生活子女共有房产情况</td>
+        <td>产权人姓名</td>
+        <td>房产来源</td>
+        <td>建筑面积（㎡）</td>
+        <td>交易时间（年月）</td>
+        <td colspan="2">具体位置</td>
+        <td>房产性质功能类型</td>
+        <td colspan="2">交易价格（万元）</td>
+    </tr>
+
+    <notempty  name="houses">
+        <volist name="houses" id="house">
+            <tr>
+                <td>{$house.name}</td>
+                <td>{$house.house_source}</td>
+                <td>{$house.area}</td>
+                <td>{$house.buydate}</td>
+                <td colspan="2">{$house.address}</td>
+                <td>{$house.house_property}</td>
+                <td colspan="2">{$house.trade_price}</td>
+            </tr>
+        </volist>
+        <else/>
+        <tr>
+            <td colspan="9" height="50"></td></tr>
+    </notempty>
+
+    <tr>
+        <td style="width:100px;"<notempty  name="stocks">rowspan={:count($stocks)+1}<else/>rowspan=2</notempty>>本人配偶共同生活子女持股基金情况</td>
+        <td colspan="2">持有人姓名</td>
+        <td colspan="2">股票名称或代码</td>
+        <td colspan="2">持股数量</td>
+        <td colspan="3">填报前一交易日市值（万元）</td>
+    </tr>
+
+    <notempty  name="stocks">
+        <volist name="stocks" id="stock">
+            <tr>
+                <td colspan="2">{$stock.name}</td>
+                <td colspan="2">{$stock.stock_code}</td>
+                <td colspan="2">{$stock.stock_count}</td>
+                <td colspan="3">{$stock.market_value}</td>
+            </tr>
+        </volist>
+        <else/>
+        <tr>
+            <td colspan="9" height="50"></td></tr>
+    </notempty>
+    <tr>
+        <td style="width:100px;"<notempty  name="passports">rowspan={:count($passports)+1}<else/>rowspan=2</notempty>>本人持有护照情况</td>
+        <td colspan="2">护照号（含港澳台通行证）</td>
+        <td colspan="2">签发日期</td>
+        <td colspan="2">有效期至</td>
+        <td colspan="2">保管机构</td>
+        <td colspan="1">备 注</td>
+    </tr>
+
+    <notempty  name="passports">
+        <volist name="passports" id="passport">
+            <tr>
+                <td colspan="2">{$passport.passportno}</td>
+                <td colspan="2">{$passport.signdate}</td>
+                <td colspan="2">{$passport.enddate}</td>
+                <td colspan="2">{$passport.custodian}</td>
+                <td colspan="1">{$passport.remark}</td>
+            </tr>
+        </volist>
+        <else/>
+        <tr>
+            <td colspan="9" height="50"></td></tr>
+    </notempty>
+
+    <tr>
+        <td style="width:100px;"<notempty  name="abroads">rowspan={:count($abroads)+1}<else/>rowspan=2</notempty>>本人出国境情况</td>
+        <td colspan="2">起止时间</td>
+        <td colspan="2">所到国家、地区</td>
+        <td colspan="2">事由</td>
+        <td colspan="1">审批机构</td>
+        <td colspan="2">所用护照</td>
+    </tr>
+
+    <notempty  name="abroads">
+        <volist name="abroads" id="abroad">
+            <tr>
+                <td colspan="2">{$abroad.startdate}-{$abroad.enddate}</td>
+                <td colspan="2">{$abroad.dest_country}</td>
+                <td colspan="2">{$abroad.reason}</td>
+                <td colspan="1">{$abroad.approval}</td>
+                <td colspan="2">{$abroad.passport}</td>
+            </tr>
+        </volist>
+        <else/>
+        <tr>
+            <td colspan="9" height="50"></td></tr>
+    </notempty>
+
+    <tr>
+        <td style="width:100px;"<notempty  name="companys">rowspan={:count($companys)+1}<else/>rowspan=2</notempty>>配偶子女其他近亲属经商办企业情况</td>
+        <td colspan="2">公司、企业名称</td>
+        <td colspan="2">注册时间</td>
+        <td colspan="2">经营业务范围</td>
+        <td colspan="1">注册地</td>
+        <td colspan="2">法人代表</td>
+    </tr>
+
+    <notempty  name="companys">
+        <volist name="companys" id="company">
+            <tr>
+                <td colspan="2">{$company.name}</td>
+                <td colspan="2">{$company.regdate}</td>
+                <td colspan="2">{$company.business}</td>
+                <td colspan="1">{$company.regaddress}</td>
+                <td colspan="2">{$company.legal_person}</td>
+            </tr>
+        </volist>
+        <else/>
+        <tr>
+            <td colspan="9" height="50"></td></tr>
+    </notempty>
+
+    <tr>
+        <td style="width:100px;"<notempty  name="weddings">rowspan={:count($weddings)+1}<else/>rowspan=2</notempty>>子女婚姻情况</td>
+        <td colspan="1">子女姓名</td>
+        <td colspan="1">配偶姓名</td>
+        <td colspan="2">国家、地区</td>
+        <td colspan="1">工作（学习）单位</td>
+        <td colspan="2">职务</td>
+        <td colspan="2">登记时间</td>
+    </tr>
+
+    <notempty  name="weddings">
+        <volist name="weddings" id="wedding">
+            <tr>
+                <td colspan="1">{$wedding.name}</td>
+                <td colspan="1">{$wedding.mate_name}</td>
+                <td colspan="2">{$wedding.country}</td>
+                <td colspan="1">{$wedding.work_dept}</td>
+                <td colspan="2">{$wedding.position}</td>
+                <td colspan="2">{$wedding.submit_date}</td>
+            </tr>
+        </volist>
+        <else/>
+        <tr>
+            <td colspan="9" height="50"></td></tr>
+    </notempty>
+</table>
+
+</body>
+</html>
