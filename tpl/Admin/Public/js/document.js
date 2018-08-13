@@ -4,7 +4,14 @@ function addDocument(){
     $('#addDocumentForm').form('clear');
     url=addDocumentUrl;
 }
-
+function formatDetail(val,rowData,row){
+    console.log(row);
+    val="<span class='icon icon-detail' onclick='detail("+rowData['id']+")'></span>";
+    return val;
+}
+function detail (id){
+    window.open(detailUrl+"/id/"+id);
+}
 function addDocumentSubmit(){
     $('#addDocumentForm').form('submit',{
         url: url,
