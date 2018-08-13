@@ -42,6 +42,7 @@
         <th field="position" width="80" >现任职务</th>
         <th field="wedding" width="80" formatter="weddingStatus">婚姻状况</th>
         <th field="address" width="100" >家庭住址</th>
+        <th field="detail" width="50" formatter="formatDetail">详情</th>
     </tr>
     </thead>
 </table>
@@ -636,6 +637,7 @@
     var deleteChildWeddingUrl="{:U('Admin/ChildWedding/delete')}";
 
     var ajaxDocumentListUrl="{:U('Admin/Document/ajaxDocumentList')}";//列表
+    var detailUrl="{:U('Admin/Document/detail')}";//列表
 </script>
 </body>
 </html>
