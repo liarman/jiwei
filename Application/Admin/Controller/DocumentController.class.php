@@ -6,14 +6,16 @@ use Common\Controller\AdminBaseController;
  */
 class DocumentController extends AdminBaseController{
     public function ajaxDocumentList(){
+        $userid=$_SESSION['user']['id'];
+        $data['userid']=$userid;
         $goodsname=I("post.goodsname");
         $receivername=I("post.receivername");
         $shipper=I("post.shipper");
         $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
         $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
         $offset = ($page-1)*$rows;
-        $countsql = "SELECT	 count(o.id) AS total FROM	qfant_document o WHERE	1 = 1 ";
-        $sql = " SELECT	 * FROM	qfant_document o WHERE	1 = 1";
+        $countsql = "SELECT	 count(o.id) AS total FROM	qfant_document o WHERE	1 = 1 and o.userid=".$userid;
+        $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_town t on o.townid=t.id where 1=1 and o.userid=".$userid;
         $param=array();
         if(!empty($goodsname)){
             $countsql.=" and o.goodsname like '%s'";
@@ -48,6 +50,8 @@ class DocumentController extends AdminBaseController{
         if(IS_POST){
             $data=I('post.');
             $data['createtime']=date("Y-m-d h:i:s", time());
+            $userid=$_SESSION['user']['id'];
+            $data['userid']=$userid;
             unset($data['id']);
             $res=D('Document')->addData($data);
             if($res){
@@ -72,6 +76,8 @@ class DocumentController extends AdminBaseController{
             $data=I('post.');
             $where['id']=$data['id'];
             $data['createtime']=date("Y-m-d h:i:s", time());
+            $userid=$_SESSION['user']['id'];
+            $data['userid']=$userid;
             $result=D('Document')->editData($where,$data);
             if($result){
                 $message['status']=1;
