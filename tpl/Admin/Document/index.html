@@ -13,15 +13,13 @@
     <script src="__ADMIN_JS__/index.js" type="text/javascript" charset="utf-8"></script>
 
     <link href="__PUBLIC__/statics/css/admin.css" rel="stylesheet" />
+    <link href="__KINDEDITOR__/themes/default/default.css" rel="stylesheet" />
     <script src="__EASYUI__/common.js"></script>
     <script src="__EASYUI__/formatter.js"></script>
     <script src="__EASYUI__/extend/validate.js"></script>
     <script src="__KINDEDITOR__/kindeditor-all.js"></script>
     <script src="__KINDEDITOR__/lang/zh-CN.js"></script>
-    <script language="javascript" src="__PUBLIC__/statics/print/LodopFuncs.js"></script>
-    <object id="LODOP" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width="0" height="0">
-        <embed id="LODOP_EM" type="application/x-print-lodop" width="0" height="0"></embed>
-    </object>
+
 
 </head>
 <body style="padding: 0">
@@ -42,6 +40,7 @@
         <th field="position" width="80" >现任职务</th>
         <th field="wedding" width="80" formatter="weddingStatus">婚姻状况</th>
         <th field="address" width="100" >家庭住址</th>
+        <th field="tname" width="100">所属乡镇</th>
         <th field="detail" width="50" formatter="formatDetail">详情</th>
     </tr>
     </thead>
@@ -107,6 +106,17 @@
                         <option value="2">已婚</option>
                         <option value="3">离异</option>
                         <option value="4">丧偶</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">图片:<input name="headimg" class="easyui-textbox addimg" data-options="delay:1000,required:true" style="width: 205px" />
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-plus" id="addDocImg" style="width:90px">上传</a>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">所属乡镇:
+                    <select  panelMaxHeight="300px" name="townid" class="easyui-combobox" style="width:300px;" data-options="multiple:false,required:true,valueField:'id',textField:'name',url:'{:U('Admin/Town/ajaxTownListAll')}'">
                     </select>
                 </td>
             </tr>
@@ -194,6 +204,18 @@
                         <option value="2">已婚</option>
                         <option value="3">离异</option>
                         <option value="4">丧偶</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">图片:<input name="headimg" class="easyui-textbox editimg" data-options="delay:1000,required:true" style="width: 205px" />
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" id="editDocImg" style="width:90px">上传</a>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">所属乡镇:
+                    <select  panelMaxHeight="300px" name="townid" class="easyui-combobox" style="width:300px;"  data-options="multiple:false,required:true,valueField:'id',textField:'name',url:'{:U('Admin/Town/ajaxTownListAll')}'">
+
                     </select>
                 </td>
             </tr>
@@ -638,6 +660,36 @@
 
     var ajaxDocumentListUrl="{:U('Admin/Document/ajaxDocumentList')}";//列表
     var detailUrl="{:U('Admin/Document/detail')}";//列表
+    /**
+     * Created by ZH on 2017/11/28.
+     */
+    KindEditor.ready(function(K){
+        var editor = K.editor({
+            allowFileManager:false
+        });
+        K('#addDocImg').click(function() {
+            editor.loadPlugin('image', function() {
+                editor.plugin.imageDialog({
+                    fileUrl : K('#thumb').val(),
+                    clickFn : function(url, title) {
+                        $('.addimg').textbox("setValue","{:C('GLOBAL_PIC_URL')}"+url);
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+        K('#editDocImg').click(function() {
+            editor.loadPlugin('image', function() {
+                editor.plugin.imageDialog({
+                    fileUrl : K('#thumb').val(),
+                    clickFn : function(url, title) {
+                        $('.editimg').textbox("setValue","{:C('GLOBAL_PIC_URL')}"+url);
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+    });
 </script>
 </body>
 </html>

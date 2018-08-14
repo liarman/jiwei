@@ -1,3 +1,10 @@
+/**
+ * Created by ZH on 2017/11/28.
+ */
+$(document).ready(function(){
+    init();
+});
+
 var url;
 function addDocument(){
     $('#addDocument').dialog('open').dialog('setTitle','添加');
@@ -5,7 +12,6 @@ function addDocument(){
     url=addDocumentUrl;
 }
 function formatDetail(val,rowData,row){
-    console.log(row);
     val="<span class='icon icon-detail' onclick='detail("+rowData['id']+")'></span>";
     return val;
 }
@@ -1015,7 +1021,6 @@ function addChildWeddingSubmit(){
     });
 }
 
-$(document).ready(init);
 function init() {
     $('#documentGrid').datagrid({
        /* url: ajaxorderurl,
