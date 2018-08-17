@@ -15,6 +15,9 @@ class TownController extends AdminBaseController{
         $rows=D('Town')->select();
         $this->ajaxReturn($rows,'JSON');
     }
+    public function townDocList(){
+        $this->display();
+    }
     /**
      * 添加
      */
@@ -60,6 +63,14 @@ class TownController extends AdminBaseController{
         }
         $this->ajaxReturn($message,'JSON');
     }
-
+    public function ajaxDocTreeGrid(){
+        $data=D('Town')->order("sort desc")->select();
+        foreach ($data as $key => $value){
+            $docs=D('Document')->where(array('townid'=>$value['id']))->select();
+            $data[$key]['children']=$docs;
+        }
+        $result["rows"] = $data;
+        $this->ajaxReturn($result,'JSON');
+    }
 
 }
