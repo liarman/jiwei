@@ -64,10 +64,12 @@ class TownController extends AdminBaseController{
         $this->ajaxReturn($message,'JSON');
     }
     public function ajaxDocTreeGrid(){
+
         $data=D('Town')->order("sort desc")->select();
         foreach ($data as $key => $value){
             $docs=D('Document')->where(array('townid'=>$value['id']))->select();
             $data[$key]['children']=$docs;
+            $data[$key]['state']='closed';
         }
         $result["rows"] = $data;
         $this->ajaxReturn($result,'JSON');
