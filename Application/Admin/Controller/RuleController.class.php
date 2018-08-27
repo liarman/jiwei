@@ -341,6 +341,7 @@ class RuleController extends AdminBaseController{
             $Model->startTrans(); // 开启事务
             $user['username']=$data['username'];
             $user['password']=md5($data['password']);
+            $user['datarange']=$data['datarange'];
             $user['status']=$data['status'];
             $user['register_time']=time();
             $result=$Model-> table('qfant_users')->add($user);
@@ -406,6 +407,7 @@ class RuleController extends AdminBaseController{
                 }
                 $user['username']=$data['username'];
                 $user['status']=$data['status'];
+                $user['datarange']=$data['datarange'];
                 $result= $Model-> table('qfant_users')->where(array('id'=>$data['id']))->save($user);
                 $Model->commit();
                     $message['status']=1;

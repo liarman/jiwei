@@ -35,6 +35,7 @@ function addAdminUserSubmit(){
                 $('#addAdminUser').dialog('close');
                 $('#adminUserGrid').datagrid('reload');
             }
+            $('#addAdminUserForm').form("reset");
         }
     });
 }
