@@ -5,7 +5,7 @@ use Think\Db;
 /**
  * 基础model
  */
-class ShipperModel extends Model{
+class DepartmentModel extends Model{
 
     /**
      * 添加数据
