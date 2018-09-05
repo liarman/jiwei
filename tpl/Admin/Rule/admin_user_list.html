@@ -60,8 +60,22 @@
             </tr>
             <tr>
                 <td>用户组:</td>
-                <td><input id="cc" name="groups" value=""  data-options="delay:1000,required:true,multiple:true">
+                <td><input id="cc" name="groups" value=""  data-options="delay:1000,required:true,multiple:false">
                     <input id="group_ids" name="group_ids" value="" type="hidden">
+                </td>
+            </tr>
+            <tr>
+                <td>所属部门:</td>
+                <td>
+                    <select id="userDepartmentAdd" name="department_id" class="easyui-combotree" style="width:200px;" data-options="multiple:false,panelHeight:'auto',url:'{:U('Admin/Department/ajaxDepartmentList')}',required:true">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>数据权限:</td>
+                <td>
+                    <select id="datarangeAdd" name="datarange" class="easyui-combotree" style="width:200px;" data-options="multiple:true,panelHeight:'auto',url:'{:U('Admin/Department/ajaxDepartmentList')}',required:true">
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -83,6 +97,7 @@
 <div id="editAdminUser" class="easyui-dialog" title="编辑" style="width:400px;padding:10px 20px;" closed="true" modal="true">
     <form id="editAdminUserForm" method="post">
         <input type="hidden" name="id" value="">
+        <input type="hidden" name="datarange" value="">
         <table>
             <tr>
                 <td>账号:</td>
@@ -94,8 +109,22 @@
             </tr>
             <tr>
                 <td>用户组:</td>
-                <td><input id="ccd" name="groups" value=""  data-options="delay:1000,required:true,multiple:true">
+                <td><input id="ccd" name="groups" value=""  data-options="delay:1000,required:true,multiple:false">
                     <input id="group_idsd" name="group_ids" value="" type="hidden">
+                </td>
+            </tr>
+            <tr>
+                <td>所属部门:</td>
+                <td>
+                    <select id="userDepartmentEdit" name="department_id" class="easyui-combotree" style="width:200px;" data-options="multiple:false,panelHeight:'auto',url:'{:U('Admin/Department/ajaxDepartmentList')}',required:true">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>数据权限:</td>
+                <td>
+                    <select id="datarangeEdit" class="easyui-combotree" style="width:200px;" data-options="multiple:true,panelHeight:'auto',url:'{:U('Admin/Department/ajaxDepartmentList')}',required:true">
+                    </select>
                 </td>
             </tr>
             <tr>

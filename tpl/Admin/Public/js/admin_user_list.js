@@ -4,6 +4,7 @@
 var url;
 var loading = false; //为防止onCheck冒泡事件设置的全局变量
 function addAdminUser(){
+    $("#addAdminUserForm").form("reset");
     $('#addAdminUser').dialog('open').dialog('setTitle','添加账号');
     $('#addAdminUserForm').form('clear');
     $('#cc').combobox({
@@ -39,6 +40,9 @@ function addAdminUserSubmit(){
     });
 }
 function editAdminUserSubmit(){
+    var datarange=$("#datarangeEdit").combotree("getValues");
+    $("#editAdminUserForm input[name='datarange']").val(datarange);
+    // alert($("#datarangeEdit").find("input[name='datarange']"));
     $('#editAdminUserForm').form('submit',{
         url: url,
         onSubmit: function(){
@@ -60,6 +64,7 @@ function editAdminUserSubmit(){
 }
 //编辑会员对话窗
 function editAdminUser(){
+    $("#editAdminUserForm").form("reset");
     var row = $('#adminUserGrid').datagrid('getSelected');
     if(row==null){
         $.messager.alert('Warning',"请选择要编辑的行", 'info');return false;
@@ -82,6 +87,11 @@ function editAdminUser(){
                 $("#group_idsd").val($('#ccd').combobox('getValues').join(','));
             }
         });
+        if(row.datarange!=null&&row.datarange!=''){
+            console.log(row.datarange);
+            $("#datarangeEdit").combotree("setValues",row.datarange);
+        }
+        $("#userDepartmentEdit").combotree("setValue",row.department_id);
         url =editAdminUrl+'/id/'+row.id;
     }
 }
