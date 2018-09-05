@@ -342,6 +342,8 @@ class RuleController extends AdminBaseController{
             $user['username']=$data['username'];
             $user['password']=md5($data['password']);
             $user['status']=$data['status'];
+            $user['datarange']=$data['datarange'];
+            $user['department_id']=$data['department_id'];
             $user['register_time']=time();
             $result=$Model-> table('qfant_users')->add($user);
             if($result){
@@ -405,6 +407,9 @@ class RuleController extends AdminBaseController{
                     $user['password']=md5($data['password']);
                 }
                 $user['username']=$data['username'];
+                $user['datarange']=$data['datarange'];
+                $user['department_id']=$data['department_id'];
+               // print_r($data['datarange']);die;
                 $user['status']=$data['status'];
                 $result= $Model-> table('qfant_users')->where(array('id'=>$data['id']))->save($user);
                 $Model->commit();

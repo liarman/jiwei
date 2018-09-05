@@ -14,45 +14,32 @@ class DepartmentController extends AdminBaseController{
         $this->display();
     }
     public function ajaxDepartmentList(){
-        $data=D("Department")->getTreeData();
+        $data=D("Department")->getTreeData("tree",null,'name','text');
         $result["rows"] = $data;
         $result["total"] = D("Department")->count();
         $result['status']=1;
         $result['message']='获取成功';
-        $this->ajaxReturn($result,'JSON');
+        $this->ajaxReturn($data,'JSON');
     }
     /**
      * 添加权限
      */
     public function add(){
         $data=I('post.');
-        unset($data['id']);
-        $result=D('AuthRule')->addData($data);
-        if($result){
-            $message['status']=1;
-            $message['message']='添加成功';
-        }else {
-            $message['status']=0;
-            $message['message']='添加失败';
-        }
-        $this->ajaxReturn($message,'JSON');
-    }
-
-    /**
-     * 修改权限
-     */
-    public function edit(){
-        $data=I('post.');
         $map=array(
             'id'=>$data['id']
-            );
-        $result=D('AuthRule')->editData($map,$data);
+        );
+        if($data['id']){
+            $result=D('Department')->editData($map,$data);
+        }else {
+            $result=D('Department')->addData($data);
+        }
         if($result){
             $message['status']=1;
-            $message['message']='修改成功';
+            $message['message']='保存成功';
         }else {
             $message['status']=0;
-            $message['message']='修改失败';
+            $message['message']='保存失败';
         }
         $this->ajaxReturn($message,'JSON');
     }
@@ -61,8 +48,10 @@ class DepartmentController extends AdminBaseController{
      */
     public function get(){
         $id=I('get.id');
-        $rule=D('AuthRule')->where(array('id'=>$id))->find();
-        $this->ajaxReturn($rule,'JSON');
+        $department=D('Department')->where(array('id'=>$id))->find();
+        $parent=D('Department')->where(array('id'=>$department['pid']))->find();
+        $department['pname']=$parent['name'];
+        $this->ajaxReturn($department,'JSON');
     }
     /**
      * 删除权限
@@ -72,15 +61,20 @@ class DepartmentController extends AdminBaseController{
         $map=array(
             'id'=>$id
             );
-        $result=D('AuthRule')->deleteData($map);
-        if($result){
-            $message['status']=1;
-            $message['message']='删除成功';
-        }else {
+        $children=D('Department')->where(array('pid'=>$id))->select();
+        if($children){
             $message['status']=0;
-            $message['message']='删除失败';
+            $message['message']='删除失败，请先删除子部门';
+        }else {
+            $result=D('Department')->deleteData($map);
+            if($result){
+                $message['status']=1;
+                $message['message']='删除成功';
+            }else {
+                $message['status']=0;
+                $message['message']='删除失败';
+            }
         }
         $this->ajaxReturn($message,'JSON');
-
     }
 }

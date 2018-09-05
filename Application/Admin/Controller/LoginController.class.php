@@ -31,6 +31,8 @@ class LoginController extends BaseController{
 				$_SESSION['user']=array(
 					'id'=>$data['id'],
 					'username'=>$data['username'],
+					'datarange'=>$data['datarange'],
+					'department_id'=>$data['department_id'],
 					'avatar'=>$data['avatar']
 				);
 				$loginrecord['userid']=$data['id'];

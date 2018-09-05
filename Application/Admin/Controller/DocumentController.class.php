@@ -8,6 +8,19 @@ class DocumentController extends AdminBaseController{
     public function ajaxDocumentList(){
         $userid=$_SESSION['user']['id'];
         $data['userid']=$userid;
+        $departs='';
+        if($_SESSION['user']['department_id']){
+            $departs=D('Department')->query("select queryDepartments(".$_SESSION['user']['department_id'].')')[0];
+        }
+
+        if($_SESSION['user']['datarange'] && $departs){
+            $departs=$_SESSION['user']['datarange'].','.$departs;
+        }elseif($_SESSION['user']['datarange'] && empty($departs)){
+            $departs=$_SESSION['user']['datarange'];
+        }
+
+        //print_r(session('user.data'));
+//        print_r($_SESSION['user']);die;
         $goodsname=I("post.goodsname");
         $receivername=I("post.receivername");
         $shipper=I("post.shipper");
@@ -15,7 +28,12 @@ class DocumentController extends AdminBaseController{
         $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
         $offset = ($page-1)*$rows;
         $countsql = "SELECT	 count(o.id) AS total FROM	qfant_document o WHERE	1 = 1 and o.userid=".$userid;
-        $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_town t on o.townid=t.id where 1=1 and o.userid=".$userid;
+        if($departs){
+            $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_department t on o.department_id=t.id where 1=1 and (o.userid=".$userid." or o.department_id in (".$departs.")) ";
+        }else{
+            $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_department t on o.department_id=t.id where 1=1 and o.userid=".$userid;
+        }
+
         $param=array();
         if(!empty($goodsname)){
             $countsql.=" and o.goodsname like '%s'";
