@@ -68,6 +68,7 @@ function editDocument(){
         $('#editDocument').dialog('open').dialog('setTitle','编辑');
 
         $('#editDocumentForm').form('load',row);
+        $("#docDepartmentEdit").combotree("setValue",row.department_id);
           url =editDocumentUrl+'/id/'+row.id;
     }
 }

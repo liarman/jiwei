@@ -40,7 +40,7 @@
         <th field="position" width="80" >现任职务</th>
         <th field="wedding" width="80" formatter="weddingStatus">婚姻状况</th>
         <th field="address" width="100" >家庭住址</th>
-        <th field="tname" width="100">所属乡镇</th>
+        <th field="tname" width="100">所属部门</th>
         <th field="detail" width="50" formatter="formatDetail">详情</th>
     </tr>
     </thead>
@@ -115,8 +115,8 @@
                 </td>
             </tr>
             <tr>
-                <td align="right">所属乡镇:
-                    <select  panelMaxHeight="300px" name="townid" class="easyui-combobox" style="width:300px;" data-options="multiple:false,required:true,valueField:'id',textField:'name',url:'{:U('Admin/Town/ajaxTownListAll')}'">
+                <td align="right">所属部门:
+                    <select  panelMaxHeight="300px" name="department_id" class="easyui-combotree" style="width:300px;" data-options="multiple:false,required:true,valueField:'id',textField:'name',url:'{:U('Admin/Department/ajaxDepartmentList')}'">
                     </select>
                 </td>
             </tr>
@@ -213,8 +213,8 @@
                 </td>
             </tr>
             <tr>
-                <td align="right">所属乡镇:
-                    <select  panelMaxHeight="300px" name="townid" class="easyui-combobox" style="width:300px;"  data-options="multiple:false,required:true,valueField:'id',textField:'name',url:'{:U('Admin/Town/ajaxTownListAll')}'">
+                <td align="right">所属部门:
+                    <select id="docDepartmentEdit"  panelMaxHeight="300px" name="department_id" class="easyui-combotree" style="width:300px;"  data-options="multiple:false,required:true,valueField:'id',textField:'name',url:'{:U('Admin/Department/ajaxDepartmentList')}'">
 
                     </select>
                 </td>
