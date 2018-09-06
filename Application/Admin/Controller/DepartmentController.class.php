@@ -14,7 +14,12 @@ class DepartmentController extends AdminBaseController{
         $this->display();
     }
     public function ajaxDepartmentList(){
-        $data=D("Department")->getTreeData("tree",null,'name','text');
+        if($_SESSION['user']['department_id']){
+            $data=D("Department")->query("SELECT * from qfant_department where FIND_IN_SET (id ,queryDepartments(".$_SESSION['user']['department_id']."))");
+        }else {
+            $data=D("Department")->query("SELECT * from qfant_department where FIND_IN_SET (id ,queryDepartments(1))");
+        }
+        $data=D("Department")->getTreeData($data,'name','text');
         $result["rows"] = $data;
         $result["total"] = D("Department")->count();
         $result['status']=1;

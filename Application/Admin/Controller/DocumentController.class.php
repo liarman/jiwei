@@ -10,11 +10,10 @@ class DocumentController extends AdminBaseController{
         $data['userid']=$userid;
         $departs='';
         if($_SESSION['user']['department_id']){
-            $departs=D('Department')->query("select queryDepartments(".$_SESSION['user']['department_id'].')')[0];
+            $departs=D('Department')->query("select queryDepartments(".$_SESSION['user']['department_id'].') as departs');
         }
-
         if($_SESSION['user']['datarange'] && $departs){
-            $departs=$_SESSION['user']['datarange'].','.$departs;
+            $departs=$_SESSION['user']['datarange'].','.$departs[0]['departs'];
         }elseif($_SESSION['user']['datarange'] && empty($departs)){
             $departs=$_SESSION['user']['datarange'];
         }
@@ -27,37 +26,39 @@ class DocumentController extends AdminBaseController{
         $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
         $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
         $offset = ($page-1)*$rows;
-        $countsql = "SELECT	 count(o.id) AS total FROM	qfant_document o WHERE	1 = 1 and o.userid=".$userid;
         if($departs){
-            $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_department t on o.department_id=t.id where 1=1 and (o.userid=".$userid." or o.department_id in (".$departs.")) ";
+            $countsql = "SELECT	 count(o.id) AS total FROM	qfant_document o WHERE	1 = 1 and o.department_id in (".$departs.") ";
+            $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_department t on o.department_id=t.id where 1=1 and o.department_id in (".$departs.") ";
+            $param=array();
+            if(!empty($goodsname)){
+                $countsql.=" and o.goodsname like '%s'";
+                $sql.=" and o.goodsname like '%s'";
+                array_push($param,'%'.$goodsname.'%');
+            }
+            if(!empty($receivername)){
+                $countsql.=" and o.receivername like '%s'";
+                $sql.=" and o.receivername like '%s'";
+                array_push($param,'%'.$receivername.'%');
+            }
+            if(!empty($shipper)){
+                $countsql.=" and o.shipper like '%s'";
+                $sql.=" and o.shipper like '%s'";
+                array_push($param,'%'.$shipper.'%');
+            }
+            $sql.=" order by o.createtime desc limit %d,%d ";
+            array_push($param,$offset);
+            array_push($param,$rows);
+            $data=D('Document')->query($countsql,$param);
+            $result['total']=$data[0]['total'];
+            $data=D('Document')->query($sql,$param);
+            $result["rows"] = $data;
+            $result["status"] = 1;
         }else{
-            $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_department t on o.department_id=t.id where 1=1 and o.userid=".$userid;
+            $result['total']=0;
+            $result["rows"] = array();
+            $result["status"] = 1;
+            $this->ajaxReturn($result,'JSON');
         }
-
-        $param=array();
-        if(!empty($goodsname)){
-            $countsql.=" and o.goodsname like '%s'";
-            $sql.=" and o.goodsname like '%s'";
-            array_push($param,'%'.$goodsname.'%');
-        }
-        if(!empty($receivername)){
-            $countsql.=" and o.receivername like '%s'";
-            $sql.=" and o.receivername like '%s'";
-            array_push($param,'%'.$receivername.'%');
-        }
-        if(!empty($shipper)){
-            $countsql.=" and o.shipper like '%s'";
-            $sql.=" and o.shipper like '%s'";
-            array_push($param,'%'.$shipper.'%');
-        }
-        $sql.=" order by o.createtime desc limit %d,%d ";
-        array_push($param,$offset);
-        array_push($param,$rows);
-        $data=D('Document')->query($countsql,$param);
-        $result['total']=$data[0]['total'];
-        $data=D('Document')->query($sql,$param);
-        $result["rows"] = $data;
-        $result["status"] = 1;
         $this->ajaxReturn($result,'JSON');
 
     }
