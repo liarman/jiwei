@@ -70,19 +70,8 @@ class DepartmentModel extends Model{
      * @param  string $order 排序方式   
      * @return array         结构数据
      */
-    public function getTreeData($type='tree',$order='',$name='name',$child='id',$parent='pid'){
-        // 判断是否需要排序
-        if(empty($order)){
-            $data=$this->select();
-        }else{
-            $data=$this->order($order)->select();
-        }
-        // 获取树形或者结构数据
-        if($type=='tree'){
-            $data=\Org\Nx\Data::tree($data,$name,$child,$parent);
-        }elseif($type="level"){
-            $data=\Org\Nx\Data::channelLevel($data,0,'&nbsp;',$child);
-        }
+    public function getTreeData($data='',$name='',$child=''){
+        $data=\Org\Nx\Data::tree2($data,0,$name,$child);
         return $data;
     }
 
