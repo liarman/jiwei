@@ -88,7 +88,7 @@ function editAdminUser(){
             }
         });
         if(row.datarange!=null&&row.datarange!=''){
-            console.log(row.datarange);
+            //console.log(row.datarange);
             $("#datarangeEdit").combotree("setValues",row.datarange);
         }
         $("#userDepartmentEdit").combotree("setValue",row.department_id);
