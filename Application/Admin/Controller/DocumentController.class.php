@@ -22,6 +22,8 @@ class DocumentController extends AdminBaseController{
 //        print_r($_SESSION['user']);die;
         $goodsname=I("post.goodsname");
         $receivername=I("post.receivername");
+        $name=I("post.name");
+        $tname=I("post.tname");
         $shipper=I("post.shipper");
         $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
         $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
@@ -44,6 +46,16 @@ class DocumentController extends AdminBaseController{
                 $countsql.=" and o.shipper like '%s'";
                 $sql.=" and o.shipper like '%s'";
                 array_push($param,'%'.$shipper.'%');
+            }
+            if(!empty($name)){
+                $countsql.=" and o.name like '%s'";
+                $sql.=" and o.name like '%s'";
+                array_push($param,'%'.$name.'%');
+            }
+            if(!empty($tname)){
+                //$countsql.=" and t.name like '%s'";
+                $sql.=" and t.id like '%s'";
+                array_push($param,'%'.$tname.'%');
             }
             $sql.=" order by o.createtime desc limit %d,%d ";
             array_push($param,$offset);
