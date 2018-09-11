@@ -51,6 +51,9 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-remove" plain="true" onclick="destroyDocument()">删除</a>
     姓名:
     <input class="easyui-textbox" style="width:110px" name="name">
+    部门:
+    <!--<input class="easyui-textbox" style="width:110px" name="tname">-->
+    <select class="easyui-combotree" style="width:110px" name="tname" data-options="multiple:false,panelHeight:'auto',valueField:'id',textField:'name',url:'{:U('Admin/Department/ajaxDepartmentList')}'"></select>
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="doSearch()" iconCls="icon-search">搜索</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-home" plain="true" onclick="familyList()">家庭成员及重要社会关系</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-circle-o-notch" plain="true" onclick="familyPunishList()">近亲属被追究刑事责任</a>
