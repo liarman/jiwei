@@ -76,6 +76,7 @@ function editDocument(){
 }
 
 function destroyDocument(){
+
     var row = $('#documentGrid').datagrid('getSelected');
     if(row==null){
         $.messager.alert('Warning',"请选择要删除的行", 'info');return false;
