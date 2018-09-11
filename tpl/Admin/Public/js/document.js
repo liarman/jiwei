@@ -15,9 +15,11 @@ function formatDetail(val,rowData,row){
     val="<span class='icon icon-detail' onclick='detail("+rowData['id']+")'></span>";
     return val;
 }
+
 function detail (id){
     window.open(detailUrl+"/id/"+id);
 }
+
 function addDocumentSubmit(){
     $('#addDocumentForm').form('submit',{
         url: url,
@@ -99,7 +101,8 @@ function destroyDocument(){
 
 function doSearch(){
     $('#documentGrid').datagrid('load',{
-        name: $("input[name='name']").val()
+        name: $("input[name='name']").val(),
+        tname: $("input[name='tname']").val()
     });
 }
 function weddingStatus(val,rowData,row){
