@@ -138,7 +138,7 @@
 
 <div id="editInfo" class="easyui-dialog" title="修改信息" style="width:460px;height:300px;" closed="true" modal="true" >
     <form id="editInfoForm" method="post">
-        <input type="hidden" name="id" value="">
+        <input type="hidden" name="id" value="{$_SESSION['user']['id']}">
         <div style="margin-bottom:20px">
             <input class="easyui-textbox" id="username"name="name" style="width:80%" data-options="label:'登录账号:'" value=" {$_SESSION['user']['username']}" disabled="true" >
 
