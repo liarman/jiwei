@@ -29,6 +29,7 @@ final class Data
                 $arr[$v[$fieldPri]]['_level'] = $level;
                 $arr[$v[$fieldPri]]['_html'] = str_repeat($html, $level - 1);
                 $arr[$v[$fieldPri]]["_data"] = self::channelLevel($data, $v[$fieldPri], $html, $fieldPri, $fieldPid, $level + 1);
+                $arr[$v[$fieldPri]]["children"] = self::channelLevel($data, $v[$fieldPri], $html, $fieldPri, $fieldPid, $level + 1);
             }
         }
         return $arr;
@@ -161,16 +162,24 @@ final class Data
      * @param Int $count       //第几级分类
      * @return Array $treeList
      */
-    static public function tree2(&$data,$pid = 0) {
+    static public function tree2(&$data,$pid = 0,$name,$alias) {
         $treeList = array();
         foreach ($data as $key => $value){
+            if($value['id']==$pid){
+                $value[$alias]=$value[$name];
+                $root[0]=$value;
+            }
             if($value['pid']==$pid){
-                $value['children'] = self::tree2($data,$value['id']);
+                $value['children'] = self::tree2($data,$value['id'],$name,$alias);
+                if($name && $alias){
+                    $value[$alias]=$value[$name];
+                }
                 $treeList []=$value;
                // unset($data[$key]);
             }
         }
-        return $treeList;
+        $root[0]['children']=$treeList;
+        return $root;
     }
     /**
      * 判断$s_cid是否是$d_cid的子栏目
