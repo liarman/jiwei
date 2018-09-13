@@ -165,21 +165,16 @@ final class Data
     static public function tree2(&$data,$pid = 0,$name,$alias) {
         $treeList = array();
         foreach ($data as $key => $value){
-            if($value['id']==$pid){
-                $value[$alias]=$value[$name];
-                $root[0]=$value;
-            }
             if($value['pid']==$pid){
                 $value['children'] = self::tree2($data,$value['id'],$name,$alias);
                 if($name && $alias){
                     $value[$alias]=$value[$name];
                 }
                 $treeList []=$value;
-               // unset($data[$key]);
+                // unset($data[$key]);
             }
         }
-        $root[0]['children']=$treeList;
-        return $root;
+        return $treeList;
     }
     /**
      * 判断$s_cid是否是$d_cid的子栏目
