@@ -14,6 +14,7 @@ class DepartmentController extends AdminBaseController{
         $this->display();
     }
     public function ajaxDepartmentList(){
+        $tree=array();
         if($_SESSION['user']['department_id']){
             $data=D("Department")->query("SELECT * from qfant_department where FIND_IN_SET (id ,queryDepartments(".$_SESSION['user']['department_id']."))");
             $pid=$_SESSION['user']['department_id'];
@@ -21,13 +22,11 @@ class DepartmentController extends AdminBaseController{
             $data=D("Department")->query("SELECT * from qfant_department where FIND_IN_SET (id ,queryDepartments(1))");
             $pid=1;
         }
-        $data=D("Department")->getTreeData($data,$pid,'name','text');
-
-        $result["rows"] = $data;
-        $result["total"] = D("Department")->count();
-        $result['status']=1;
-        $result['message']='获取成功';
-        $this->ajaxReturn($data,'JSON');
+        $data=D("Department")->getTreeData($data,$pid,'name','text',$pid);
+        $root=D("Department")->where(array('id'=>$pid))->field('id,name as text,pid,sort')->find();
+        $tree[0]=$root;
+        $tree[0]['children']=$data;
+        $this->ajaxReturn($tree,'JSON');
     }
     /**
      * 添加权限
