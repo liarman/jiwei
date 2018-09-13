@@ -38,8 +38,17 @@
         <td colspan="2">{$doc.position}</td>
     </tr>
     <tr>
-        <td colspan="2">婚姻状况</td>
-        <td colspan="2">
+        <td>人员身份</td>
+        <td>
+            <switch name="doc.shenfen">
+                <case value="1">行政</case>
+                <case value="2">参公</case>
+                <case value="3">事业</case>
+                <case value="4">其他</case>
+            </switch>
+        </td>
+        <td>婚姻状况</td>
+        <td>
             <switch name="doc.wedding">
                 <case value="1">未婚</case>
                 <case value="2">已婚</case>
