@@ -39,6 +39,7 @@
         <th field="work_depart" width="250" >工作单位</th>
         <th field="position" width="80" >现任职务</th>
         <th field="wedding" width="80" formatter="weddingStatus">婚姻状况</th>
+        <th field="shenfen" width="80" formatter="shenfenStatus">人员身份</th>
         <th field="address" width="100" >家庭住址</th>
         <th field="tname" width="100">所属部门</th>
         <th field="detail" width="50" formatter="formatDetail">详情</th>
@@ -53,7 +54,7 @@
     <input class="easyui-textbox" style="width:110px" name="name">
     部门:
     <!--<input class="easyui-textbox" style="width:110px" name="tname">-->
-    <select class="easyui-combotree" style="width:110px" name="tname" data-options="multiple:false,panelHeight:'auto',valueField:'id',textField:'name',url:'{:U('Admin/Department/ajaxDepartmentList')}'"></select>
+    <select class="easyui-combotree" style="width:250px"  panelMaxHeight="300px"  name="tname" data-options="multiple:false,valueField:'id',textField:'name',url:'{:U('Admin/Department/ajaxDepartmentList')}'"></select>
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="doSearch()" iconCls="icon-search">搜索</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-home" plain="true" onclick="familyList()">家庭成员及重要社会关系</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-circle-o-notch" plain="true" onclick="familyPunishList()">近亲属被追究刑事责任</a>
@@ -68,7 +69,7 @@
 
 </div>
 <!--添加-->
-<div id="addDocument" class="easyui-dialog" title="添加" style="width:700px;height:700px;padding: 20px" closed="true" modal="true">
+<div id="addDocument" class="easyui-dialog" title="添加" style="width:700px;height:500px;padding: 20px" closed="true" modal="true">
     <form id="addDocumentForm" method="post">
         <table>
             <tr>
@@ -97,11 +98,21 @@
                 <td   align="right">工作时间: <input name="work_date" class="easyui-datebox" style="width:300px"  data-options="delay:1000,required:true "/></td>
             </tr>
             <tr>
-                <td  align="right">工作单位:<input name="work_depart" class="easyui-numberbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
+                <td  align="right">工作单位:<input name="work_depart" class="easyui-textbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
             </tr>
             <tr>
-                <td align="right">现任职务:<input name="position" class="easyui-numberbox"style="width: 300px"   data-options="delay:1000,required:true " /></td>
+                <td align="right">现任职务:<input name="position" class="easyui-textbox"style="width: 300px"   data-options="delay:1000,required:true " /></td>
             </tr>
+            <tr>
+                <td align="right">人员身份:
+                    <select  panelMaxHeight="100px" name="shenfen" class="easyui-combobox" style="width:300px" data-options="delay:1000,multiple:false">
+                        <option value="1">行政</option>
+                        <option value="2">参公</option>
+                        <option value="3">事业</option>
+                        <option value="4">其他</option>
+                    </select>
+                </td>
+
             <tr>
                 <td align="right">婚姻状况:
                     <select  panelMaxHeight="100px" name="wedding" class="easyui-combobox" style="width:300px" data-options="delay:1000,multiple:false">
@@ -124,7 +135,7 @@
                 </td>
             </tr>
             <tr>
-                <td align="right">家庭住址: <input name="address" class="easyui-numberbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
+                <td align="right">家庭住址: <input name="address" class="easyui-textbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
             </tr>
             <tr>
                 <td align="right">全日制教育: <input name="fulltime_edu" class="easyui-textbox" style="width: 300px"  data-options="delay:1000" /></td>
@@ -165,7 +176,7 @@
 </div>
 
 <!--编辑-->
-<div id="editDocument" class="easyui-dialog" title="编辑" style="width:700px;height:700px;padding:20px;"  closed="true" modal="true">
+<div id="editDocument" class="easyui-dialog" title="编辑" style="width:700px;height:500px;padding:20px;"  closed="true" modal="true">
     <form id="editDocumentForm" method="post" >
         <input type="hidden" name="id" value="">
         <table>
@@ -195,10 +206,20 @@
                 <td   align="right">工作时间: <input name="work_date" class="easyui-datebox" style="width:300px"  data-options="delay:1000,required:true "/></td>
             </tr>
             <tr>
-                <td  align="right">工作单位:<input name="work_depart" class="easyui-numberbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
+                <td  align="right">工作单位:<input name="work_depart" class="easyui-textbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
             </tr>
             <tr>
-                <td align="right">现任职务:<input name="position" class="easyui-numberbox"style="width: 300px"   data-options="delay:1000,required:true " /></td>
+                <td align="right">现任职务:<input name="position" class="easyui-textbox"style="width: 300px"   data-options="delay:1000,required:true " /></td>
+            </tr>
+            <tr>
+                <td align="right">人员身份:
+                    <select  panelMaxHeight="100px" name="shenfen" class="easyui-combobox" style="width:300px" data-options="delay:1000,multiple:false">
+                        <option value="1">行政</option>
+                        <option value="2">参公</option>
+                        <option value="3">事业</option>
+                        <option value="4">其他</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td align="right">婚姻状况:
@@ -223,7 +244,7 @@
                 </td>
             </tr>
             <tr>
-                <td align="right">家庭住址: <input name="address" class="easyui-numberbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
+                <td align="right">家庭住址: <input name="address" class="easyui-textbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
             </tr>
             <tr>
                 <td align="right">全日制教育: <input name="fulltime_edu" class="easyui-textbox" style="width: 300px"  data-options="delay:1000" /></td>

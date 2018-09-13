@@ -70,8 +70,8 @@ class DepartmentModel extends Model{
      * @param  string $order 排序方式   
      * @return array         结构数据
      */
-    public function getTreeData($data='',$name='',$child=''){
-        $data=\Org\Nx\Data::tree2($data,0,$name,$child);
+    public function getTreeData($data='',$pid=0,$name='',$child=''){
+        $data=\Org\Nx\Data::tree2($data,$pid,$name,$child);
         return $data;
     }
 

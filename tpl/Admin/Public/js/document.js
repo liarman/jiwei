@@ -118,6 +118,18 @@ function weddingStatus(val,rowData,row){
     }
     return val;
 }
+function shenfenStatus(val,rowData,row){
+    if(val==1){
+        val="行政";
+    }else if(val==2){
+        val="参公";
+    }else if (val==3){
+        val="事业";
+    }else{
+        val="其他";
+    }
+    return val;
+}
 //编辑会员对话窗
 /**家庭成员列表**/
 function familyList(){

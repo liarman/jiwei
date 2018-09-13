@@ -34,8 +34,7 @@ class UserController extends AdminBaseController{
 			$message['status']=0;
 			$message['message']='两次密码输入不一样';
 		}else {
-			$user=D('Users')->where(array('id'=>$id))->find();
-			$password=md5($password.$user['salt']);
+			$password=md5($password);
 			$result=D('Users')->where(array('id'=>$id))->save(array('password'=>$password));
 			if($result){
 				$message['status']=1;
@@ -45,6 +44,7 @@ class UserController extends AdminBaseController{
 				$message['message']='修改密码失败';
 			}
 		}
+        $this->ajaxReturn($message,'JSON');
 	}
 
 
