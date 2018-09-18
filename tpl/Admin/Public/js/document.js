@@ -103,7 +103,7 @@ function destroyDocument(){
 function doSearch(){
     $('#documentGrid').datagrid('load',{
         name: $("input[name='name']").val(),
-        tname: $("input[name='tname']").val()
+        tname: $("#document_search_depart").combotree("getValue")
     });
 }
 function weddingStatus(val,rowData,row){
