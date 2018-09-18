@@ -28,34 +28,20 @@ class DocumentController extends AdminBaseController{
         $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
         $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
         $offset = ($page-1)*$rows;
+        //print_r($departs);die;
         if($departs){
             $countsql = "SELECT	 count(o.id) AS total FROM	qfant_document o WHERE	1 = 1 and o.department_id in (".$departs.") ";
             $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_department t on o.department_id=t.id where 1=1 and o.department_id in (".$departs.") ";
             $param=array();
-            if(!empty($goodsname)){
-                $countsql.=" and o.goodsname like '%s'";
-                $sql.=" and o.goodsname like '%s'";
-                array_push($param,'%'.$goodsname.'%');
-            }
-            if(!empty($receivername)){
-                $countsql.=" and o.receivername like '%s'";
-                $sql.=" and o.receivername like '%s'";
-                array_push($param,'%'.$receivername.'%');
-            }
-            if(!empty($shipper)){
-                $countsql.=" and o.shipper like '%s'";
-                $sql.=" and o.shipper like '%s'";
-                array_push($param,'%'.$shipper.'%');
-            }
             if(!empty($name)){
                 $countsql.=" and o.name like '%s'";
                 $sql.=" and o.name like '%s'";
                 array_push($param,'%'.$name.'%');
             }
             if(!empty($tname)){
-                //$countsql.=" and t.name like '%s'";
-                $sql.=" and t.id like '%s'";
-                array_push($param,'%'.$tname.'%');
+                $countsql.=" and o.department_id = %d ";
+                $sql.=" and o.department_id = %d ";
+                array_push($param,$tname);
             }
             $sql.=" order by o.createtime desc limit %d,%d ";
             array_push($param,$offset);
