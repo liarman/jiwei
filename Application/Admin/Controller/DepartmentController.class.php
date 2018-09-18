@@ -23,7 +23,7 @@ class DepartmentController extends AdminBaseController{
             $pid=1;
         }
         $data=D("Department")->getTreeData($data,$pid,'name','text',$pid);
-        $root=D("Department")->where(array('id'=>$pid))->field('id,name as text,pid,sort')->find();
+        $root=D("Department")->where(array('id'=>$pid))->field('id,name,pid,sort')->find();
         $tree[0]=$root;
         $tree[0]['children']=$data;
         $this->ajaxReturn($tree,'JSON');
