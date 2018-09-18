@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>管理后台</title>
+    <script src="__EASYUI__/jquery.min.js"></script>
+    <script src="__EASYUI__/jquery.easyui.min.js"></script>
+    <script src="__EASYUI__/ajaxSetup.js"></script>
+    <script src="__EASYUI__/locale/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" href="__EASYUI__/super/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__EASYUI__/super/superRed.css" id="themeCss">
+    <script src="__EASYUI__/super/super.js"></script>
+    <script src="__ADMIN_JS__/index.js" type="text/javascript" charset="utf-8"></script>
+
+    <link href="__PUBLIC__/statics/css/admin.css" rel="stylesheet" />
+    <script src="__EASYUI__/common.js"></script>
+    <script src="__EASYUI__/formatter.js"></script>
+    <script src="__EASYUI__/extend/validate.js"></script>
+    <script src="__KINDEDITOR__/kindeditor-all.js"></script>
+    <script src="__KINDEDITOR__/lang/zh-CN.js"></script>
+
+</head>
+<body style="padding: 0">
+<div id='Loading'><image src='__PUBLIC_IMAGES__/loading.gif'/>加载中....</div>
+<script src="__ADMIN_JS__/department.js" type="text/javascript" charset="utf-8"></script>
+<table id="departmentGrid" class="easyui-treegrid" url="{:U('Admin/Department/ajaxDepartmentList')}" idField="id" treeField="name" toolbar="#toolbar_rule">
+    <thead>
+    <tr>
+        <th field="name" width="200" >部门名称</th>
+        <th field="sort" width="400">排序</th>
+        <th field="action" width="200" align="center" formatter="formatAction">操作</th>
+    </tr>
+    </thead>
+</table>
+<div id="toolbar_rule">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="add(0)">添加</a>
+</div>
+<!-- 添加 -->
+<div id="addDepartment" class="easyui-dialog" title="添加部门" style="width:400px;padding:10px 20px;" closed="true" modal="true">
+    <form id="departmentForm" method="post">
+        <input type="hidden" name="id" id="departmentId">
+        <table>
+            <tr>
+                <td>上级:</td>
+                <td><lablel class="parent"></lablel><input type="hidden" name="pid" value="0" id="departmentPid"></td>
+            </tr>
+            <tr>
+                <td>名称:</td>
+                <td><input name="name" class="easyui-textbox" data-options="delay:1000,required:true,height:30" id="departmentName"/></td>
+            </tr>
+            <tr>
+                <td>排序:</td>
+                <td>
+                    <input name="sort" class="easyui-numberbox" data-options="delay:1000,required:true,height:30" id="departmentSort" />
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addDepartmentSubmit()" style="width:90px">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addDepartment').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+<script type="text/javascript">
+    var addDepartmentUrl="{:U('Admin/Department/add')}";
+    var deleteDepartmentUrl="{:U('Admin/Department/delete')}";
+    var getDepartmentUrl = "{:U('Admin/Department/get')}";
+</script>
+</body>
+</html>
