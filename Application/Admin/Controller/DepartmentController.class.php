@@ -27,14 +27,6 @@ class DepartmentController extends AdminBaseController{
         $tree[0]['children']=$data;
         $this->ajaxReturn($tree,'JSON');
     }
-
-    /*public function DepartmentList(){
-        $tree=array();
-        if($_SESSION['user']['department_id']){
-            $data=D("")
-        }
-    }*/
-
     /**
      * 添加权限
      */
