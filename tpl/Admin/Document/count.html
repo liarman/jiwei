@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>管理后台</title>
+	<script src="__EASYUI__/jquery.min.js"></script>
+	<script src="__EASYUI__/jquery.easyui.min.js"></script>
+	<script src="__EASYUI__/ajaxSetup.js"></script>
+	<script src="__EASYUI__/locale/easyui-lang-zh_CN.js"></script>
+	<link rel="stylesheet" href="__EASYUI__/super/css/font-awesome.min.css">
+	<link rel="stylesheet" href="__EASYUI__/super/superRed.css" id="themeCss">
+	<script src="__EASYUI__/super/super.js"></script>
+	<script src="__ADMIN_JS__/index.js" type="text/javascript" charset="utf-8"></script>
+
+	<link href="__PUBLIC__/statics/css/admin.css" rel="stylesheet" />
+	<script src="__EASYUI__/common.js"></script>
+	<script src="__EASYUI__/formatter.js"></script>
+	<script src="__EASYUI__/extend/validate.js"></script>
+	<script src="__KINDEDITOR__/kindeditor-all.js"></script>
+	<script src="__KINDEDITOR__/lang/zh-CN.js"></script>
+	<script type="text/javascript">
+		var addDepartmentUrl="{:U('Admin/Department/add')}";
+		var deleteDepartmentUrl="{:U('Admin/Department/delete')}";
+		var getDepartmentUrl = "{:U('Admin/Department/get')}";
+	</script>
+</head>
+<body class="easyui-layout">
+<div id='Loading'><image src='__PUBLIC_IMAGES__/loading.gif'/>加载中....</div>
+<script src="__ADMIN_JS__/department.js" type="text/javascript" charset="utf-8"></script>
+<script src="__ADMIN_JS__/document.js" type="text/javascript" charset="utf-8"></script>
+<script src="__ADMIN_JS__/count.js" type="text/javascript" charset="utf-8"></script>
+<div region="west" style="width: 300px;height: 387px">
+	<ul id="tt" class="easyui-tree" url="{:U('Admin/Department/ajaxDepartmentList')}"></ul>
+</div>
+<div region="center">
+	<table id="documentGrid" class="easyui-datagrid" url="{:U('Admin/Document/ajaxDocumentList')}" data-options="idField: 'id'"  pagination="true"  toolbar="#toolbar_order" singleSelect="true" selectOnCheck="true" checkOnSelect="true" rownumbers="true">
+		<thead>
+		<tr>
+			<th data-options="field:'ck',checkbox:true"></th>
+			<th field="name" width="160" >姓名</th>
+			<th field="birthday" width="80" >出生年月</th>
+			<th field="cardnumber" width="100" >身份证</th>
+			<th field="nation" width="80" >民族</th>
+			<th field="join_date" width="80" >入党时间</th>
+			<th field="native_place" width="80" >籍贯</th>
+			<th field="work_date" width="120" >工作时间</th>
+			<th field="work_depart" width="250" >工作单位</th>
+			<th field="position" width="80" >现任职务</th>
+			<th field="wedding" width="80" formatter="weddingStatus">婚姻状况</th>
+			<th field="shenfen" width="80" formatter="shenfenStatus">人员身份</th>
+			<th field="address" width="100" >家庭住址</th>
+			<th field="tname" width="100">所属部门</th>
+			<th field="detail" width="50" formatter="formatDetail">详情</th>
+		</tr>
+		</thead>
+	</table>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#tt").tree({
+			onClick: function () {
+				alert(1);
+			}
+		})
+	})
+</script>
+</body>
+</html>
