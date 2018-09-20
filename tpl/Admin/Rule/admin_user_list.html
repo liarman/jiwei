@@ -65,6 +65,13 @@
                 </td>
             </tr>
             <tr>
+                <td>所属部门:</td>
+                <td>
+                    <select id="userDepartmentAdd" name="department_id" class="easyui-combotree" style="width:250px;" panelMaxHeight="300px"  data-options="multiple:false,url:'{:U('Admin/Department/ajaxDepartmentList')}',required:true">
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td>数据权限:</td>
                 <td>
                     <select class="easyui-combobox" name="datarange" style="width:200px;" data-options="delay:1000,required:true,multiple:true">
