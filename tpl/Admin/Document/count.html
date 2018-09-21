@@ -31,13 +31,14 @@
 <div region="north" style="height: 50px">
 </div>
 <!--左边内容-->
-<div region="west" style="width: 300px;height: 387px">
+<div region="west" style="width: 200px;height: 387px">
 	<ul id="tt" class="easyui-tree"  url="{:U('Admin/Department/ajaxDepartmentList')}"></ul>
 </div>
 
 <!--右边内容-->
 <div region="center">
-	<table id="documentGrid" class="easyui-datagrid" url="{:U('Admin/Document/ajaxDocumentCountList')}" data-options="idField: 'id'"  pagination="true"  toolbar="#toolbar_order" singleSelect="true" selectOnCheck="true" checkOnSelect="true" rownumbers="true">
+	<input type="hidden" value="1" name="departmentId">
+	<table id="documentGrid" class="easyui-datagrid" url="{:U('Admin/Document/ajaxDocumentCountList')}" data-options="idField: 'id'"    toolbar="#toolbar_order" singleSelect="true" selectOnCheck="true" checkOnSelect="true" rownumbers="true" pagination="true" >
 		<thead>
 		<tr>
 			<th data-options="field:'ck',checkbox:true"></th>
@@ -74,6 +75,7 @@
 			name: $("input[name='name']").val(),
 			tname: nodes["id"]
 		});
+		$("input[name='departmentId']").val( nodes["id"]);
 	}
 </script>
 </body>
