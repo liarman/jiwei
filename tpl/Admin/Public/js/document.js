@@ -21,7 +21,9 @@ function detail (id){
 }
 
 function daochu(){
-
+    var tname = $("#document_search_depart").combotree("getValue");
+    //window.open(daochuUrl+"/tname/"+tname);
+    window.location.href=daochuUrl +"/tname/"+ tname;
 }
 
 function addDocumentSubmit(){

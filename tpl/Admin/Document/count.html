@@ -28,12 +28,16 @@
 <div id='Loading'><image src='__PUBLIC_IMAGES__/loading.gif'/>加载中....</div>
 <script src="__ADMIN_JS__/department.js" type="text/javascript" charset="utf-8"></script>
 <script src="__ADMIN_JS__/document.js" type="text/javascript" charset="utf-8"></script>
-<script src="__ADMIN_JS__/count.js" type="text/javascript" charset="utf-8"></script>
-<div region="west" style="width: 300px;height: 387px">
-	<ul id="tt" class="easyui-tree" url="{:U('Admin/Department/ajaxDepartmentList')}"></ul>
+<div region="north" style="height: 50px">
 </div>
+<!--左边内容-->
+<div region="west" style="width: 300px;height: 387px">
+	<ul id="tt" class="easyui-tree"  url="{:U('Admin/Department/ajaxDepartmentList')}"></ul>
+</div>
+
+<!--右边内容-->
 <div region="center">
-	<table id="documentGrid" class="easyui-datagrid" url="{:U('Admin/Document/ajaxDocumentList')}" data-options="idField: 'id'"  pagination="true"  toolbar="#toolbar_order" singleSelect="true" selectOnCheck="true" checkOnSelect="true" rownumbers="true">
+	<table id="documentGrid" class="easyui-datagrid" url="{:U('Admin/Document/ajaxDocumentCountList')}" data-options="idField: 'id'"  pagination="true"  toolbar="#toolbar_order" singleSelect="true" selectOnCheck="true" checkOnSelect="true" rownumbers="true">
 		<thead>
 		<tr>
 			<th data-options="field:'ck',checkbox:true"></th>
@@ -55,14 +59,22 @@
 		</thead>
 	</table>
 </div>
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#tt").tree({
 			onClick: function () {
-				alert(1);
+				doSearch();
 			}
 		})
-	})
+	});
+	function doSearch(){
+		var nodes = $("#tt").tree('getSelected');
+		$('#documentGrid').datagrid('load',{
+			name: $("input[name='name']").val(),
+			tname: nodes["id"]
+		});
+	}
 </script>
 </body>
 </html>
