@@ -105,6 +105,12 @@ function doSearch(){
         tname: $("#document_search_depart").combotree("getValue")
     });
 }
+function doBatchDownload(){
+    $('#documentGrid').datagrid('load',{
+        name: $("input[name='name']").val(),
+        tname: $("#document_search_depart").combotree("getValue")
+    });
+}
 function weddingStatus(val,rowData,row){
     if(val==1){
         val="未婚";
