@@ -20,6 +20,10 @@ function detail (id){
     window.open(detailUrl+"/id/"+id);
 }
 
+function daochu(){
+
+}
+
 function addDocumentSubmit(){
     $('#addDocumentForm').form('submit',{
         url: url,
