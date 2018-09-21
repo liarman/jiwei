@@ -1,8 +1,6 @@
 <?php
 namespace Admin\Controller;
 use Common\Controller\AdminBaseController;
-use PHPExcel;
-use PHPExcel_IOFactory;
 /**
  * 后台首页控制器
  */
