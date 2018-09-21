@@ -70,10 +70,10 @@ class DocumentController extends AdminBaseController{
         $tname=I("post.tname");
         if($tname){
             $countsql = "SELECT	 count(o.id) AS total FROM	qfant_document o WHERE	1 = 1 and o.department_id in (SELECT d.id from qfant_department d where FIND_IN_SET (id ,queryDepartments(".$tname."))) ";
-            $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_department t on o.department_id=t.id where 1=1 and o.department_id in (SELECT d.id from qfant_department d where FIND_IN_SET (id ,queryDepartments(".$tname."))) ";
+            $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_department t on o.department_id=t.id JOIN (Select d.id FROM qfant_department d where FIND_IN_SET (id ,queryDepartments(".$tname."))) as a on o.department_id = a.id ";
         }else{
             $countsql = "SELECT	 count(o.id) AS total FROM	qfant_document o WHERE	1 = 1 and o.department_id in (SELECT d.id from qfant_department d where FIND_IN_SET (id ,queryDepartments(1))) ";
-            $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_department t on o.department_id=t.id where 1=1 and o.department_id in (SELECT d.id from qfant_department d where FIND_IN_SET (id ,queryDepartments(1))) ";
+            $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_department t on o.department_id=t.id JOIN (Select d.id FROM qfant_department d where FIND_IN_SET (id ,queryDepartments(1))) as a on o.department_id = a.id  ";
         }
         $param=array();
         $sql.=" order by o.createtime desc limit %d,%d ";
