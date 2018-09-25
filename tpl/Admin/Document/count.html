@@ -38,7 +38,7 @@
 <!--右边内容-->
 <div region="center">
 	<input type="hidden" value="1" name="departmentId">
-	<table id="documentGrid" class="easyui-datagrid" url="{:U('Admin/Document/ajaxDocumentCountList')}" data-options="idField: 'id'"    toolbar="#toolbar_order" singleSelect="true" selectOnCheck="true" checkOnSelect="true" rownumbers="true" pagination="true" >
+	<table id="documentGrid" class="easyui-datagrid" url="{:U('Admin/Document/ajaxDocumentCountList')}" data-options="idField: 'id'" pageSize="20"  toolbar="#toolbar_order" singleSelect="true" selectOnCheck="true" checkOnSelect="true" rownumbers="true" pagination="true" >
 		<thead>
 		<tr>
 			<th data-options="field:'ck',checkbox:true"></th>
