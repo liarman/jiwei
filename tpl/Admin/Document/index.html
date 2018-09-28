@@ -171,7 +171,7 @@
                     <input class="easyui-textbox" name="punish" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
             </tr>
             <tr>
-                <td align="center"><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addDocumentSubmit()" style="width:90px">保存</a>
+                <td align="center"><button type="button" id="documentAddBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="addDocumentSubmit()" style="width:90px">保存</button>
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addDocument').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
@@ -280,7 +280,7 @@
                     <input class="easyui-textbox" name="punish" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
             </tr>
             <tr>
-                <td align="center"><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="editDocumentSubmit()" style="width:90px">保存</a>
+                <td align="center"><button type="button" id="documentEditBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="editDocumentSubmit()" style="width:90px">保存</button>
                   <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#editDocument').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
@@ -319,7 +319,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addFamilySubmit()" style="width:90px">保存</a>
+                <td><button type="button" id="familyAddBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="addFamilySubmit()" style="width:90px">保存</button>
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addFamily').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
@@ -357,7 +357,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addPunishSubmit()" style="width:90px">保存</a>
+                <td><button type="button" id="punishAddBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="addPunishSubmit()" style="width:90px">保存</button>
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addPunish').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
@@ -388,7 +388,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addIncomeSubmit()" style="width:90px">保存</a>
+                <td><button type="button" id="incomeAddBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="addIncomeSubmit()" style="width:90px">保存</button>
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addIncome').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
@@ -434,7 +434,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addHouseSubmit()" style="width:90px">保存</a>
+                <td><button type="button" id="houseAddBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="addHouseSubmit()" style="width:90px">保存</button>
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addHouse').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
@@ -469,7 +469,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addStockSubmit()" style="width:90px">保存</a>
+                <td><button type="button" id="stockAddBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="addStockSubmit()" style="width:90px">保存</button>
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addStock').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
@@ -507,7 +507,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addPassportSubmit()" style="width:90px">保存</a>
+                <td><button type="button" id="passportAddBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="addPassportSubmit()" style="width:90px">保存</button>
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addPassport').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
@@ -549,7 +549,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addAbroadSubmit()" style="width:90px">保存</a>
+                <td><button type="button" id="abroadAddBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="addAbroadSubmit()" style="width:90px">保存</button>
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addAbroad').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
@@ -588,7 +588,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addCompanySubmit()" style="width:90px">保存</a>
+                <td><button type="button" id="companyAddBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="addCompanySubmit()" style="width:90px">保存</button>
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addCompany').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
@@ -630,7 +630,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addChildWeddingSubmit()" style="width:90px">保存</a>
+                <td><button type="button" id="childWddingAddBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="addChildWeddingSubmit()" style="width:90px">保存</button>
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addChildWedding').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
