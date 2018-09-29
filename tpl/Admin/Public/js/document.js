@@ -32,10 +32,8 @@ function addDocumentSubmit(){
         url: url,
         onSubmit: function(){
             return $(this).form('validate');
-            document.getElementById("btn").disabled=true;//禁用按钮
         },
         success:function(data){
-            document.getElementById("btn").disabled=false;//启用按钮
             data=$.parseJSON(data);
             if(data.status==1){
                 $.messager.alert('Info', data.message, 'info');
