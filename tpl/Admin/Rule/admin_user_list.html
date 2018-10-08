@@ -74,11 +74,7 @@
             <tr>
                 <td>数据权限:</td>
                 <td>
-                    <select class="easyui-combobox" name="datarange" style="width:200px;" data-options="delay:1000,required:true,multiple:true">
-                        <option value="1">谯城区</option>
-                        <option value="2">涡阳县</option>
-                        <option value="3">蒙城县</option>
-                        <option value="4">利辛县</option>
+                    <select id="datarangeAdd" name="datarange" class="easyui-combotree" style="width:250px;"panelMaxHeight="300px"  data-options="multiple:true,url:'{:U('Admin/Department/ajaxDepartmentList')}'">
                     </select>
                 </td>
             </tr>
@@ -101,6 +97,7 @@
 <div id="editAdminUser" class="easyui-dialog" title="编辑" style="width:400px;padding:10px 20px;" closed="true" modal="true">
     <form id="editAdminUserForm" method="post">
         <input type="hidden" name="id" value="">
+        <input type="hidden" name="datarange" value="">
         <table>
             <tr>
                 <td>账号:</td>
@@ -117,13 +114,16 @@
                 </td>
             </tr>
             <tr>
+                <td>所属部门:</td>
+                <td>
+                    <select id="userDepartmentEdit" name="department_id" class="easyui-combotree" style="width:250px;" panelMaxHeight="300px"  data-options="multiple:false,url:'{:U('Admin/Department/ajaxDepartmentList')}',required:true">
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td>数据权限:</td>
                 <td>
-                    <select class="easyui-combobox" name="datarange" style="width:200px;" data-options="delay:1000,required:true,multiple:true">
-                        <option value="1">谯城区</option>
-                        <option value="2">涡阳县</option>
-                        <option value="3">蒙城县</option>
-                        <option value="4">利辛县</option>
+                    <select id="datarangeEdit" class="easyui-combotree" style="width:250px;" panelMaxHeight="300px"  data-options="multiple:true,url:'{:U('Admin/Department/ajaxDepartmentList')}'">
                     </select>
                 </td>
             </tr>
