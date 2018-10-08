@@ -28,11 +28,13 @@ class LoginController extends BaseController{
 				$this->ajaxReturn($message,'JSON');
 			}else{
 				M('Users')->where(array('id'=>$data['id']))->save(array('last_login_time'=>time(),'last_login_ip'=>get_client_ip()));
-				$_SESSION['user']=array(
-					'id'=>$data['id'],
-					'username'=>$data['username'],
-					'avatar'=>$data['avatar']
-				);
+                $_SESSION['user']=array(
+                    'id'=>$data['id'],
+                    'username'=>$data['username'],
+                    'datarange'=>$data['datarange'],
+                    'department_id'=>$data['department_id'],
+                    'avatar'=>$data['avatar']
+                );
 				$loginrecord['userid']=$data['id'];
 				$loginrecord['loginTime']=date('Y-m-d H:i:s');
 				$loginrecord['loginip']=get_client_ip();

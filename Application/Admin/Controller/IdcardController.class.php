@@ -8,15 +8,31 @@ class IdcardController extends AdminBaseController
 {
     public function ajaxIdcardList()
     {
+        $userid=$_SESSION['user']['id'];
+        $data['userid']=$userid;
+        $departs='';
+        if($_SESSION['user']['department_id']){
+            $departs=D('Department')->query("select queryDepartments(".$_SESSION['user']['department_id'].') as departs');
+        }
+        if($_SESSION['user']['datarange'] && $departs){
+            $departs=$_SESSION['user']['datarange'].','.$departs[0]['departs'];
+            //print_r($departs);die;
+        }elseif($_SESSION['user']['datarange'] && empty($departs)){
+            $departs=$_SESSION['user']['datarange'];
+        }
         $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
         $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
         $name=I("post.name");
         $cardid=I("post.idcard");
         $status=I("post.status");
         $offset = ($page - 1) * $rows;
-        $countsql = "select count(r.id) AS total from qfant_person r where 1=1 ";
-        $sql = "SELECT i.*  FROM qfant_person i where 1=1 ";
+        $countsql = "select count(r.id) AS total from qfant_person r ";
+        $sql = "SELECT i.*  FROM qfant_person i ";
         $param = array();
+        if($departs){
+            $countsql.=" join (select d.id from qfant_department d where FIND_IN_SET(d.id,'".$departs."')) as a on r.area=a.id ";
+            $sql.=" join (select d.id from qfant_department d where FIND_IN_SET(d.id,'".$departs."')) as a on i.area=a.id ";
+        }
         if(!empty($name)){
             $countsql.=" and r.name like '%s' ";
             $sql.=" and i.name like '%s' ";
@@ -34,7 +50,7 @@ class IdcardController extends AdminBaseController
             $countsql.=" and r.status  =%d ";
             $sql.=" and i.status  =%d ";
             array_push($param,$status);
-    }
+        }
         if(!empty($cardid)){
             $countsql.=" and r.cardid like '%s' ";
             $sql.=" and i.cardid like '%s' ";
@@ -42,6 +58,7 @@ class IdcardController extends AdminBaseController
         }
         array_push($param, $offset);
         array_push($param, $rows);
+
         $sql .= " limit %d,%d";
         $data = D('Person')->query($countsql, $param);
         $result['total'] = $data[0]['total'];
