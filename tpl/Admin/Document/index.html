@@ -57,7 +57,7 @@
     <select class="easyui-combotree" style="width:250px"  panelMaxHeight="300px" id="document_search_depart"  data-options="multiple:false,valueField:'id',textField:'name',url:'{:U('Admin/Department/ajaxDepartmentList')}'"></select>
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="doSearch()" iconCls="fa fa-search">搜索</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="daochu()" iconCls="fa fa-download">导出</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="doBatchDownload()"  iconCls="fa fa-download">批量下载</a>
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="doBatchDownload()"  iconCls="fa fa-download">批量下载</a>-->
     <br/>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-home" plain="true" onclick="familyList()">家庭成员及重要社会关系</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-circle-o-notch" plain="true" onclick="familyPunishList()">近亲属被追究刑事责任</a>
@@ -687,7 +687,6 @@
 
     var ajaxDocumentListUrl="{:U('Admin/Document/ajaxDocumentList')}";//列表
     var detailUrl="{:U('Admin/Document/detail')}";//列表
-    var daochuUrl="{:U('Admin/Document/daochu')}";
     /**
      * Created by ZH on 2017/11/28.
      */
