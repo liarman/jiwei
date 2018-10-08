@@ -153,7 +153,87 @@ class DocumentController extends AdminBaseController{
         }
         $this->ajaxReturn($message,'JSON');
     }
+    /**
+     * 批量下载
+     */
+    public function batchDownload(){
+        vendor('Tcpdf.tcpdf');
+        $pdf = new \Tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, "A3", true, 'UTF-8', false);
 
+        // set document information
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Nicola Asuni');
+        $pdf->SetTitle('TCPDF Example 006');
+        $pdf->SetSubject('TCPDF Tutorial');
+        $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+
+// set header and footer fonts
+        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+
+// set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        $pdf->SetFont('stsongstdlight', '', 12);
+        $ids=I("get.ids");
+        $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_department t on o.department_id=t.id where 1=1 and o.id in (".$ids.") ";
+
+        $data=D('Document')->query($sql);
+        $html="";
+        foreach ($data as $k=>$val){
+            $pdf->AddPage();
+            $id=$val['id'];
+            $doc=D("Document")->where(array('id'=>$id))->find();
+            $this->assign("doc",$doc);
+
+            $familys=D("Family")->where(array('document_id'=>$id))->select();
+            $this->assign("familys",$familys);
+
+            $punishes=D("FamilyPunish")->where(array('document_id'=>$id))->select();
+            $this->assign("punishes",$punishes);
+
+            $houses=D("FamilyHouse")->where(array('document_id'=>$id))->select();
+            $this->assign("houses",$houses);
+
+            $stocks=D("FamilyStock")->where(array('document_id'=>$id))->select();
+            $this->assign("stocks",$stocks);
+
+            $passports=D("Passport")->where(array('document_id'=>$id))->select();
+            $this->assign("passports",$passports);
+
+            $abroads=D("Abroad")->where(array('document_id'=>$id))->select();
+            $this->assign("abroads",$abroads);
+
+            $companys=D("FamilyCompany")->where(array('document_id'=>$id))->select();
+            $this->assign("companys",$companys);
+
+            $weddings=D("ChildWedding")->where(array('document_id'=>$id))->select();
+            $this->assign("weddings",$weddings);
+
+            $incomes=D("FamilyIncome")->where(array('document_id'=>$id))->select();
+            $this->assign("incomes",$incomes);
+
+            $totalIncome=D("FamilyIncome")->where(array('document_id'=>$id))->sum('year_income');
+            $this->assign("totalIncome",$totalIncome);
+            $html.=$this->fetch("Document/detail");
+
+           // $pdf->writeHTML($html, true, false, true, false, '');
+        }
+        header("Content-Type: application/vnd.ms-excel; name='excel'");
+        header("Content-type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=123.xls");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-Type:application/download");;
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        exit($html);
+        //$pdf->Output('example_006.pdf', 'I');
+       // die;
+    }
     public function addCarOrder(){
         $data['cardriveid']=I('get.id');//发车id
         $ids=I('get.orderid');//订单id
