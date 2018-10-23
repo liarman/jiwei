@@ -36,18 +36,21 @@
     $("#login").click(function () {
         if($("input[name='username']").val()==""){
             $(".errorword").empty().html("账号输入不能为空");
+            $(".verify").click();
             $(".errortd").show();
             return false;
         }
         if($("input[name='password']").val()==""){
             $(".errorword").empty().html("密码输入不能为空");
             $(".errortd").show();
+            $(".verify").click();
             return false;
         }
         var code=$("input[name='verify']").val();
         if(code==""){
             $(".errorword").empty().html("验证码输入不能为空");
             $(".errortd").show();
+            $(".verify").click();
             return false;
         }
         var postData={
@@ -66,6 +69,7 @@
                 $.post("{:U('Admin/Login/index')}", Data, function(message) {
                     if(message.status==0){
                         $(".errorword").empty().html("账号或者密码输入错误");
+                        $(".verify").click();
                         $(".errortd").show();
                         return false;
                     }else{
@@ -74,6 +78,7 @@
                 });
             }else{
                 $(".errorword").empty().html("验证码输入错误");
+                $(".verify").click();
                 $(".errortd").show();
                 return false;
             }
