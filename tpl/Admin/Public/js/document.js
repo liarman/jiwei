@@ -27,7 +27,6 @@ function daochu(){
 }
 
 function addDocumentSubmit(){
-    $("#documentAddBtn").attr("disabled","true");
     $('#addDocumentForm').form('submit',{
         url: url,
         onSubmit: function(){
@@ -44,13 +43,10 @@ function addDocumentSubmit(){
                 $('#addDocument').dialog('close');
                 $('#documentGrid').datagrid('reload');
             }
-            $("#documentAddBtn").attr("disabled","false");
-            $("#documentAddBtn").removeAttr("disabled");
         }
     });
 }
 function editDocumentSubmit(){
-    $("#documentEditBtn").attr("disabled","true");
     $('#editDocumentForm').form('submit',{
         url: url,
         onSubmit: function(){
@@ -67,8 +63,6 @@ function editDocumentSubmit(){
                 $('#editDocument').dialog('close');
                 $('#documentGrid').datagrid('reload');
             }
-            $("#documentEditBtn").attr("disabled","false");
-            $("#documentEditBtn").removeAttr("disabled");
         }
     });
 }
@@ -267,7 +261,6 @@ function addFamily(type,document_id){
     }
 }
 function addFamilySubmit(){
-    $("#familyAddBtn").attr("disabled","true");
     $('#addFamilyForm').form('submit',{
         url: addFamilyUrl,
         onSubmit: function(){
@@ -284,8 +277,6 @@ function addFamilySubmit(){
                 $('#addFamily').dialog('close');
                 $('#familyGrid').datagrid('reload');
             }
-            $("#familyAddBtn").attr("disabled","false");
-            $("#familyAddBtn").removeAttr("disabled");
         }
     });
 }
@@ -368,7 +359,6 @@ function addPunish(type,document_id){
     }
 }
 function addPunishSubmit(){
-    $("#punishAddBtn").attr("disabled","true");
     $('#addPunishForm').form('submit',{
         url: addPunishUrl,
         onSubmit: function(){
@@ -385,8 +375,6 @@ function addPunishSubmit(){
                 $('#addPunish').dialog('close');
                 $('#familyPunishGrid').datagrid('reload');
             }
-            $("#punishAddBtn").attr("disabled","false");
-            $("#punishAddBtn").removeAttr("disabled");
         }
     });
 }
@@ -469,7 +457,6 @@ function addIncome(type,document_id){
     }
 }
 function addIncomeSubmit(){
-    $("#incomeAddBtn").attr("disabled","true");
     $('#addIncomeForm').form('submit',{
         url: addIncomeUrl,
         onSubmit: function(){
@@ -486,8 +473,6 @@ function addIncomeSubmit(){
                 $('#addIncome').dialog('close');
                 $('#incomeGrid').datagrid('reload');
             }
-            $("#incomeAddBtn").attr("disabled","false");
-            $("#incomeAddBtn").removeAttr("disabled");
         }
     });
 }
@@ -575,7 +560,6 @@ function addHouse(type,document_id){
     }
 }
 function addHouseSubmit(){
-    $("#houseAddBtn").attr("disabled","true");
     $('#addHouseForm').form('submit',{
         url: addHouseUrl,
         onSubmit: function(){
@@ -592,8 +576,6 @@ function addHouseSubmit(){
                 $('#addHouse').dialog('close');
                 $('#houseGrid').datagrid('reload');
             }
-            $("#houseAddBtn").attr("disabled","false");
-            $("#houseAddBtn").removeAttr("disabled");
         }
     });
 }
@@ -680,7 +662,6 @@ function addStock(type,document_id){
     }
 }
 function addStockSubmit(){
-    $("#stockAddBtn").attr("disabled","true");
     $('#addStockForm').form('submit',{
         url:addStockUrl,
         onSubmit: function(){
@@ -697,8 +678,6 @@ function addStockSubmit(){
                 $('#addHouse').dialog('close');
                 $('#stockGrid').datagrid('reload');
             }
-            $("#stockAddBtn").attr("disabled","false");
-            $("#stockAddBtn").removeAttr("disabled");
         }
     });
 }
@@ -783,7 +762,6 @@ function addPassport(type,document_id){
     }
 }
 function addPassportSubmit(){
-    $("#passportAddBtn").attr("disabled","true");
     $('#addPassportForm').form('submit',{
         url:addPassportUrl,
         onSubmit: function(){
@@ -800,8 +778,6 @@ function addPassportSubmit(){
                 $('#addPassport').dialog('close');
                 $('#passportGrid').datagrid('reload');
             }
-            $("#passportAddBtn").attr("disabled","false");
-            $("#passportAddBtn").removeAttr("disabled");
         }
     });
 }
@@ -889,7 +865,6 @@ function addAbroad(type,document_id){
     }
 }
 function addAbroadSubmit(){
-    $("#abroadAddBtn").attr("disabled","true");
     $('#addAbroadForm').form('submit',{
         url:addAbroadUrl,
         onSubmit: function(){
@@ -906,8 +881,6 @@ function addAbroadSubmit(){
                 $('#addAbroad').dialog('close');
                 $('#abroadGrid').datagrid('reload');
             }
-            $("#abroadAddBtn").attr("disabled","false");
-            $("#abroadAddBtn").removeAttr("disabled");
         }
     });
 }
@@ -993,7 +966,6 @@ function addCompany(type,document_id){
     }
 }
 function addCompanySubmit(){
-    $("#companyAddBtn").attr("disabled","true");
     $('#addCompanyForm').form('submit',{
         url:addCompanyUrl,
         onSubmit: function(){
@@ -1010,8 +982,6 @@ function addCompanySubmit(){
                 $('#addCompany').dialog('close');
                 $('#companyGrid').datagrid('reload');
             }
-            $("#companyAddBtn").attr("disabled","false");
-            $("#companyAddBtn").removeAttr("disabled");
         }
     });
 }
@@ -1099,7 +1069,6 @@ function addChildWedding(type,document_id){
     }
 }
 function addChildWeddingSubmit(){
-    $("#childWddingAddBtn").attr("disabled","true");
     $('#addChildWeddingForm').form('submit',{
         url:addChildWeddingUrl,
         onSubmit: function(){
@@ -1116,8 +1085,6 @@ function addChildWeddingSubmit(){
                 $('#addChildWedding').dialog('close');
                 $('#childWeddingGrid').datagrid('reload');
             }
-            $("#childWddingAddBtn").attr("disabled","false");
-            $("#childWddingAddBtn").removeAttr("disabled");
         }
     });
 }
