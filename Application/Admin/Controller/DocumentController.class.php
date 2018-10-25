@@ -135,6 +135,28 @@ class DocumentController extends AdminBaseController{
         $this->ajaxReturn($message,'JSON');
     }
 
+    public function editClue(){
+        if(IS_Post){
+           // $data['id']=I('post.id');
+            $data['baseinfo']=I('post.baseinfo');
+            $data['question_source']=I('post.question_source');
+            $data['process_status']=I('post.process_status');
+            $data['remark']=I('post.remark');
+//            $where['id']=$data['id'];
+           // print_r($data);die;
+            $result=D('Document')->where(array('id'=>I('post.id')))->save($data);
+            print_r($result);die;
+            if($result){
+                $message['status']=1;
+                $message['message']='保存成功';
+            }else {
+                $message['status']=0;
+                $message['message']='保存失败';
+            }
+        }
+        $this->ajaxReturn($message,'JSON');
+    }
+
     /**
      * 删除
      */
