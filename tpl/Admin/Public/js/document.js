@@ -9,6 +9,7 @@ var url;
 function addDocument(){
     $('#addDocument').dialog('open').dialog('setTitle','添加');
     $('#addDocumentForm').form('clear');
+    $(".uploader-list").empty();
     url=addDocumentUrl;
 }
 function formatDetail(val,rowData,row){
@@ -111,6 +112,7 @@ function editDocument(){
         $.messager.alert('Warning',"请选择要编辑的行", 'info');return false;
     }
     if (row){
+        $(".uploader-list").empty();
         $('#editDocument').dialog('open').dialog('setTitle','编辑');
 
         $('#editDocumentForm').form('load',row);

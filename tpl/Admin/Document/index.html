@@ -14,9 +14,11 @@
 
     <link href="__PUBLIC__/statics/css/admin.css" rel="stylesheet" />
     <link href="__KINDEDITOR__/themes/default/default.css" rel="stylesheet" />
+    <link href="__EASYUI__/themes/icon.css" rel="stylesheet" />
     <script src="__EASYUI__/common.js"></script>
     <script src="__EASYUI__/formatter.js"></script>
     <script src="__EASYUI__/extend/validate.js"></script>
+    <script src="__EASYUI__/ajaxfileupload.js"></script>
     <script src="__KINDEDITOR__/kindeditor-all.js"></script>
     <script src="__KINDEDITOR__/lang/zh-CN.js"></script>
 
@@ -73,108 +75,103 @@
 </div>
 <!--添加-->
 <div id="addDocument" class="easyui-dialog" title="添加" style="width:700px;height:500px;padding: 20px" closed="true" modal="true">
-    <form id="addDocumentForm" method="post">
-        <table>
-            <tr>
-                <td align="right">
-                    姓名:<input name="name" style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " />
-                </td>
-            </tr>
-            <tr>
-                <td align="right">
-                    出生年月:<input name="birthday"  style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " />
-                </td>
-            </tr>
-            <tr>
-                <td   align="right">身份证:<input name="cardnumber"  style="width: 300px"  class="easyui-textbox" data-options="delay:1000,required:true " /></td>
-            </tr>
-            <tr>
-                <td  align="right">民族:<input name="nation"  style="width: 300px"  class="easyui-textbox" data-options="delay:1000,required:true " /></td>
-            </tr>
-            <tr>
-                <td  align="right">入党时间:<input name="join_date" style="width: 300px" class="easyui-textbox" data-options="delay:1000"/></td>
-            </tr>
-            <tr>
-                <td  align="right">籍贯:<input name="native_place" style="width: 300px" class="easyui-textbox" data-options="delay:1000,required:true " /></td>
-            </tr>
-            <tr>
-                <td   align="right">工作时间: <input name="work_date" class="easyui-textbox" style="width:300px"  data-options="delay:1000"/></td>
-            </tr>
-            <tr>
-                <td  align="right">工作单位:<input name="work_depart" class="easyui-textbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
-            </tr>
-            <tr>
-                <td align="right">现任职务:<input name="position" class="easyui-textbox"style="width: 300px"   data-options="delay:1000,required:true " /></td>
-            </tr>
-            <tr>
-                <td align="right">人员身份:
-                    <select  panelMaxHeight="100px" name="shenfen" class="easyui-combobox" style="width:300px" data-options="delay:1000,multiple:false">
-                        <option value="1">行政</option>
-                        <option value="2">参公</option>
-                        <option value="3">事业</option>
-                        <option value="4">其他</option>
-                    </select>
-                </td>
+    <form id="addDocumentForm" method="post" enctype="multipart/form-data">
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="name" style="width: 500px" data-options="label:'姓名:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="birthday" style="width: 500px" data-options="label:'出生年月:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="cardnumber" style="width: 500px" data-options="label:'身份证:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="nation" style="width: 500px" data-options="label:'民族:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="join_date" style="width: 500px" data-options="label:'入党时间:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="native_place" style="width: 500px" data-options="label:'籍贯:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="work_date" style="width: 500px" data-options="label:'工作时间:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="work_depart" style="width: 500px" data-options="label:'工作单位:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="position" style="width: 500px" data-options="label:'现任职务:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <select  panelMaxHeight="100px" name="shenfen" class="easyui-combobox" style="width:500px" data-options="label:'人员身份:',multiple:false">
+                <option value="1">行政</option>
+                <option value="2">参公</option>
+                <option value="3">事业</option>
+                <option value="4">其他</option>
+            </select>
+        </div>
+        <div style="margin-bottom:20px">
+            <select  panelMaxHeight="100px" name="wedding" class="easyui-combobox" style="width:500px" data-options="label:'婚姻状况:',multiple:false">
+                <option value="1">未婚</option>
+                <option value="2">已婚</option>
+                <option value="3">离异</option>
+                <option value="4">丧偶</option>
+            </select>
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox addimg" name="headimg" style="width: 500px" data-options="label:'照片',required:true">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-plus" id="addDocImg" style="width:90px">上传</a>
+        </div>
+        <div style="margin-bottom:20px">
+            <select  panelMaxHeight="300px" name="department_id" class="easyui-combotree" style="width:500px;" data-options="label:'所属部门:',multiple:false,required:true,valueField:'id',textField:'name',url:'{:U('Admin/Department/ajaxDepartmentList')}'">
+            </select>
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="address" style="width: 500px" data-options="label:'家庭住址',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="fulltime_edu" style="width: 500px" data-options="label:'全日制教育',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="fulltime_school" style="width: 500px" data-options="label:'全日制毕业院校以及专业',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="fulltime_degree" style="width: 500px" data-options="label:'全日制学位',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="halftime_edu" style="width: 500px" data-options="label:'在职教育',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="halftime_school" style="width: 500px" data-options="label:'在职教育毕业院校及专业',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="halftime_degree" style="width: 500px" data-options="label:'在职教育学位',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="resume" style="width:500px;height:60px;align:center" data-options="label:'简历'" multiline="true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="praise" style="width:500px;height:60px;align:center" data-options="label:'奖励情况'" multiline="true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="punish" style="width:500px;height:60px;align:center" data-options="label:'惩处情况'" multiline="true">
+        </div>
+        <div style="margin-bottom:20px">
+            <div class="uploader">
+                <div class="file">点击此处上传资料
+                    <input type="file" name="uploadfile" id="uploadfile" onchange="ajaxFileUpload('uploadfile')">
+                </div>
+                <div class="uploader-list">
 
-            <tr>
-                <td align="right">婚姻状况:
-                    <select  panelMaxHeight="100px" name="wedding" class="easyui-combobox" style="width:300px" data-options="delay:1000,multiple:false">
-                        <option value="1">未婚</option>
-                        <option value="2">已婚</option>
-                        <option value="3">离异</option>
-                        <option value="4">丧偶</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td align="right">图片:<input name="headimg" class="easyui-textbox addimg" data-options="delay:1000,required:true" style="width: 205px" />
-                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-plus" id="addDocImg" style="width:90px">上传</a>
-                </td>
-            </tr>
-            <tr>
-                <td align="right">所属部门:
-                    <select  panelMaxHeight="300px" name="department_id" class="easyui-combotree" style="width:300px;" data-options="multiple:false,required:true,valueField:'id',textField:'name',url:'{:U('Admin/Department/ajaxDepartmentList')}'">
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td align="right">家庭住址: <input name="address" class="easyui-textbox" style="width: 300px"  data-options="delay:1000,required:true " /></td>
-            </tr>
-            <tr>
-                <td align="right">全日制教育: <input name="fulltime_edu" class="easyui-textbox" style="width: 300px"  data-options="delay:1000" /></td>
-            </tr>
-            <tr>
-                <td align="right">全日制毕业院校以及专业: <input class="easyui-textbox" name="fulltime_school"style="width:300px;"/></td></td>
-            </tr>
-            <tr>
-                <td align="right">全日制学位: <input class="easyui-textbox" name="fulltime_degree" style="width:300px;"/></td></td>
-            </tr>
-            <tr>
-                <td align="right">在职教育: <input class="easyui-textbox" name="halftime_edu" style="width:300px;"/></td></td>
-            </tr>
-            <tr>
-                <td align="right">在职教育毕业院校及专业: <input class="easyui-textbox" name="halftime_school"style="width:300px;"/></td></td>
-            </tr>
-            <tr>
-                <td align="right">在职教育学位: <input class="easyui-textbox" name="halftime_degree" style="width:300px;"/></td></td>
-            </tr>
-            <tr>
-                <td align="right">简历:
-                    <input class="easyui-textbox" name="resume" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
-            </tr>
-            <tr>
-                <td align="right">奖励情况:
-                    <input class="easyui-textbox" name="praise" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
-            </tr>
-            <tr>
-                <td align="right">惩处情况:
-                    <input class="easyui-textbox" name="punish" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
-            </tr>
-            <tr>
-                <td align="center"><button type="button" id="documentAddBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="addDocumentSubmit()" style="width:90px">保存</button>
-                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addDocument').dialog('close')" style="width:90px">取消</a></td>
-            </tr>
-        </table>
+                </div>
+            </div>
+        </div>
+        <div style="text-align:center;padding:5px 0">
+            <a href="javascript:void(0)" class="easyui-linkbutton"iconCls="icon-ok"  onclick="addDocumentSubmit()" style="width:80px">保存</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton"iconCls="icon-cancel" onclick="javascript:$('#addDocument').dialog('close')" style="width:80px">关闭</a>
+        </div>
+
     </form>
 </div>
 
@@ -308,7 +305,7 @@
                     <input class="easyui-textbox" name="punish" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
             </tr>
             <tr>
-                <td align="center"><button type="button" id="documentEditBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="editDocumentSubmit()" style="width:90px">保存</button>
+                <td align="center"><button type="button" id="documentEditBtn" class="easyui-linkbutton" onclick="editDocumentSubmit()" style="width:90px" ><i class="fa fa-save"></i> 保存</button>
                   <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#editDocument').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
@@ -666,6 +663,9 @@
     </form>
 </div>
 <script type="text/javascript">
+
+
+
     var addDocumentUrl="{:U('Admin/Document/add')}";
     var editDocumentUrl="{:U('Admin/Document/edit')}";
     var deleteDocumentUrl="{:U('Admin/Document/delete')}";
@@ -724,6 +724,36 @@
 
     var ajaxDocumentListUrl="{:U('Admin/Document/ajaxDocumentList')}";//列表
     var detailUrl="{:U('Admin/Document/detail')}";//列表
+    function ajaxFileUpload(file_id) {
+        $.ajaxFileUpload
+        (
+            {
+                url: '{:U("Admin/Index/upLoadFile")}', //用于文件上传的服务器端请求地址
+                secureuri: false, //是否需要安全协议，一般设置为false
+                fileElementId: file_id, //文件上传域的ID
+                dataType: 'JSON', //返回值类型 一般设置为json
+                success: function (data, status)  //服务器成功响应处理函数
+                {
+                    data=JSON.parse(data);
+                    if (data.status==1) {
+                        $("#"+file_id).parent().next().append("<div class='file-item'><input type='hidden' name='ziliao[]' value='"+data.attId+"'/> <span>"+data.filename+"</span><span onclick='deleteImg(this)' style='color: red;cursor:pointer '><i class=\"fa fa-remove\"></i></span></div>");
+                    }else {
+                        alert(data.error);
+                    }
+                    resetFileInput($("#"+file_id));
+                },
+                error: function (data, status, e)//服务器响应失败处理函数
+                {
+                    alert(e);
+                }
+            }
+        );
+        return false;
+    }
+    function deleteImg(e){
+        $(e).parent().remove();
+    }
+
     /**
      * Created by ZH on 2017/11/28.
      */
