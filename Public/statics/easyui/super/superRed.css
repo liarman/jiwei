@@ -779,7 +779,7 @@ Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高
 
 .textbox-label {
   display: inline-block;
-  width: 80px;
+  width: 140px;
   height: 22px;
   line-height: 22px;
   vertical-align: middle;

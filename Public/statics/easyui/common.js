@@ -42,6 +42,9 @@ function showimg(img){
     $(".simg").attr("src",simg);
 
 }
+function resetFileInput(file){
+    file.after(file.clone().val("")); file.remove();
+}
 // $.fn.uploadFiles = function(b, g) {
 //     var a = $(this);
 //     var f = {
