@@ -66,6 +66,44 @@ function editDocumentSubmit(){
         }
     });
 }
+
+function editClue(){
+    var row = $('#documentGrid').datagrid('getSelected');
+    if(row==null){
+        $.messager.alert('Warning',"请选择要编辑的行", 'info');return false;
+    }
+    if (row){
+        $('#editClue').dialog('open').dialog('setTitle','编辑');
+        $('#editClueForm').form('load',row);
+        //$("#docDepartmentEdit").combotree("setValue",row.department_id);
+        url =editClueUrl+'/id/'+row.id;
+    }
+}
+
+function editClueSubmit(){
+    $("#clueEditBtn").attr("disabled","true");
+    $('#editClueForm').form('submit',{
+        url: url,
+        onSubmit: function(){
+            return $(this).form('validate');
+        },
+        success:function(data){
+            data=$.parseJSON(data);
+            if(data.status==1){
+                $.messager.alert('Info', data.message, 'info');
+                $('#editClue').dialog('close');
+                $('#documentGrid').datagrid('reload');
+            }else {
+                $.messager.alert('Warning', data.message, 'info');
+                $('#editClue').dialog('close');
+                $('#documentGrid').datagrid('reload');
+            }
+            $("#ClueEditBtn").attr("disabled","false");
+            $("#ClueEditBtn").removeAttr("disabled");
+        }
+    });
+}
+
 //编辑会员对话窗
 function editDocument(){
     var row = $('#documentGrid').datagrid('getSelected');
@@ -141,6 +179,9 @@ function shenfenStatus(val,rowData,row){
     }
     return val;
 }
+
+
+
 //编辑会员对话窗
 /**家庭成员列表**/
 function familyList(){
@@ -248,7 +289,6 @@ function familyPunishList(){
     if (row){
         $('#familyPunishDlg').dialog('open').dialog('setTitle','近亲属被追究刑事责任情况');
         $('#familyPunishGrid').datagrid({
-
             url: ajaxPunishListUrl +'/document_id/'+row.id,
             columns:[[
                 {field:'name',title:'姓名',width:50,align:'center'},

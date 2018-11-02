@@ -68,7 +68,7 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-map-o" plain="true" onclick="abroadList()">出国境情况</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-bookmark" plain="true" onclick="companyList()">配偶子女其他近亲属经商办企业</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-child" plain="true" onclick="childWeddingList()">子女婚姻情况</a>
-
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="" plain="true" onclick="editClue()">线索处置</a>
 
 </div>
 <!--添加-->
@@ -173,6 +173,34 @@
             <tr>
                 <td align="center"><button type="button" id="documentAddBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="addDocumentSubmit()" style="width:90px">保存</button>
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addDocument').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="editClue" class="easyui-dialog" title="编辑" style="width:700px;height:500px;padding:20px;"  closed="true" modal="true">
+    <form id="editClueForm" method="post" >
+        <input type="hidden" name="id" value="">
+        <table>
+            <tr>
+                <td align="right">基本情况:
+                    <input class="easyui-textbox" name="baseinfo" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+            </tr>
+            <tr>
+                <td align="right">问题线索来源:
+                    <input class="easyui-textbox" name="question_source" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+            </tr>
+            <tr>
+                <td align="right">处置情况:
+                    <input class="easyui-textbox" name="process_status" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+            </tr>
+            <tr>
+                <td align="right">备注:
+                    <input class="easyui-textbox" name="remark" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
+            </tr>
+            <tr>
+                <td align="center"><button type="button" id="clueEditBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="editClueSubmit()" style="width:90px">保存</button>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#editClue').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
     </form>
@@ -284,9 +312,9 @@
                   <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#editDocument').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
-
     </form>
 </div>
+
 
 <div id="familyDlg" class="easyui-dialog" title="家庭成员及重要社会关系列表" style="width:600px;padding:10px 20px;height: 400px" closed="true" modal="true">
     <div id="familyGrid" style=""></div>
@@ -641,10 +669,19 @@
     var addDocumentUrl="{:U('Admin/Document/add')}";
     var editDocumentUrl="{:U('Admin/Document/edit')}";
     var deleteDocumentUrl="{:U('Admin/Document/delete')}";
+
+    var editClueUrl="{:U('Admin/Document/editClue')}";//
+
+    /**线索处置列表**/
+    /*var ajaxClueListUrl="{:U('Admin/Question/ajaxQuestionList')}";
+    var addClueUrl="{:U('Admin/Question/add')}";//
+    var deleteClueUrl="{:U('Admin/Question/delete')}";*/
+
     /**家庭成员及重要社会关系列表**/
     var ajaxFamilyListUrl="{:U('Admin/Family/ajaxFamilyList')}";
     var addFamilyUrl="{:U('Admin/Family/add')}";//
     var deleteFamilyUrl="{:U('Admin/Family/delete')}";//
+
     /**近亲属被追究刑事责任情况**/
     var ajaxPunishListUrl="{:U('Admin/Punish/ajaxPunishList')}";
     var addPunishUrl="{:U('Admin/Punish/add')}";
