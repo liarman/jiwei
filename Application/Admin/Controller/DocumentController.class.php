@@ -97,8 +97,13 @@ class DocumentController extends AdminBaseController{
             $data['createtime']=date("Y-m-d h:i:s", time());
             $userid=$_SESSION['user']['id'];
             $data['userid']=$userid;
+            if($data['ziliao']){
+                $data['ziliao']=implode(",", $data['ziliao']);
+            }
+           // print_r($data['ziliao']);die;
             unset($data['id']);
             $res=D('Document')->addData($data);
+            print_r($res);die;
             if($res){
                 $message['status']=1;
                 $message['message']='保存成功';

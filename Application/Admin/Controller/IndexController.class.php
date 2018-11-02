@@ -24,11 +24,114 @@ class IndexController extends AdminBaseController{
 
 		$this->display();
 	}
-	
+    /**
+     * elements
+     */
+    public function getAttachment(){
+        $attIds=I("get.attIds");
+        $cond['id']=array('in',$attIds);
+        $attachments=D('Attachment')->where($cond)->find();
+        $result['status']=1;
+        $result['attachments']=$attachments;
+        $this->ajaxReturn($result,'JSON');
+    }
 	/**
 	 * welcome
 	 */
 	public function welcome(){
 	    $this->display();
 	}
+    public function upLoadFile(){
+        //print_r($_FILES);die;
+        $error = "";
+        $msg = "";
+        $fileElementName = 'uploadfile';
+        $result["status"] = 1;
+        if(!empty($_FILES[$fileElementName]['error'])){
+            $result["status"] = 0;
+            switch($_FILES[$fileElementName]['error']){
+                case '1':
+                    $error = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+                    break;
+                case '2':
+                    $error = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+                    break;
+                case '3':
+                    $error = 'The uploaded file was only partially uploaded';
+                    break;
+                case '4':
+                    $error = 'No file was uploaded.';
+                    break;
+
+                case '6':
+                    $error = 'Missing a temporary folder';
+                    break;
+                case '7':
+                    $error = 'Failed to write file to disk';
+                    break;
+                case '8':
+                    $error = 'File upload stopped by extension';
+                    break;
+                case '999':
+                default:
+                    $error = 'No error code avaiable';
+            }
+            $error = 'No file was uploaded.';
+            $result["status"] = 0;
+            $result["error"] =$error;
+        }elseif(empty($_FILES[$fileElementName]['tmp_name']) || $_FILES[$fileElementName]['tmp_name'] == 'none'){
+            $error = 'No file was uploaded.';
+            $result["status"] = 0;
+            $result["error"] =$error;
+        }else{
+            $re = $this->up($fileElementName);
+            if($re['status']==-1){
+                $result["error"] =$re['error'];
+                $result["status"] = 0;
+            }else{
+                $result["error"] = $error;
+                $result["result"] = '/Upload/image/'.date("Ymd").'/'.$re['savename'];
+                $result["size"] = $re['size'];
+                $result["savename"] = $re['savename'];    //文件名
+                $result["status"] = 1;
+
+                $attachment['filename']=$_FILES[$fileElementName]['name'];
+                $attachment['filepath']=$result["result"];
+                $att=D('Attachment')->add($attachment);
+
+                $result["filename"] =$attachment['filename'];
+                $result["attId"] =$att;
+            }
+        }
+        echo json_encode($result);exit;
+    }
+    private function up($fileElementName=''){
+        //import('@.Org.UploadFile');//将上传类UploadFile.class.php拷到Lib/Org文件夹下
+        ini_set('max_execution_time', '0');
+        $config=array(
+            'rootPath'  =>'./',         //文件上传保存的根路径
+            'rootPath'  =>'./Upload/image/',
+            'exts'      => array('jpg', 'gif', 'png', 'jpeg','bmp'),
+            'allowExts'      => array('jpg','jpeg','png','gif'),
+            'maxSize'   => 3145728,
+            'saveName'   => array('uniqid'),
+            'autoSub'   => true,
+        );
+        $upload = new \Think\Upload($config);// 实例化上传类
+
+//        $upload->savePath= '/image/';//保存路径
+        //$upload->saveRule=uniqid;//上传文件的文件名保存规则
+        $upload->uploadReplace=true;//如果存在同名文件是否进行覆盖
+        $upload->autoSub=true;//自动使用子目录保存上传文件 默认为true
+        $upload->subName=array('date','Ymd');//自动使用子目录保存上传文件 默认为true
+        $upload->allowExts=array('jpg','jpeg','png','gif','doc','docx','xls','xlsx');//准许上传的文件类型
+        $info=$upload->upload();
+        if($info){
+            return $info[$fileElementName];
+        }else{
+            $result['status']=-1;
+            $result['error']=$upload->getError();
+            return $result;
+        }
+    }
 }
