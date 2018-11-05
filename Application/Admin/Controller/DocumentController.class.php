@@ -127,6 +127,9 @@ class DocumentController extends AdminBaseController{
             $where['id']=$data['id'];
             $data['createtime']=date("Y-m-d h:i:s", time());
             $userid=$_SESSION['user']['id'];
+            if($data['ziliao']){
+                $data['ziliao']=implode(",", $data['ziliao']);
+            }
             $data['userid']=$userid;
             $result=D('Document')->editData($where,$data);
             if($result){

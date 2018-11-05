@@ -30,7 +30,7 @@ class IndexController extends AdminBaseController{
     public function getAttachment(){
         $attIds=I("get.attIds");
         $cond['id']=array('in',$attIds);
-        $attachments=D('Attachment')->where($cond)->find();
+        $attachments=D('Attachment')->where($cond)->select();
         $result['status']=1;
         $result['attachments']=$attachments;
         $this->ajaxReturn($result,'JSON');
