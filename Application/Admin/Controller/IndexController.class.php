@@ -111,7 +111,7 @@ class IndexController extends AdminBaseController{
         $config=array(
             'rootPath'  =>'./',         //文件上传保存的根路径
             'rootPath'  =>'./Upload/image/',
-            'exts'      => array('jpg', 'gif', 'png', 'jpeg','bmp'),
+            'exts'      => array('jpg', 'gif', 'png', 'jpeg','bmp','doc','docx','xls','xlsx'),
             'allowExts'      => array('jpg','jpeg','png','gif'),
             'maxSize'   => 3145728,
             'saveName'   => array('uniqid'),
