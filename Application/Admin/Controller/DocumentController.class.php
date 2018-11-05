@@ -153,7 +153,6 @@ class DocumentController extends AdminBaseController{
 //            $where['id']=$data['id'];
            // print_r($data);die;
             $result=D('Document')->where(array('id'=>I('post.id')))->save($data);
-            print_r($result);die;
             if($result){
                 $message['status']=1;
                 $message['message']='保存成功';
