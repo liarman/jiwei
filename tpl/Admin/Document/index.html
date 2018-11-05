@@ -160,7 +160,7 @@
         <div style="margin-bottom:20px">
             <div class="uploader">
                 <div class="file">点击此处上传资料
-                    <input type="file" name="uploadfile" id="uploadfile" onchange="ajaxFileUpload('uploadfile')">
+                    <input type="file" name="uploadfile" id="uploadfileAdd" onchange="ajaxFileUpload('uploadfileAdd')">
                 </div>
                 <div class="uploader-list">
 
@@ -304,6 +304,16 @@
                 <td align="right">惩处情况:
                     <input class="easyui-textbox" name="punish" data-options="multiline:true" style="width:300px;height:60px;align:center"/></td>
             </tr>
+            <div style="margin-bottom:20px">
+                <div class="uploader">
+                    <div class="file">点击此处上传资料
+                        <input type="file" name="uploadfile" id="uploadfileEdit" onchange="ajaxFileUpload('uploadfileEdit')">
+                    </div>
+                    <div class="uploader-list">
+
+                    </div>
+                </div>
+            </div>
             <tr>
                 <td align="center"><button type="button" id="documentEditBtn" class="easyui-linkbutton" onclick="editDocumentSubmit()" style="width:90px" ><i class="fa fa-save"></i> 保存</button>
                   <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#editDocument').dialog('close')" style="width:90px">取消</a></td>
@@ -724,6 +734,7 @@
 
     var ajaxDocumentListUrl="{:U('Admin/Document/ajaxDocumentList')}";//列表
     var detailUrl="{:U('Admin/Document/detail')}";//列表
+    var getAttachmentUrl="{:U('Admin/Index/getAttachment')}";//获取附件
     function ajaxFileUpload(file_id) {
         $.ajaxFileUpload
         (

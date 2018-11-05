@@ -9,7 +9,7 @@ var url;
 function addDocument(){
     $('#addDocument').dialog('open').dialog('setTitle','添加');
     $('#addDocumentForm').form('clear');
-    $(".uploader-list").empty();
+    $("#uploadfileAdd").parent().next().empty();
     url=addDocumentUrl;
 }
 function formatDetail(val,rowData,row){
@@ -112,7 +112,19 @@ function editDocument(){
         $.messager.alert('Warning',"请选择要编辑的行", 'info');return false;
     }
     if (row){
-        $(".uploader-list").empty();
+        $("#uploadfileEdit").parent().next().empty();
+        $.getJSON(getAttachmentUrl,{attIds:row.ziliao},function(result){
+            if (result.status){
+                var html="";
+               $.each(result.attachments,function(i,n){
+                   console.log(n);
+                   html+="<div class='file-item'><input type='hidden' name='ziliao[]' value='"+n.id+"'/> <span>"+n['filename']+"</span><span onclick='deleteImg(this)' style='color: red;cursor:pointer '><i class='fa fa-remove'></i></span></div>";
+               });
+                $("#uploadfileEdit").parent().next().append(html);
+            } else {
+                $.messager.alert('错误提示','获取附件失败','error');
+            }
+        },'json');
         $('#editDocument').dialog('open').dialog('setTitle','编辑');
 
         $('#editDocumentForm').form('load',row);
