@@ -82,7 +82,6 @@ function editClue(){
 }
 
 function editClueSubmit(){
-    $("#clueEditBtn").attr("disabled","true");
     $('#editClueForm').form('submit',{
         url: url,
         onSubmit: function(){
@@ -99,8 +98,6 @@ function editClueSubmit(){
                 $('#editClue').dialog('close');
                 $('#documentGrid').datagrid('reload');
             }
-            $("#ClueEditBtn").attr("disabled","false");
-            $("#ClueEditBtn").removeAttr("disabled");
         }
     });
 }
