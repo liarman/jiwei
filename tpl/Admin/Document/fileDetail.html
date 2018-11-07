@@ -16,8 +16,42 @@
 <body>
 <div style="font-size:24px;margin:0 auto;text-align: center;font-weight: bolder">附件列表</div>
 <table style="width:900px;margin:0 auto;border-collapse:collapse;">
-    <tr>
-        <td <notempty  name="ziliaos">rowspan={:count($ziliaos)+1}<else/></notempty>>线索处置</td>
+
+
+    <tr style="height: 50px">
+        <td style="width: 300px">线索处置</td>
+        <td>
+            <notempty  name="ziliaos">
+                <volist name="ziliaos" id="ziliaos">
+                    <a href="{:C('GLOBAL_DOMAIN_URL')}{$ziliaos.filepath}" target="view_window" style="text-decoration:none">{$ziliaos.filename}</a><br/>
+                </volist>
+            </notempty>
+        </td>
+    </tr>
+
+    <tr style="height: 50px">
+        <td>述职述德述廉报告</td>
+        <td>
+            <notempty  name="reports">
+                <volist name="reports" id="reports">
+                    <a href="{:C('GLOBAL_DOMAIN_URL')}{$reports.filepath}" target="view_window" style="text-decoration:none">{$reports.filename}</a><br/>
+                </volist>
+            </notempty>
+        </td>
+    </tr>
+
+    <tr style="height: 50px">
+        <td>审计结果报告</td>
+        <td>
+            <notempty  name="shenjis">
+                <volist name="shenjis" id="shenjis">
+                    <a href="{:C('GLOBAL_DOMAIN_URL')}{$shenjis.filepath}" target="view_window" style="text-decoration:none">{$shenjis.filename}</a><br/>
+                </volist>
+            </notempty>
+        </td>
+    </tr>
+  <!--  <tr>
+        <td style="width: 100px" <notempty  name="ziliaos">rowspan={:count($ziliaos)+1}<else/>rowspan=2</notempty>>线索处置</td>
     </tr>
 
     <notempty  name="ziliaos">
@@ -43,12 +77,12 @@
         </volist>
         <else/>
         <tr>
-            <td colspan="9" height="50"></td></tr>
+            <td colspan="8" height="50"></td></tr>
     </notempty>
 
 
     <tr>
-        <td <notempty  name="shenjis">rowspan={:count($shenjis)+1}<else/></notempty>>审计</td>
+        <td style="width: 100px" <notempty  name="shenjis">rowspan={:count($shenjis)+1}<else/>rowspan=2</notempty>>审计</td>
     </tr>
 
     <notempty  name="shenjis">
@@ -60,7 +94,7 @@
         <else/>
         <tr>
             <td colspan="9" height="50"></td></tr>
-    </notempty>
+    </notempty>-->
 
 </table>
 <br/>
