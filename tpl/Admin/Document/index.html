@@ -44,7 +44,9 @@
         <th field="shenfen" width="80" formatter="shenfenStatus">人员身份</th>
         <th field="address" width="100" >家庭住址</th>
         <th field="tname" width="100">所属部门</th>
-        <th field="detail" width="50" formatter="formatDetail">详情</th>
+        <th field="action" width="200" align="center" formatter="formatAction">操作</th>
+        <!--<th field="clueDetail" width="80" formatter="formatClueDetail">线索处置单页</th>
+        <th field="fileDetail" width="80" formatter="formatFileDetail">附件列表</th>-->
     </tr>
     </thead>
 </table>
@@ -70,7 +72,11 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-map-o" plain="true" onclick="abroadList()">出国境情况</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-bookmark" plain="true" onclick="companyList()">配偶子女其他近亲属经商办企业</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-child" plain="true" onclick="childWeddingList()">子女婚姻情况</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="" plain="true" onclick="editClue()">线索处置</a>
+    <br/>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-file-text-o" plain="true" onclick="editClue()">线索处置</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-file-text-o" plain="true" onclick="uploadClue()">线索处置相关资料</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-file-text-o" plain="true" onclick="uploadReport()">述职述德述廉报告</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-file-text-o" plain="true" onclick="uploadShenji()">审计</a>
 
 </div>
 <!--添加-->
@@ -157,16 +163,6 @@
         <div style="margin-bottom:20px">
             <input class="easyui-textbox" name="punish" style="width:500px;height:60px;align:center" data-options="label:'惩处情况'" multiline="true">
         </div>
-        <div style="margin-bottom:20px">
-            <div class="uploader">
-                <div class="file">点击此处上传资料
-                    <input type="file" name="uploadfile" id="uploadfileAdd" onchange="ajaxFileUpload('uploadfileAdd')">
-                </div>
-                <div class="uploader-list">
-
-                </div>
-            </div>
-        </div>
         <div style="text-align:center;padding:5px 0">
             <a href="javascript:void(0)" class="easyui-linkbutton"iconCls="icon-ok"  onclick="addDocumentSubmit()" style="width:80px">保存</a>
             <a href="javascript:void(0)" class="easyui-linkbutton"iconCls="icon-cancel" onclick="javascript:$('#addDocument').dialog('close')" style="width:80px">关闭</a>
@@ -174,6 +170,8 @@
 
     </form>
 </div>
+
+
 
 <div id="editClue" class="easyui-dialog" title="编辑" style="width:700px;height:500px;padding:20px;"  closed="true" modal="true">
     <form id="editClueForm" method="post" >
@@ -198,6 +196,77 @@
             <tr>
                 <td align="center"><button type="button" id="clueEditBtn" class="easyui-linkbutton" iconCls="icon-ok" onclick="editClueSubmit()" style="width:90px">保存</button>
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#editClue').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+<div id="uploadClue" class="easyui-dialog" title="编辑" style="width:400px;height:300px;padding:20px;"  closed="true" modal="true">
+    <form id="uploadClueForm" method="post" >
+        <input type="hidden" name="id" value="">
+        <table>
+
+            <div style="margin-bottom:20px">
+                <div class="uploader">
+                    <div class="file">点击此处上传资料
+                        <input type="file" name="uploadfile" id="uploadfileClueAdd" onchange="ajaxFileUpload('uploadfileClueAdd')">
+                    </div>
+                    <div class="uploader-list">
+
+                    </div>
+                </div>
+            </div>
+            <tr>
+                <td align="center"><button type="button" id="uploadClueBtn" class="easyui-linkbutton" onclick="uploadClueSubmit()" style="width:90px" ><i class="fa fa-save"></i> 保存</button>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#uploadClue').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="uploadReport" class="easyui-dialog" title="编辑" style="width:400px;height:300px;padding:20px;"  closed="true" modal="true">
+    <form id="uploadReportForm" method="post" >
+        <input type="hidden" name="id" value="">
+        <table>
+
+            <div style="margin-bottom:20px">
+                <div class="uploader">
+                    <div class="file">点击此处上传资料
+                        <input type="file" name="uploadfile" id="uploadfileReportAdd" onchange="ajaxReportFileUpload('uploadfileReportAdd')">
+                    </div>
+                    <div class="uploader-list">
+
+                    </div>
+                </div>
+            </div>
+            <tr>
+                <td align="center"><button type="button" id="uploadReportBtn" class="easyui-linkbutton" onclick="uploadReportSubmit()" style="width:90px" ><i class="fa fa-save"></i> 保存</button>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#uploadReport').dialog('close')" style="width:90px">取消</a></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+<div id="uploadShenji" class="easyui-dialog" title="编辑" style="width:400px;height:300px;padding:20px;"  closed="true" modal="true">
+    <form id="uploadShenjiForm" method="post" >
+        <input type="hidden" name="id" value="">
+        <table>
+
+            <div style="margin-bottom:20px">
+                <div class="uploader">
+                    <div class="file">点击此处上传资料
+                        <input type="file" name="uploadfile" id="uploadfileShenjiAdd" onchange="ajaxShenjiFileUpload('uploadfileShenjiAdd')">
+                    </div>
+                    <div class="uploader-list">
+
+                    </div>
+                </div>
+            </div>
+            <tr>
+                <td align="center"><button type="button" id="uploadShenjiBtn" class="easyui-linkbutton" onclick="uploadShenjiSubmit()" style="width:90px" ><i class="fa fa-save"></i> 保存</button>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#uploadShenji').dialog('close')" style="width:90px">取消</a></td>
             </tr>
         </table>
     </form>
@@ -682,6 +751,10 @@
 
     var editClueUrl="{:U('Admin/Document/editClue')}";//
 
+    var editClueFileUrl="{:U('Admin/Document/editClueFile')}";//
+    var editReportFileUrl="{:U('Admin/Document/editReportFile')}";//
+    var editShenjiFileUrl="{:U('Admin/Document/editShenjiFile')}";//
+
     /**线索处置列表**/
     /*var ajaxClueListUrl="{:U('Admin/Question/ajaxQuestionList')}";
     var addClueUrl="{:U('Admin/Question/add')}";//
@@ -734,6 +807,8 @@
 
     var ajaxDocumentListUrl="{:U('Admin/Document/ajaxDocumentList')}";//列表
     var detailUrl="{:U('Admin/Document/detail')}";//列表
+    var clueDetailUrl="{:U('Admin/Document/clueDetail')}";//列表
+    var fileDetailUrl="{:U('Admin/Document/fileDetail')}";//列表
     var getAttachmentUrl="{:U('Admin/Index/getAttachment')}";//获取附件
     function ajaxFileUpload(file_id) {
         $.ajaxFileUpload
@@ -761,9 +836,72 @@
         );
         return false;
     }
+
+    /**
+     * 述职述德述廉报告
+    **/
+    function ajaxReportFileUpload(file_id) {
+        $.ajaxFileUpload
+        (
+                {
+                    url: '{:U("Admin/Index/upLoadFile")}', //用于文件上传的服务器端请求地址
+                    secureuri: false, //是否需要安全协议，一般设置为false
+                    fileElementId: file_id, //文件上传域的ID
+                    dataType: 'JSON', //返回值类型 一般设置为json
+                    success: function (data, status)  //服务器成功响应处理函数
+                    {
+                        data=JSON.parse(data);
+                        if (data.status==1) {
+                            $("#"+file_id).parent().next().append("<div class='file-item'><input type='hidden' name='report[]' value='"+data.attId+"'/> <span>"+data.filename+"</span><span onclick='deleteImg(this)' style='color: red;cursor:pointer '><i class=\"fa fa-remove\"></i></span></div>");
+                        }else {
+                            alert(data.error);
+                        }
+                        resetFileInput($("#"+file_id));
+                    },
+                    error: function (data, status, e)//服务器响应失败处理函数
+                    {
+                        alert(e);
+                    }
+                }
+        );
+        return false;
+    }
+
+    /**
+     * 审计
+     **/
+    function ajaxShenjiFileUpload(file_id) {
+        $.ajaxFileUpload
+        (
+                {
+                    url: '{:U("Admin/Index/upLoadFile")}', //用于文件上传的服务器端请求地址
+                    secureuri: false, //是否需要安全协议，一般设置为false
+                    fileElementId: file_id, //文件上传域的ID
+                    dataType: 'JSON', //返回值类型 一般设置为json
+                    success: function (data, status)  //服务器成功响应处理函数
+                    {
+                        data=JSON.parse(data);
+                        if (data.status==1) {
+                            $("#"+file_id).parent().next().append("<div class='file-item'><input type='hidden' name='shenji[]' value='"+data.attId+"'/> <span>"+data.filename+"</span><span onclick='deleteImg(this)' style='color: red;cursor:pointer '><i class=\"fa fa-remove\"></i></span></div>");
+                        }else {
+                            alert(data.error);
+                        }
+                        resetFileInput($("#"+file_id));
+                    },
+                    error: function (data, status, e)//服务器响应失败处理函数
+                    {
+                        alert(e);
+                    }
+                }
+        );
+        return false;
+    }
+
+
     function deleteImg(e){
         $(e).parent().remove();
     }
+
 
     /**
      * Created by ZH on 2017/11/28.

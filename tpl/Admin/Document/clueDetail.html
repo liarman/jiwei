@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>线索处置相关资料</title>
+    <script src="/Public/statics/highcharts/test/jquery-1.8.3.min.js"></script>
+    <style type="text/css">
+        TD{
+            border: 1px solid black;
+            /*height: 30px;*/
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div style="font-size:24px;margin:0 auto;text-align: center;font-weight: bolder">区管干部线索处置单页</div>
+<table style="width:900px;margin:0 auto;border-collapse:collapse;">
+    <tr>
+        <td style="width: 100px;">姓名</td>
+        <td>{$doc.name}</td>
+    </tr>
+    <tr>
+        <td style="width: 100px;">现任职务</td>
+        <td>{$doc.position}</td>
+    </tr>
+    <tr>
+        <td style="width: 100px;">出生年月</td>
+        <td>{$doc.birthday}</td>
+    </tr>
+    <tr>
+        <td style="width: 100px;">基本情况</td>
+        <td>{$doc.baseinfo}</td>
+    </tr>
+    <tr>
+        <td style="width: 100px;">线索来源及反映的主要问题</td>
+        <td>{$doc.question_source}</td>
+    </tr>
+    <tr>
+        <td style="width: 100px;">处置情况</td>
+        <td>{$doc.process_status}</td>
+    </tr>
+    <tr>
+        <td style="width: 100px;">备注</td>
+        <td>{$doc.remark}</td>
+    </tr>
+
+</table>
+<br/>
+<div style="width:900px;margin:0 auto;text-align: left">
+    本人承诺：
+</div><br/><br/><br/>
+<div style="width:900px;margin:0 auto;text-align: right">
+    签字：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
+</body>
+</html>

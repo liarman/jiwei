@@ -12,13 +12,27 @@ function addDocument(){
     $("#uploadfileAdd").parent().next().empty();
     url=addDocumentUrl;
 }
-function formatDetail(val,rowData,row){
-    val="<span class='icon icon-detail' onclick='detail("+rowData['id']+")'></span>";
-    return val;
+function formatAction(val,rowData,row){
+    //val="<span class='icon icon-detail'onclick='detail("+rowData['id']+")'></span>";
+    detailBtn = '<a href="javascript:void(0);" onclick="detail('+rowData['id']+')">详情</a>';
+
+    clueBtn = '<a href="javascript:void(0);" onclick="clueDetail('+rowData['id']+')">线索处置</a>';
+
+    fileBtn = '<a href="javascript:void(0);" onclick="fileDetail('+rowData['id']+')">附件列表</a>';
+
+    return detailBtn+"&nbsp;&nbsp;"+clueBtn+"&nbsp;&nbsp;"+fileBtn;
 }
 
 function detail (id){
     window.open(detailUrl+"/id/"+id);
+}
+
+function clueDetail(id){
+    window.open(clueDetailUrl+"/id/"+id);
+}
+
+function fileDetail(id){
+    window.open(fileDetailUrl+"/id/"+id);
 }
 
 function daochu(){
@@ -96,6 +110,165 @@ function editClueSubmit(){
             }else {
                 $.messager.alert('Warning', data.message, 'info');
                 $('#editClue').dialog('close');
+                $('#documentGrid').datagrid('reload');
+            }
+        }
+    });
+}
+
+/**
+ *线索处置相关资料
+ */
+function uploadClue(){
+    var row = $('#documentGrid').datagrid('getSelected');
+    if(row==null){
+        $.messager.alert('Warning',"请选择要编辑的行", 'info');return false;
+    }
+    if (row){
+        $("#uploadfileClueAdd").parent().next().empty();
+        $.getJSON(getAttachmentUrl,{attIds:row.ziliao},function(result){
+            if (result.status){
+                var html="";
+                $.each(result.attachments,function(i,n){
+                    console.log(n);
+                    html+="<div class='file-item'><input type='hidden' name='ziliao[]' value='"+n.id+"'/> <span>"+n['filename']+"</span><span onclick='deleteImg(this)' style='color: red;cursor:pointer '><i class='fa fa-remove'></i></span></div>";
+                });
+                $("#uploadfileClueAdd").parent().next().append(html);
+            } else {
+                $.messager.alert('错误提示','获取附件失败','error');
+            }
+        },'json');
+        $('#uploadClue').dialog('open').dialog('setTitle','编辑');
+
+        $('#uploadClueForm').form('load',row);
+        url =editClueFileUrl+'/id/'+row.id;
+    }
+}
+
+/**
+ *线索处置相关资料
+ */
+function uploadClueSubmit(){
+    $('#uploadClueForm').form('submit',{
+        url: url,
+        onSubmit: function(){
+            return $(this).form('validate');
+        },
+        success:function(data){
+            data=$.parseJSON(data);
+            if(data.status==1){
+                $.messager.alert('Info', data.message, 'info');
+                $('#uploadClue').dialog('close');
+                $('#documentGrid').datagrid('reload');
+            }else {
+                $.messager.alert('Warning', data.message, 'info');
+                $('#uploadClue').dialog('close');
+                $('#documentGrid').datagrid('reload');
+            }
+        }
+    });
+}
+
+/**
+ *述职述德述廉报告
+ */
+function uploadReport(){
+    var row = $('#documentGrid').datagrid('getSelected');
+    if(row==null){
+        $.messager.alert('Warning',"请选择要编辑的行", 'info');return false;
+    }
+    if (row){
+        $("#uploadfileReportAdd").parent().next().empty();
+        $.getJSON(getAttachmentUrl,{attIds:row.report},function(result){
+            if (result.status){
+                var html="";
+                $.each(result.attachments,function(i,n){
+                    console.log(n);
+                    html+="<div class='file-item'><input type='hidden' name='report[]' value='"+n.id+"'/> <span>"+n['filename']+"</span><span onclick='deleteImg(this)' style='color: red;cursor:pointer '><i class='fa fa-remove'></i></span></div>";
+                });
+                $("#uploadfileReportAdd").parent().next().append(html);
+            } else {
+                $.messager.alert('错误提示','获取附件失败','error');
+            }
+        },'json');
+        $('#uploadReport').dialog('open').dialog('setTitle','编辑');
+
+        $('#uploadReportForm').form('load',row);
+        url =editReportFileUrl+'/id/'+row.id;
+    }
+}
+
+/**
+ *述职述德述廉报告
+ */
+function uploadReportSubmit(){
+    $('#uploadReportForm').form('submit',{
+        url: url,
+        onSubmit: function(){
+            return $(this).form('validate');
+        },
+        success:function(data){
+            data=$.parseJSON(data);
+            if(data.status==1){
+                $.messager.alert('Info', data.message, 'info');
+                $('#uploadReport').dialog('close');
+                $('#documentGrid').datagrid('reload');
+            }else {
+                $.messager.alert('Warning', data.message, 'info');
+                $('#uploadReport').dialog('close');
+                $('#documentGrid').datagrid('reload');
+            }
+        }
+    });
+}
+
+
+/**
+ *审计
+ */
+function uploadShenji(){
+    var row = $('#documentGrid').datagrid('getSelected');
+    if(row==null){
+        $.messager.alert('Warning',"请选择要编辑的行", 'info');return false;
+    }
+    if (row){
+        $("#uploadfileShenjiAdd").parent().next().empty();
+        $.getJSON(getAttachmentUrl,{attIds:row.shenji},function(result){
+            if (result.status){
+                var html="";
+                $.each(result.attachments,function(i,n){
+                    console.log(n);
+                    html+="<div class='file-item'><input type='hidden' name='shenji[]' value='"+n.id+"'/> <span>"+n['filename']+"</span><span onclick='deleteImg(this)' style='color: red;cursor:pointer '><i class='fa fa-remove'></i></span></div>";
+                });
+                $("#uploadfileShenjiAdd").parent().next().append(html);
+            } else {
+                $.messager.alert('错误提示','获取附件失败','error');
+            }
+        },'json');
+        $('#uploadShenji').dialog('open').dialog('setTitle','编辑');
+        $('#uploadShenjiForm').form('load',row);
+        url =editShenjiFileUrl+'/id/'+row.id;
+    }
+}
+
+/**
+ *审计
+ */
+function uploadShenjiSubmit(){
+    $('#uploadShenjiForm').form('submit',{
+        url: url,
+        onSubmit: function(){
+            return $(this).form('validate');
+        },
+        success:function(data){
+            data=$.parseJSON(data);
+            if(data.status==1){
+                $.messager.alert('Info', data.message, 'info');
+                $('#uploadShenji').dialog('close');
+                $('#documentGrid').datagrid('reload');
+            }else {
+                $.messager.alert('Warning', data.message, 'info');
+                $('#uploadShenji').dialog('close');
                 $('#documentGrid').datagrid('reload');
             }
         }

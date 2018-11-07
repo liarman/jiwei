@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>附件列表</title>
+    <script src="/Public/statics/highcharts/test/jquery-1.8.3.min.js"></script>
+    <style type="text/css">
+        TD{
+            border: 1px solid black;
+            /*height: 30px;*/
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div style="font-size:24px;margin:0 auto;text-align: center;font-weight: bolder">附件列表</div>
+<table style="width:900px;margin:0 auto;border-collapse:collapse;">
+    <tr>
+        <td <notempty  name="ziliaos">rowspan={:count($ziliaos)+1}<else/></notempty>>线索处置</td>
+    </tr>
+
+    <notempty  name="ziliaos">
+        <volist name="ziliaos" id="ziliaos">
+            <tr>
+                <td><a href="{:C('GLOBAL_DOMAIN_URL')}{$ziliaos.filepath}" target="view_window" style="text-decoration:none">{$ziliaos.filename}</a></td>
+            </tr>
+        </volist>
+        <else/>
+        <tr>
+            <td colspan=9"" height="50"></td></tr>
+    </notempty>
+
+    <tr>
+        <td <notempty  name="reports">rowspan={:count($reports)+1}<else/></notempty>>述职述德述廉报告</td>
+    </tr>
+
+    <notempty  name="reports">
+        <volist name="reports" id="reports">
+            <tr>
+                <td><a href="{:C('GLOBAL_DOMAIN_URL')}{$reports.filepath}" target="view_window" style="text-decoration:none">{$reports.filename}</a></td>
+            </tr>
+        </volist>
+        <else/>
+        <tr>
+            <td colspan="9" height="50"></td></tr>
+    </notempty>
+
+
+    <tr>
+        <td <notempty  name="shenjis">rowspan={:count($shenjis)+1}<else/></notempty>>审计</td>
+    </tr>
+
+    <notempty  name="shenjis">
+        <volist name="shenjis" id="shenjis">
+            <tr>
+                <td><a href="{:C('GLOBAL_DOMAIN_URL')}{$shenjis.filepath}" target="view_window" style="text-decoration:none">{$shenjis.filename}</a></td>
+            </tr>
+        </volist>
+        <else/>
+        <tr>
+            <td colspan="9" height="50"></td></tr>
+    </notempty>
+
+</table>
+<br/>
+<!--<div style="width:900px;margin:0 auto;text-align: left">
+    本人承诺：
+</div><br/><br/><br/>
+<div style="width:900px;margin:0 auto;text-align: right">
+    签字：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</div>-->
+</body>
+</html>

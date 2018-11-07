@@ -127,9 +127,16 @@ class DocumentController extends AdminBaseController{
             $where['id']=$data['id'];
             $data['createtime']=date("Y-m-d h:i:s", time());
             $userid=$_SESSION['user']['id'];
-            if($data['ziliao']){
+            /*if($data['ziliao']){
                 $data['ziliao']=implode(",", $data['ziliao']);
             }
+            if($data['report']){
+                $data['report']=implode(",", $data['report']);
+            }
+            if($data['shenji']){
+                $data['shenji']=implode(",", $data['shenji']);
+            }*/
+            //print_r($data['ziliao']);die;
             $data['userid']=$userid;
             $result=D('Document')->editData($where,$data);
             if($result){
@@ -142,6 +149,79 @@ class DocumentController extends AdminBaseController{
         }
         $this->ajaxReturn($message,'JSON');
     }
+
+    /**
+     * 线索处置
+     */
+    public function editClueFile(){
+        if(IS_POST){
+            $data=I('post.');
+            $where['id']=$data['id'];
+            if($data['ziliao'] == null){
+                $data['ziliao']=null;
+            }else{
+                $data['ziliao']=implode(",", $data['ziliao']);
+            }
+            $result=D('Document')->editData($where,$data);
+            if($result){
+                $message['status']=1;
+                $message['message']='保存成功';
+            }else {
+                $message['status']=0;
+                $message['message']='保存失败';
+            }
+        }
+        $this->ajaxReturn($message,'JSON');
+    }
+
+    /**
+     * 述职述德
+     */
+    public function editReportFile(){
+        if(IS_POST){
+            $data=I('post.');
+            $where['id']=$data['id'];
+            if($data['report'] == null){
+                $data['report']=null;
+            }else{
+                $data['report']=implode(",", $data['report']);
+            }
+            $result=D('Document')->editData($where,$data);
+            if($result){
+                $message['status']=1;
+                $message['message']='保存成功';
+            }else {
+                $message['status']=0;
+                $message['message']='保存失败';
+            }
+        }
+        $this->ajaxReturn($message,'JSON');
+    }
+
+    /**
+     * 述职述德
+     */
+    public function editShenjiFile(){
+        if(IS_POST){
+            $data=I('post.');
+            $where['id']=$data['id'];
+            if($data['shenji'] == null){
+                $data['shenji']=null;
+            }else{
+                $data['shenji']=implode(",", $data['shenji']);
+            }
+            $result=D('Document')->editData($where,$data);
+            if($result){
+                $message['status']=1;
+                $message['message']='保存成功';
+            }else {
+                $message['status']=0;
+                $message['message']='保存失败';
+            }
+        }
+        $this->ajaxReturn($message,'JSON');
+    }
+
 
     public function editClue(){
         if(IS_Post){
@@ -332,6 +412,41 @@ class DocumentController extends AdminBaseController{
         $this->assign("totalIncome",$totalIncome);
         $this->display();
 
+    }
+
+
+    public  function clueDetail(){
+        $id=I('get.id');
+        $doc=D("Document")->where(array('id'=>$id))->find();
+        $this->assign("doc",$doc);
+        $this->display();
+
+    }
+
+    public  function fileDetail(){
+        $id=I('get.id');
+        $doc=D("Document")->where(array('id'=>$id))->find();
+        $this->assign("doc",$doc);
+
+        $ziliao=$doc['ziliao'];
+        if($ziliao){
+            $condZiliao['id']=array('in',$ziliao);
+            $ziliaos=D('Attachment')->where($condZiliao)->select();
+            $this->assign("ziliaos",$ziliaos);
+        }
+        $report=$doc['report'];
+        if($report){
+            $condReport['id']=array('in',$report);
+            $reports=D('Attachment')->where($condReport)->select();
+            $this->assign("reports",$reports);
+        }
+        $shenji=$doc['shenji'];
+        if($shenji){
+            $condShenji['id']=array('in',$shenji);
+            $shenjis=D('Attachment')->where($condShenji)->select();
+            $this->assign("shenjis",$shenjis);
+        }
+        $this->display();
     }
 
     public function exportExcel($expTitle,$expCellName,$expTableData){
