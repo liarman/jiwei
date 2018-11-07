@@ -103,7 +103,7 @@ class DocumentController extends AdminBaseController{
            // print_r($data['ziliao']);die;
             unset($data['id']);
             $res=D('Document')->addData($data);
-            print_r($res);die;
+            //print_r($res);die;
             if($res){
                 $message['status']=1;
                 $message['message']='保存成功';
