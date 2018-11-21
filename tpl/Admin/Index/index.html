@@ -15,7 +15,23 @@
     <script src="__EASYUI__/jquery.min.js"></script>
     <script src="__EASYUI__/jquery.easyui.min.js"></script>
     <script src="__EASYUI__/locale/easyui-lang-zh_CN.js"></script>
-    <link rel="stylesheet" href="__EASYUI__/super/css/font-awesome.min.css">
+
+
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,500,700,300">
+    <!-- Required Plugin CSS -->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/statics/assets/js/utility/highlight/styles/googlecode.css">
+    <!-- Required Plugin CSS -->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/statics/vendor/plugins/datepicker/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/statics/vendor/plugins/daterange/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/statics/vendor/plugins/colorpicker/css/bootstrap-colorpicker.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/statics/vendor/plugins/tagmanager/tagmanager.css">
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/statics/assets/skin/default_skin/css/theme.css">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="__PUBLIC__/statics/assets/img/favicon.ico">
+
+   <!-- <link rel="stylesheet" href="__EASYUI__/super/css/font-awesome.min.css">
     <link rel="stylesheet" href="__EASYUI__/super/superRed.css" id="themeCss">
     <script src="__EASYUI__/super/super.js"></script>
     <script src="__ADMIN_JS__/index.js" type="text/javascript" charset="utf-8"></script>
@@ -23,23 +39,260 @@
     <script src="__EASYUI__/common.js"></script>
     <script src="__EASYUI__/formatter.js"></script>
     <script src="__EASYUI__/extend/validate.js"></script>
-    <script type="text/javascript" src="http://cdn.goeasy.io/goeasy.js"></script>
+    <script type="text/javascript" src="http://cdn.goeasy.io/goeasy.js"></script>-->
 
 </head>
-<body id="main" class="easyui-layout">
+
+<body class="admin-modals-page sb-l-o sb-r-c onload-check">
+
+<!--<div id="skin-toolbox">
+    <div class="panel">
+        <div class="panel-heading" unselectable="on" style="user-select: none;">
+                <span class="panel-icon"><i class="fa fa-gear text-primary"></i>
+                </span>
+            <span class="panel-title"> Theme Options</span>
+        </div>
+        <div class="panel-body pn">
+
+            <ul class="nav nav-list nav-list-sm pl15 pt10" role="tablist">
+                <li class="active">
+                    <a href="#toolbox-header" role="tab" data-toggle="tab">Navbar</a>
+                </li>
+                <li>
+                    <a href="#toolbox-sidebar" role="tab" data-toggle="tab">Sidebar</a>
+                </li>
+            </ul>
+
+            <div class="tab-content p20 ptn pb15">
+                <div role="tabpanel" class="tab-pane active" id="toolbox-header">
+                    <form id="toolbox-header-skin">
+                        <h4 class="mv20">Header Skins</h4>
+
+                        <div class="skin-toolbox-swatches">
+                            <div class="checkbox-custom checkbox-disabled fill mb5">
+                                <input type="radio" name="headerSkin" id="headerSkin8" checked="" value="bg-light">
+                                <label for="headerSkin8">Light</label>
+                            </div>
+                            <div class="checkbox-custom fill checkbox-primary mb5">
+                                <input type="radio" name="headerSkin" id="headerSkin1" value="bg-primary">
+                                <label for="headerSkin1">Primary</label>
+                            </div>
+                            <div class="checkbox-custom fill checkbox-info mb5">
+                                <input type="radio" name="headerSkin" id="headerSkin3" value="bg-info">
+                                <label for="headerSkin3">Info</label>
+                            </div>
+                            <div class="checkbox-custom fill checkbox-warning mb5">
+                                <input type="radio" name="headerSkin" id="headerSkin4" value="bg-warning">
+                                <label for="headerSkin4">Warning</label>
+                            </div>
+                            <div class="checkbox-custom fill checkbox-danger mb5">
+                                <input type="radio" name="headerSkin" id="headerSkin5" value="bg-danger">
+                                <label for="headerSkin5">Danger</label>
+                            </div>
+                            <div class="checkbox-custom fill checkbox-alert mb5">
+                                <input type="radio" name="headerSkin" id="headerSkin6" value="bg-alert">
+                                <label for="headerSkin6">Alert</label>
+                            </div>
+                            <div class="checkbox-custom fill checkbox-system mb5">
+                                <input type="radio" name="headerSkin" id="headerSkin7" value="bg-system">
+                                <label for="headerSkin7">System</label>
+                            </div>
+                            <div class="checkbox-custom fill checkbox-success mb5">
+                                <input type="radio" name="headerSkin" id="headerSkin2" value="bg-success">
+                                <label for="headerSkin2">Success</label>
+                            </div>
+                            <div class="checkbox-custom fill mb5">
+                                <input type="radio" name="headerSkin" id="headerSkin9" value="bg-dark">
+                                <label for="headerSkin9">Dark</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="toolbox-sidebar">
+                    <form id="toolbox-sidebar-skin">
+
+                        <h4 class="mv20">Sidebar Skins</h4>
+                        <div class="skin-toolbox-swatches">
+                            <div class="checkbox-custom fill mb5">
+                                <input type="radio" name="sidebarSkin" checked="" id="sidebarSkin3" value="">
+                                <label for="sidebarSkin3">Dark</label>
+                            </div>
+                            <div class="checkbox-custom fill checkbox-disabled mb5">
+                                <input type="radio" name="sidebarSkin" id="sidebarSkin1" value="sidebar-light">
+                                <label for="sidebarSkin1">Light</label>
+                            </div>
+                            <div class="checkbox-custom fill checkbox-light mb5">
+                                <input type="radio" name="sidebarSkin" id="sidebarSkin2" value="sidebar-light light">
+                                <label for="sidebarSkin2">Lighter</label>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="form-group mn br-t p15">
+                <a href="#" id="clearLocalStorage" class="btn btn-primary btn-block pb10 pt10">Clear LocalStorage</a>
+            </div>
+
+        </div>
+    </div>
+</div>-->
+
+<!-- Start: Main -->
+<div id="main">
+    <!-- Start: Header -->
+    <header class="navbar navbar-fixed-top bg-light">
+        <div class="navbar-branding">
+            <a class="navbar-brand" href="#" style="width:170px;padding-left: 12px"> 谯城区政治生态系统
+            </a>
+            <span id="toggle_sidemenu_l" class="glyphicons glyphicons-show_lines"></span>
+            <ul class="nav navbar-nav pull-right hidden">
+                <li>
+                    <a href="#" class="sidebar-menu-toggle">
+                        <span class="octicon octicon-ruby fs20 mr10 pull-right "></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle fw600 p15" data-toggle="dropdown" aria-expanded="false">
+                    <span>欢迎您：{$_SESSION['user']['username']}</span>
+                    <span class="caret caret-tp"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-persist pn w250 bg-white" role="menu">
+                    <li class="br-t of-h">
+                        <a href="#calendarEvent" class="fw600 p12 animated animated-short fadeInUp">
+                            <span class="fa fa-user pr5"></span> 设置
+                        </a>
+                    </li>
+                    <li class="br-t of-h">
+                        <a href="{:U('Admin/Login/logout')}" class="fw600 p12 animated animated-short fadeInDown">
+                            <span class="fa fa-power-off pr5"></span> 退出
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </header>
+    <!-- 左侧菜单 -->
+    <aside id="sidebar_left" class="nano nano-primary has-scrollbar sidebar-default">
+        <div class="nano-content" tabindex="0" style="right: -17px;">
+            <ul class="nav sidebar-menu">
+                <li class="sidebar-label pt20">菜单</li>
+                <foreach name="data" item="v">
+                    <empty name="v['_data']">
+                        <li>
+                            <span class="{$v['ico']}"></span>
+                            <span class="sidebar-title">{$v['name']}</span>
+                            <span class="caret" style="padding-left: 0px"></span>
+                        </li>
+                        <else/>
+                        <li>
+                            <a class="accordion-toggle" href="#">
+                                <span class="{$v['ico']}"></span>
+                                <span class="sidebar-title">{$v['name']}</span>
+                                <span class="caret" style="padding-left: 0px"></span>
+                            </a>
+                            <ul class="nav sub-nav">
+                                <foreach name="v['_data']" item="n">
+                                    <li>
+                                        <a href="{:U($n['mca'])}" onclick="click()" target="iframe_a">
+                                            <span class="{$n['ico']}"></span>
+                                            {$n['name']}
+                                        </a>
+                                    </li>
+                                </foreach>
+                            </ul>
+                        </li>
+                    </empty>
+                </foreach>
+            </ul>
+        </div>
+        <div class="nano-pane" style="display: none;"><div class="nano-slider" style="transform: translate(0px, 0px);"></div></div></aside>
+
+    <!-- 页面主要内容 -->
+    <section id="content_wrapper" >
+        <!--头部-->
+        <header id="topbar">
+            <div class="topbar-left">
+                <ol class="breadcrumb">
+                    <li class="crumb-active">
+                        <a href="index.html">
+                            首页
+                        </a>
+                    </li>
+                    <li class="crumb-link">
+                        <a href=""></a>
+                    </li>
+                </ol>
+            </div>
+        </header>
+        <!--内容-->
+        <div id="content" style="padding: 12px 10px 50px 15px;height: auto" >
+            <iframe src="welcome.html" id="iframe_a" name="iframe_a" frameborder="0" height="1700" width="1650" scrolling="true" ></iframe>
+        </div>
+    </section>
+</div>
+<script type="text/javascript">
+    function click(){
+        document.getElementById('iframe_a').src="";
+    }
+</script>
+
+<!-- jQuery -->
+<script type="text/javascript" src="__PUBLIC__/statics/vendor/jquery/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/statics/vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+<!-- Bootstrap -->
+<script type="text/javascript" src="__PUBLIC__/statics/assets/js/bootstrap/bootstrap.min.js"></script>
+<!-- Sparklines CDN -->
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+<!-- Chart Plugins -->
+<script type="text/javascript" src="__PUBLIC__/statics/vendor/plugins/highcharts/highcharts.js"></script>
+<script type="text/javascript" src="__PUBLIC__/statics/vendor/plugins/circles/circles.js"></script>
+<script type="text/javascript" src="__PUBLIC__/statics/vendor/plugins/raphael/raphael.js"></script>
+<!-- Holder js  -->
+<script type="text/javascript" src="__PUBLIC__/statics/assets/js/bootstrap/holder.min.js"></script>
+<!-- Theme Javascript -->
+<script type="text/javascript" src="__PUBLIC__/statics/assets/js/utility/utility.js"></script>
+<script type="text/javascript" src="__PUBLIC__/statics/assets/js/main.js"></script>
+<script type="text/javascript" src="__PUBLIC__/statics/assets/js/demo.js"></script>
+<!-- Admin Panels  -->
+<script type="text/javascript" src="__PUBLIC__/statics/assets/admin-tools/admin-plugins/admin-panels/json2.js"></script>
+<script type="text/javascript" src="__PUBLIC__/statics/assets/admin-tools/admin-plugins/admin-panels/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/statics/assets/admin-tools/admin-plugins/admin-panels/adminpanels.js"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        "use strict";
+        // Init Theme Core
+        Core.init({
+            sbm: "sb-l-c",
+        });
+        // Init Demo JS
+        Demo.init();
+    });
+</script>
+
+
+<div class="jvectormap-label"></div><div class="jvectormap-label"></div>
+</body>
+<!--<body id="main" class="easyui-layout">
 <noscript>
     <div style="position: absolute; z-index: 100000; height: 2046px; top: 0px; left: 0px;
             width: 100%; background: white; text-align: center;">
         <img src="images/noscript.gif" alt='抱歉，请开启脚本支持！' />
     </div>
 </noscript>
-<!--顶部-->
+&lt;!&ndash;顶部&ndash;&gt;
 <div data-options="region:'north',border:false" class="super-north">
-    <!--顶部-->
+    &lt;!&ndash;顶部&ndash;&gt;
     <div class="super-navigation">
-        <!--系统名称-->
+        &lt;!&ndash;系统名称&ndash;&gt;
         <div class="super-navigation-title">谯城区政治生态系统</div>
-        <!--自定义导航-->
+        &lt;!&ndash;自定义导航&ndash;&gt;
         <div class="super-navigation-main">
             <div class="super-setting-left">
                 <ul>
@@ -68,7 +321,7 @@
         </div>
     </div>
 </div>
-<!--左侧菜单-->
+&lt;!&ndash;左侧菜单&ndash;&gt;
 <div data-options="region:'west',title:'菜单',border:false" class="super-west">
     <div class="easyui-accordion" data-options="border:false,fit:true,selected:true">
         <foreach name="data" item="v">
@@ -89,7 +342,7 @@
     </div>
 </div>
 <div data-options="region:'center'" style="padding-top: 2px;">
-    <!--主要内容-->
+    &lt;!&ndash;主要内容&ndash;&gt;
     <div id="qfantTabs" class="easyui-tabs" data-options="border:false,fit:true">
         <div title="首页" data-options="iconCls:'fa fa-home'">
 
@@ -97,14 +350,14 @@
     </div>
 </div>
 <div data-options="region:'south'" class="super-south">
-    <!--页脚-->
+    &lt;!&ndash;页脚&ndash;&gt;
     <div class="super-footer-info">
-        <!--<span><i class="fa fa-info-circle"></i></span>-->
+        &lt;!&ndash;<span><i class="fa fa-info-circle"></i></span>&ndash;&gt;
         <span><i class="fa fa-copyright"></i>启凡科技 CopyRight 2017 版权所有 <i class="fa fa-caret-right"></i></span>
     </div>
 </div>
 
-<!--主题设置弹窗-->
+&lt;!&ndash;主题设置弹窗&ndash;&gt;
 <div id="win">
     <div class="themeItem">
         <ul>
@@ -155,7 +408,7 @@
         </div>
     </form>
 </div>
-</body>
+</body>-->
 
 </html>
 
