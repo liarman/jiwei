@@ -18,7 +18,6 @@ class LoginController extends BaseController{
 			$geetest['geetest_seccode']=$map['geetest_seccode'];*/
 			$logindata['username']=$map['username'];
 			$logindata['password']=$map['password'];
-
 			$logindata['password']=md5($logindata['password']);
 			$data=M('Users')->where($logindata)->find();
 			if (empty($data)) {

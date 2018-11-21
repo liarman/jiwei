@@ -21,7 +21,7 @@ class IndexController extends AdminBaseController{
 	 * elements
 	 */
 	public function elements(){
-
+        
 		$this->display();
 	}
     /**
