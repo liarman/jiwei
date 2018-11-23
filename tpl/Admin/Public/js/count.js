@@ -13,3 +13,6 @@ function formatDetail(val,rowData,row){
     return detailBtn;
 }
 
+function detail (id){
+    window.open(detailUrl+"/id/"+id);
+}
