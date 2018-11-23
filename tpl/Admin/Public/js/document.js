@@ -22,7 +22,11 @@ function formatAction(val,rowData,row){
 
     return detailBtn+"&nbsp;&nbsp;"+clueBtn+"&nbsp;&nbsp;"+fileBtn;
 }
-
+function formatDetail(val,rowData,row){
+    //val="<span class='icon icon-detail'onclick='detail("+rowData['id']+")'></span>";
+    detailBtn = '<a href="javascript:void(0);" onclick="detail('+rowData['id']+')">详情</a>';
+    return detailBtn;
+}
 function detail (id){
     window.open(detailUrl+"/id/"+id);
 }
