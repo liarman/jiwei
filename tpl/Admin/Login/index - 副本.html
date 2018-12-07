@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>谯城区政治生态系统</title>
+    <link rel="stylesheet" href="__PUBLIC__/statics/css/base.css" />
+    <link rel="stylesheet" href="__PUBLIC__/statics/css/login.css" />
+    <script type="text/javascript" src="__PUBLIC__/statics/js/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+<div class="superloginA"></div>
+<div class="loginBox">
+   <div> <div  style="font-size:22px ;color:white ;text-align:center;">谯城区纪委政治生态系统</div>
+       <!--<img src="__PUBLIC__/statics/images/qf-12.png"/>-->
+   </div>
+    <div class="loginMain">
+        <div class="tabwrap">
+            <form method="post" action="{:U('Admin/Login/index')}" id="loginForm">
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr><td class="title">用户名：</td><td><input type="text" class="form-control txt" name="username"/></td></tr>
+                <tr><td class="title">密   码：</td><td><input type="password" class="form-control txt" name="password"/></td></tr>
+                <tr><td class="title">验证码：</td><td><input type="text" class="form-control txt txt2" name="verify"/><span class="yzm"><img class="verify" src="{:U('Home/Reg/verify')}" alt="验证码" onClick="this.src=this.src+'?'+Math.random()" /></span></td></tr>
+                <tr class="errortd"><td>&nbsp;</td><td><i class="ico-error"></i><span class="errorword">用户名或密码错误，请重新输入！</span></td></tr>
+                <tr><td>&nbsp;</td><td><input type="button" class="loginbtn" value="登录"  id="login" /><input type="button" class="resetbtn" value="重置" onclick="reset()" /></td></tr>
+               <!-- <tr><td>&nbsp;</td><td class="forgetpsw"><a href="login_forgetA.html">忘记密码？</a></td></tr>-->
+            </table>
+                </form>
+        </div>
+    </div>
+</div>
+<div class="footer">启凡科技 技术支持 </div>
+<script>
+    $(".errortd").hide();
+    $("#login").click(function () {
+        if($("input[name='username']").val()==""){
+            $(".errorword").empty().html("账号输入不能为空");
+            $(".verify").click();
+            $(".errortd").show();
+            return false;
+        }
+        if($("input[name='password']").val()==""){
+            $(".errorword").empty().html("密码输入不能为空");
+            $(".errortd").show();
+            $(".verify").click();
+            return false;
+        }
+        var code=$("input[name='verify']").val();
+        if(code==""){
+            $(".errorword").empty().html("验证码输入不能为空");
+            $(".errortd").show();
+            $(".verify").click();
+            return false;
+        }
+        var postData={
+            code: code
+        }
+        $.post("{:U('Home/Reg/check_verify')}", postData, function($res) {
+            if ($res) {
+               /* $("#loginForm").submit();*/
+                url="{:U('Admin/Login/index')}";
+                var username=$("input[name='username']").val();
+                var password=$("input[name='password']").val();
+                var Data={
+                    username:username,
+                    password:password
+                }
+                $.post("{:U('Admin/Login/index')}", Data, function(message) {
+                    if(message.status==0){
+                        $(".errorword").empty().html("账号或者密码输入错误");
+                        $(".verify").click();
+                        $(".errortd").show();
+                        return false;
+                    }else{
+                        location.href="{:U('Admin/Index/index')}";
+                    }
+                });
+            }else{
+                $(".errorword").empty().html("验证码输入错误");
+                $(".verify").click();
+                $(".errortd").show();
+                return false;
+            }
+        });
+    });
+    document.onkeydown = function (event) {
+        var e = event || window.event;
+        if (e && e.keyCode == 13) { //回车键的键值为13
+            $("#login").click(); //调用登录按钮的登录事件
+        }
+    };
+</script>
+</body>
+</html>
+

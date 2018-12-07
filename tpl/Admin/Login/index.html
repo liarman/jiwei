@@ -1,36 +1,76 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="renderer" content="webkit">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>谯城区政治生态系统</title>
-    <link rel="stylesheet" href="__PUBLIC__/statics/css/base.css" />
-    <link rel="stylesheet" href="__PUBLIC__/statics/css/login.css" />
-    <script type="text/javascript" src="__PUBLIC__/statics/js/jquery-1.10.2.min.js"></script>
+    <title>谯城区纪委政治生态系统</title>
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <link rel="stylesheet" href="__PUBLIC__/statics/plugins/layui-v2.4.5/css/layui.css">
+    <link rel="stylesheet" href="__PUBLIC__/statics/css/index.css">
+    <link rel="stylesheet" href="__PUBLIC__/statics/css/login1.css">
+
 </head>
-<body>
-<div class="superloginA"></div>
-<div class="loginBox">
-   <div> <div  style="font-size:22px ;color:white ;text-align:center;">谯城区纪委政治生态系统</div>
-       <!--<img src="__PUBLIC__/statics/images/qf-12.png"/>-->
-   </div>
-    <div class="loginMain">
-        <div class="tabwrap">
-            <form method="post" action="{:U('Admin/Login/index')}" id="loginForm">
-            <table border="0" cellspacing="0" cellpadding="0">
-                <tr><td class="title">用户名：</td><td><input type="text" class="form-control txt" name="username"/></td></tr>
-                <tr><td class="title">密   码：</td><td><input type="password" class="form-control txt" name="password"/></td></tr>
-                <tr><td class="title">验证码：</td><td><input type="text" class="form-control txt txt2" name="verify"/><span class="yzm"><img class="verify" src="{:U('Home/Reg/verify')}" alt="验证码" onClick="this.src=this.src+'?'+Math.random()" /></span></td></tr>
-                <tr class="errortd"><td>&nbsp;</td><td><i class="ico-error"></i><span class="errorword">用户名或密码错误，请重新输入！</span></td></tr>
-                <tr><td>&nbsp;</td><td><input type="button" class="loginbtn" value="登录"  id="login" /><input type="button" class="resetbtn" value="重置" onclick="reset()" /></td></tr>
-               <!-- <tr><td>&nbsp;</td><td class="forgetpsw"><a href="login_forgetA.html">忘记密码？</a></td></tr>-->
-            </table>
-                </form>
+<body onload="loadTopWindow()">
+<div class="site-wrapper site-page--login">
+    <div class="site-content__wrapper">
+        <div class="site-content">
+            <div class="brand-info">
+                <h2 class="brand-info__text">谯城区纪委政治生态系统</h2>
+                <p class="brand-info__intro">您好，欢迎使用谯城区纪委政治生态系统！</p>
+            </div>
+        </div>
+        <div class="login-main">
+            <h3 class="login-title">管理后台登录中心</h3>
+            <form class="layui-form" method="post" action="{:U('Admin/Login/index')}" id="loginForm">
+                <div class="adminui-user-login-box adminui-user-login-body layui-form">
+                    <div class="layui-form-item">
+                        <label class="adminui-user-login-icon layui-icon layui-icon-username" for="Renren-user-login-username"></label>
+                        <input type="text" name="username" value="" lay-verify="required" id="Renren-user-login-username" autocomplete="off" class="layui-input" placeholder="请输入用户名">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="adminui-user-login-icon layui-icon layui-icon-password" for="Renren-user-login-password" id="password"></label>
+                        <input type="password" name="password" value="" id="Renren-user-login-password" lay-verify="required|password" autocomplete="off" class="layui-input" placeholder="请输入密码">
+                    </div>
+                    <div class="layui-form-item" id="captcha">
+                        <div class="layui-row">
+                            <div class="layui-col-xs7">
+                                <label class="adminui-user-login-icon layui-icon layui-icon-vercode" for="Renren-user-login-vercode"></label>
+                                <input type="text" name="verify" id="Renren-user-login-vercode" lay-verify="required" placeholder="输入验证码" class="layui-input">
+                            </div>
+                            <div class="layui-col-xs5">
+                                <div style="margin-left: 3px;">
+                                    <img class="verify" src="{:U('Home/Reg/verify')}" alt="验证码" onClick="this.src=this.src+'?'+Math.random()" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table border="0" cellspacing="0" cellpadding="0">
+                        <tr class="errortd"><td>&nbsp;</td><td><i class="ico-error"></i><span class="errorword">用户名或密码错误，请重新输入！</span></td></tr>
+                    </table>
+                    <div class="layui-form-item">
+                        <button class="layui-btn layui-btn-fluid login-btn-submit" lay-submit lay-filter="login" id="login">立即登录</button>
+                    </div>
+                </div>
+            </form>
+            <div class="login-copyright">© 2018 启凡科技 技术支持  <a href="https://www.qfant.com/" target="_blank">qfant.com</a></div>
         </div>
     </div>
 </div>
-<div class="footer">启凡科技 技术支持 </div>
+</div>
+<script src="__PUBLIC__/statics/libs/jquery.min.js"></script>
+<script src="__PUBLIC__/statics/plugins/layui-v2.4.5/layui.all.js"></script>
+<script src="__PUBLIC__/statics/js/login.js"></script>
+
+<script language="JavaScript">
+    //判断当前窗口是否有顶级窗口，如果有就让当前的窗口的地址栏发生变化，
+    //这样就可以让登陆窗口显示在整个窗口了
+    function loadTopWindow(){
+        if (window.top!=null && window.top.document.URL!=document.URL){
+            window.top.location= document.URL;
+        }
+    }
+</script>
 <script>
     $(".errortd").hide();
     $("#login").click(function () {
@@ -58,7 +98,7 @@
         }
         $.post("{:U('Home/Reg/check_verify')}", postData, function($res) {
             if ($res) {
-               /* $("#loginForm").submit();*/
+                /* $("#loginForm").submit();*/
                 url="{:U('Admin/Login/index')}";
                 var username=$("input[name='username']").val();
                 var password=$("input[name='password']").val();
@@ -91,6 +131,7 @@
         }
     };
 </script>
+
+</head>
 </body>
 </html>
-
