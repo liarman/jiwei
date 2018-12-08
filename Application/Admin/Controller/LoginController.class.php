@@ -12,6 +12,7 @@ class LoginController extends BaseController{
 
 		if(IS_POST){
 			// 做一个简单的登录 组合where数组条件
+            print_r($_POST);die;
 			$map=I('post.');
 			/*$geetest['geetest_challenge']=$map['geetest_challenge'];
 			$geetest['geetest_validate']=$map['geetest_validate'];
@@ -21,6 +22,7 @@ class LoginController extends BaseController{
 
 			$logindata['password']=md5($logindata['password']);
 			$data=M('Users')->where($logindata)->find();
+			//print_r($data);die;
 			if (empty($data)) {
 				//$this->error('账号或密码错误');
 				$message['status']=0;
