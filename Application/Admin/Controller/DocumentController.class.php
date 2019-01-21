@@ -263,40 +263,26 @@ class DocumentController extends AdminBaseController{
         $this->ajaxReturn($message,'JSON');
     }
     /**
-     * 批量下载
+     * 批量生成excle文件
      */
-    public function batchDownload(){
-        vendor('Tcpdf.tcpdf');
-        $pdf = new \Tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, "A3", true, 'UTF-8', false);
+    public function batchBuild(){
 
-        // set document information
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Nicola Asuni');
-        $pdf->SetTitle('TCPDF Example 006');
-        $pdf->SetSubject('TCPDF Tutorial');
-        $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-
-
-// set header and footer fonts
-        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-// set default monospaced font
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-
-// set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-        $pdf->SetFont('stsongstdlight', '', 12);
         $ids=I("get.ids");
-        $sql = " SELECT	 o.*,t.name as tname FROM	qfant_document o  left join qfant_department t on o.department_id=t.id where 1=1 and o.id in (".$ids.") ";
+        $sql = " SELECT	 o.*,t.name as tname , t.id as did FROM	qfant_document o  left join qfant_department t on o.department_id=t.id where 1=1 and o.id in (".$ids.") ";
 
         $data=D('Document')->query($sql);
+        //print_r($data);die;
         $html="";
         foreach ($data as $k=>$val){
-            $pdf->AddPage();
+            $html="";
             $id=$val['id'];
+            $name=$val['name'];
+            $dpt_id=$val['department_id'];
             $doc=D("Document")->where(array('id'=>$id))->find();
+            $img = $doc['headimg'];
+
+            $doc['headimg'] = $this->base64EncodeImage($img);
+
             $this->assign("doc",$doc);
 
             $familys=D("Family")->where(array('document_id'=>$id))->select();
@@ -330,19 +316,98 @@ class DocumentController extends AdminBaseController{
             $this->assign("totalIncome",$totalIncome);
             $html.=$this->fetch("Document/detail");
 
-           // $pdf->writeHTML($html, true, false, true, false, '');
+            $res = $this->build_html($html,$dpt_id,$name);
+            //print_r($res);die;
+            D("Document")->where(array('id'=>$id))->save(array('dirname'=>$res));
+
         }
-        header("Content-Type: application/vnd.ms-excel; name='excel'");
-        header("Content-type: application/octet-stream");
-        header("Content-Disposition: attachment; filename=123.xls");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Content-Type:application/download");;
-        header("Pragma: no-cache");
-        header("Expires: 0");
-        exit($html);
-        //$pdf->Output('example_006.pdf', 'I');
-       // die;
+        $message['status']=1;
+        $message['message']='批量生成成功';
+        $this->ajaxReturn($message,'JSON');
+
+}
+
+    public function base64EncodeImage ($img) {
+            //print_r(fopen($img, 'r'));die;
+
+            $image_info = getimagesize($img);
+            $image_data = fread(fopen($img, 'r'), filesize($img));
+            $base64_image = 'data:' . $image_info['mime'] . ';base64,' . chunk_split(base64_encode($image_data));
+            return $base64_image;
+
+
     }
+
+
+    public function build_html($html,$dpt_id,$name){
+
+        $path = "./Upload/".$dpt_id."/";   //生成的档案所在目录
+        if(!file_exists($path)){
+            mkdir($path, 0700,true);
+        }
+        $time = iconv('UTF-8', 'GB18030', $name).'.html';      //生成的二维码文件名
+        $fileName = $path.$time;    //1.拼装生成的二维码文件路径
+
+        //以读写方式打写指定文件，如果文件不存则创建
+        if( ($TxtRes=fopen ($fileName,"w+")) === FALSE){
+            echo("创建可写文件：".$fileName."失败");
+            exit();
+        }
+
+        if(!fwrite ($TxtRes,$html)){ //将信息写入文件
+            echo ("尝试向文件".$fileName."写入".$html."失败！");
+            fclose($TxtRes);
+            exit();
+        }
+
+        fclose ($TxtRes); //关闭指针
+
+        return iconv('GB18030', 'UTF-8', $fileName);
+
+
+    }
+
+    public function batchDownload(){
+
+        $ids=I("get.ids","");
+        $ids=explode(",",$ids);
+        if($ids){
+            $zip=new \ZipArchive();
+            $zipName="./zip/download.zip";//定义打包后的包名
+//            if(!file_exists($zipName)){
+//                exit("无法找到文件");
+//            }
+//
+////            if ($zip->open($zipName, \ZIPARCHIVE::OVERWRITE | \ZIPARCHIVE::CREATE)!==TRUE) {
+////                exit('无法打开文件，或者文件创建失败');
+////            }
+////           // print_r(file_exists($zipName));die;
+//////            for ($i=0;$i<count($ids);$i++){
+//////                $place=D("Document")->where(array("id"=>$ids[$i]))->find();
+//////                if(file_exists($place['dirname'])){
+//////                    $zip->addFile($place['dirname'], basename($place['dirname'])); //调用方法，对要打包的根目录进行操作，并将ZipArchive的对象传递给方法
+//////                }
+//////            }
+//            $zip->close();
+            //如果不要下载，下面这段删掉即可，如需返回压缩包下载链接，只需 return $zipName;
+            //如果不要下载，下面这段删掉即可，如需返回压缩包下载链接，只需 return $zipName;
+            header("Cache-Control: public");
+            header("Content-Description: File Transfer");
+            header('Content-disposition: attachment; filename='.basename($zipName)); //文件名
+            header("Content-Type: application/zip"); //zip格式的
+            header("Content-Transfer-Encoding: binary"); //告诉浏览器，这是二进制文件
+            header('Content-Length: '. filesize($zipName)); //告诉浏览器，文件大小
+            @readfile($zipName);
+            //$this->delDirAndFile($dir,true);//删除目录和文件
+            //unlink($zipName);////删除压缩包
+            //print_r($zip);
+        }else {
+            $message['status']=0;
+            $message['message']='下载失败';
+            $this->ajaxReturn($message,'json');
+        }
+    }
+
     public function addCarOrder(){
         $data['cardriveid']=I('get.id');//发车id
         $ids=I('get.orderid');//订单id

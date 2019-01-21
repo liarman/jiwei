@@ -42,8 +42,59 @@ function fileDetail(id){
 function daochu(){
     var tname = $("#document_search_depart").combotree("getValue");
     //window.open(daochuUrl+"/tname/"+tname);
-    window.location.href=daochuUrl +"/tname/"+ tname;
+    window.location.href = daochuUrl +"/tname/"+ tname;
 }
+
+function doBatchDownload() {
+    var row = $('#documentGrid').datagrid('getSelections');
+    var ids = [];
+    if(row==null){
+        $.messager.alert('Warning',"请选择要下载的行", '信息');return false;
+    }
+    if(row.length > 50){
+        $.messager.alert('Warning',"请选择少于50行", '信息');return false;
+    }else{
+        for(var i=0; i<row.length; i++){
+            ids.push(row[i].id);
+        }
+    }
+
+    //window.location.href = doBatchDownloadUrl +"/ids/"+ ids;
+    var durl= doBatchDownloadUrl +"/ids/"+ ids;
+    $.getJSON(durl,function(result){
+        if (result.status){
+            alert('批量生成成功');
+        } else {
+            $.messager.alert('错误提示',result.message,'error');
+        }
+    },'json');
+}
+
+function doBatchBuild() {
+    var row = $('#documentGrid').datagrid('getSelections');
+    var ids = [];
+    if(row==null){
+        $.messager.alert('Warning',"请选择要下载的行", '信息');return false;
+    }
+    if(row.length > 50){
+        $.messager.alert('Warning',"请选择少于50行", '信息');return false;
+    }else{
+        for(var i=0; i<row.length; i++){
+            ids.push(row[i].id);
+        }
+    }
+
+    //window.location.href = doBatchBuildUrl +"/ids/"+ ids;
+    var durl= doBatchBuildUrl +"/ids/"+ ids;
+    $.getJSON(durl,function(result){
+        if (result.status){
+            alert('批量生成成功');
+        } else {
+            $.messager.alert('错误提示',result.message,'error');
+        }
+    },'json');
+}
+
 
 function addDocumentSubmit(){
     $('#addDocumentForm').form('submit',{
@@ -337,7 +388,7 @@ function doSearch(){
         tname: $("#document_search_depart").combotree("getValue")
     });
 }
-function doBatchDownload(){
+function doBatchDownload1(){
     $('#documentGrid').datagrid('load',{
         name: $("input[name='name']").val(),
         tname: $("#document_search_depart").combotree("getValue")

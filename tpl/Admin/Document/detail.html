@@ -14,7 +14,7 @@
 </head>
 <body>
 <div style="font-size:24px;margin:0 auto;text-align: center;font-weight: bolder">政 治 生 态 活 页 夹</div>
-<table style="width:900px;margin:0 auto;border-collapse:collapse;">
+<table style="width:794px;margin:0 auto;border-collapse:collapse;">
     <tr>
         <td>姓 名</td>
         <td>{$doc.name}</td>
@@ -133,7 +133,8 @@
         </volist>
         <else/>
         <tr>
-            <td colspan="9"></td></tr>
+            <td colspan="9"></td>
+        </tr>
     </notempty>
 
     <tr>
@@ -154,7 +155,8 @@
         </volist>
         <else/>
         <tr>
-            <td colspan="9" height="50"></td></tr>
+            <td colspan="9" height="50"></td>
+        </tr>
     </notempty>
 
 
@@ -205,7 +207,8 @@
         </volist>
         <else/>
         <tr>
-            <td colspan="9" height="50"></td></tr>
+            <td colspan="9" height="50"></td>
+        </tr>
     </notempty>
     <tr>
         <td style="width:100px;"<notempty  name="passports">rowspan={:count($passports)+1}<else/>rowspan=2</notempty>>本人持有护照情况</td>
@@ -228,7 +231,8 @@
         </volist>
         <else/>
         <tr>
-            <td colspan="9" height="50"></td></tr>
+            <td colspan="9" height="50"></td>
+        </tr>
     </notempty>
 
     <tr>

@@ -27,7 +27,7 @@
 <body style="padding: 0">
 <div id='Loading'><image src='__PUBLIC_IMAGES__/loading.gif'/>加载中....</div>
 <script src="__ADMIN_JS__/document.js" type="text/javascript" charset="utf-8"></script>
-<table id="documentGrid" class="easyui-datagrid" url="{:U('Admin/Document/ajaxDocumentList')}" data-options="idField: 'id'"  pagination="true"  toolbar="#toolbar_order" singleSelect="true" selectOnCheck="true" checkOnSelect="true" rownumbers="true">
+<table id="documentGrid" class="easyui-datagrid" url="{:U('Admin/Document/ajaxDocumentList')}" data-options="idField: 'id'"  pagination="true"  toolbar="#toolbar_order" singleSelect="false" selectOnCheck="true" checkOnSelect="true" rownumbers="true">
    <thead>
     <tr>
         <th data-options="field:'ck',checkbox:true"></th>
@@ -61,7 +61,8 @@
     <select class="easyui-combotree" style="width:250px"  panelMaxHeight="300px" id="document_search_depart"  data-options="multiple:false,valueField:'id',textField:'name',url:'{:U('Admin/Department/ajaxDepartmentList')}'"></select>
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="doSearch()" iconCls="fa fa-search">搜索</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="daochu()" iconCls="fa fa-download">导出</a>
-    <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="doBatchDownload()"  iconCls="fa fa-download">批量下载</a>-->
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="doBatchBuild()"  iconCls="fa fa-download">批量生成</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="doBatchDownload()"  iconCls="fa fa-download">批量下载</a>
     <br/>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-home" plain="true" onclick="familyList()">家庭成员及重要社会关系</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="fa fa-circle-o-notch" plain="true" onclick="familyPunishList()">近亲属被追究刑事责任</a>
@@ -795,6 +796,8 @@
 
     var ajaxDocumentListUrl="{:U('Admin/Document/ajaxDocumentList')}";//列表
     var detailUrl="{:U('Admin/Document/detail')}";//列表
+    var doBatchDownloadUrl="{:U('Admin/Document/batchDownload')}";//列表
+    var doBatchBuildUrl="{:U('Admin/Document/batchBuild')}";//列表
     var clueDetailUrl="{:U('Admin/Document/clueDetail')}";//列表
     var fileDetailUrl="{:U('Admin/Document/fileDetail')}";//列表
     var getAttachmentUrl="{:U('Admin/Index/getAttachment')}";//获取附件
