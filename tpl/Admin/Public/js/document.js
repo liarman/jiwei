@@ -59,15 +59,15 @@ function doBatchDownload() {
         }
     }
 
-    //window.location.href = doBatchDownloadUrl +"/ids/"+ ids;
-    var durl= doBatchDownloadUrl +"/ids/"+ ids;
+    window.location.href = doBatchDownloadUrl +"/ids/"+ ids;
+    /*var durl= doBatchDownloadUrl +"/ids/"+ ids;
     $.getJSON(durl,function(result){
         if (result.status){
             alert('批量生成成功');
         } else {
             $.messager.alert('错误提示',result.message,'error');
         }
-    },'json');
+    },'json');*/
 }
 
 function doBatchBuild() {

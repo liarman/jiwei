@@ -374,21 +374,21 @@ class DocumentController extends AdminBaseController{
         if($ids){
             $zip=new \ZipArchive();
             $zipName="./zip/download.zip";//定义打包后的包名
-//            if(!file_exists($zipName)){
-//                exit("无法找到文件");
-//            }
-//
-////            if ($zip->open($zipName, \ZIPARCHIVE::OVERWRITE | \ZIPARCHIVE::CREATE)!==TRUE) {
-////                exit('无法打开文件，或者文件创建失败');
-////            }
-////           // print_r(file_exists($zipName));die;
-//////            for ($i=0;$i<count($ids);$i++){
-//////                $place=D("Document")->where(array("id"=>$ids[$i]))->find();
-//////                if(file_exists($place['dirname'])){
-//////                    $zip->addFile($place['dirname'], basename($place['dirname'])); //调用方法，对要打包的根目录进行操作，并将ZipArchive的对象传递给方法
-//////                }
-//////            }
-//            $zip->close();
+/*            if(!file_exists($zipName)){
+                exit("无法找到文件");
+           }*/
+
+            if ($zip->open($zipName, \ZIPARCHIVE::OVERWRITE | \ZIPARCHIVE::CREATE)!==TRUE) {
+                exit('无法打开文件，或者文件创建失败');
+          }
+          // print_r(file_exists($zipName));die;
+            for ($i=0;$i<count($ids);$i++){
+                $place=D("Document")->where(array("id"=>$ids[$i]))->find();
+               if(file_exists($place['dirname'])){
+                    $zip->addFile(iconv("utf-8","GB2312//IGNORE",$place['dirname']), iconv("utf-8","GB2312//IGNORE",basename($place['dirname']))); //调用方法，对要打包的根目录进行操作，并将ZipArchive的对象传递给方法
+              }
+           }
+            $zip->close();
             //如果不要下载，下面这段删掉即可，如需返回压缩包下载链接，只需 return $zipName;
             //如果不要下载，下面这段删掉即可，如需返回压缩包下载链接，只需 return $zipName;
             header("Cache-Control: public");
