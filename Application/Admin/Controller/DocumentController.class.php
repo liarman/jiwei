@@ -271,8 +271,7 @@ class DocumentController extends AdminBaseController{
         $sql = " SELECT	 o.*,t.name as tname , t.id as did FROM	qfant_document o  left join qfant_department t on o.department_id=t.id where 1=1 and o.id in (".$ids.") ";
 
         $data=D('Document')->query($sql);
-        //print_r($data);die;
-        $html="";
+        $html ="";
         foreach ($data as $k=>$val){
             $html="";
             $id=$val['id'];
@@ -280,7 +279,7 @@ class DocumentController extends AdminBaseController{
             $dpt_id=$val['department_id'];
             $doc=D("Document")->where(array('id'=>$id))->find();
             $img = $doc['headimg'];
-            if(!file_exists($img)){
+            if(file_exists($img)){
                 $doc['headimg'] = $this->base64EncodeImage($img);
             }
 
@@ -316,11 +315,11 @@ class DocumentController extends AdminBaseController{
 
             $totalIncome=D("FamilyIncome")->where(array('document_id'=>$id))->sum('year_income');
             $this->assign("totalIncome",$totalIncome);
-           // $html.=$this->fetch("Document/detail");
+            $html.=$this->fetch("Document/detail");
 
-            //$res = $this->build_html($html,$dpt_id,$name);
+            $res = $this->build_html($html,$dpt_id,$name);
             //print_r($res);die;
-           // D("Document")->where(array('id'=>$id))->save(array('dirname'=>$res));
+            D("Document")->where(array('id'=>$id))->save(array('dirname'=>$res));
 
         }
         $message['status']=1;
@@ -330,7 +329,6 @@ class DocumentController extends AdminBaseController{
 }
 
     public function base64EncodeImage ($img) {
-            //print_r(fopen($img, 'r'));die;
 
             $image_info = getimagesize($img);
             $image_data = fread(fopen($img, 'r'), filesize($img));
@@ -343,11 +341,13 @@ class DocumentController extends AdminBaseController{
 
     public function build_html($html,$dpt_id,$name){
 
-        $path = "./Upload/document/".$dpt_id."/";   //生成的档案所在目录
+        $path = "./Upload/".$dpt_id."/";   //生成的档案所在目录
         if(!file_exists($path)){
             mkdir($path, 0700,true);
         }
-        $time = iconv('UTF-8', 'GB18030', $name).'.html';      //生成的二维码文件名
+        $Pinyin = new \Org\Util\ChinesePinyin();
+        $name = $Pinyin->TransformWithoutTone($name);
+        $time = $name.'.html';      //生成的二维码文件名
         $fileName = $path.$time;    //1.拼装生成的二维码文件路径
         //以读写方式打写指定文件，如果文件不存则创建
         if( ($TxtRes=fopen ($fileName,"w+")) === FALSE){
@@ -363,7 +363,7 @@ class DocumentController extends AdminBaseController{
 
         fclose ($TxtRes); //关闭指针
 
-        return iconv('GB18030', 'UTF-8', $fileName);
+        return $fileName;
 
 
     }
