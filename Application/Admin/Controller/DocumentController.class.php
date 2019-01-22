@@ -280,8 +280,10 @@ class DocumentController extends AdminBaseController{
             $dpt_id=$val['department_id'];
             $doc=D("Document")->where(array('id'=>$id))->find();
             $img = $doc['headimg'];
+            if(!file_exists($img)){
+                $doc['headimg'] = $this->base64EncodeImage($img);
+            }
 
-            $doc['headimg'] = $this->base64EncodeImage($img);
 
             $this->assign("doc",$doc);
 
@@ -314,11 +316,11 @@ class DocumentController extends AdminBaseController{
 
             $totalIncome=D("FamilyIncome")->where(array('document_id'=>$id))->sum('year_income');
             $this->assign("totalIncome",$totalIncome);
-            $html.=$this->fetch("Document/detail");
+           // $html.=$this->fetch("Document/detail");
 
-            $res = $this->build_html($html,$dpt_id,$name);
+            //$res = $this->build_html($html,$dpt_id,$name);
             //print_r($res);die;
-            D("Document")->where(array('id'=>$id))->save(array('dirname'=>$res));
+           // D("Document")->where(array('id'=>$id))->save(array('dirname'=>$res));
 
         }
         $message['status']=1;
@@ -341,13 +343,12 @@ class DocumentController extends AdminBaseController{
 
     public function build_html($html,$dpt_id,$name){
 
-        $path = "./Upload/".$dpt_id."/";   //生成的档案所在目录
+        $path = "./Upload/document/".$dpt_id."/";   //生成的档案所在目录
         if(!file_exists($path)){
             mkdir($path, 0700,true);
         }
         $time = iconv('UTF-8', 'GB18030', $name).'.html';      //生成的二维码文件名
         $fileName = $path.$time;    //1.拼装生成的二维码文件路径
-
         //以读写方式打写指定文件，如果文件不存则创建
         if( ($TxtRes=fopen ($fileName,"w+")) === FALSE){
             echo("创建可写文件：".$fileName."失败");
@@ -385,7 +386,7 @@ class DocumentController extends AdminBaseController{
             for ($i=0;$i<count($ids);$i++){
                 $place=D("Document")->where(array("id"=>$ids[$i]))->find();
                if(file_exists($place['dirname'])){
-                    $zip->addFile(iconv("utf-8","GB2312//IGNORE",$place['dirname']), iconv("utf-8","GB2312//IGNORE",basename($place['dirname']))); //调用方法，对要打包的根目录进行操作，并将ZipArchive的对象传递给方法
+                    $zip->addFile(iconv("utf-8","gbk//ignore",$place['dirname']), iconv("utf-8","gbk//ignore",basename($place['dirname']))); //调用方法，对要打包的根目录进行操作，并将ZipArchive的对象传递给方法
               }
            }
             $zip->close();
