@@ -329,13 +329,15 @@ class DocumentController extends AdminBaseController{
 }
 
     public function base64EncodeImage ($img) {
-
-            $image_info = getimagesize($img);
-            $image_data = fread(fopen($img, 'r'), filesize($img));
-            $base64_image = 'data:' . $image_info['mime'] . ';base64,' . chunk_split(base64_encode($image_data));
-            return $base64_image;
-
-
+            if(strpos($img,'192.168.0.254')!==false){
+                $img=str_replace('http://192.168.0.254','.',$img);
+                $image_info = getimagesize($img);
+                $image_data = fread(fopen($img, 'r'), filesize($img));
+                $base64_image = 'data:' . $image_info['mime'] . ';base64,' . chunk_split(base64_encode($image_data));
+                return $base64_image;
+            }else {
+                return $img;
+            }
     }
 
 
