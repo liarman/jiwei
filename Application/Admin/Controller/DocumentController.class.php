@@ -279,9 +279,7 @@ class DocumentController extends AdminBaseController{
             $dpt_id=$val['department_id'];
             $doc=D("Document")->where(array('id'=>$id))->find();
             $img = $doc['headimg'];
-            if(file_exists($img)){
-                $doc['headimg'] = $this->base64EncodeImage($img);
-            }
+            $doc['headimg'] = $this->base64EncodeImage($img);
 
 
             $this->assign("doc",$doc);
